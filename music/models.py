@@ -7,14 +7,14 @@ class MusicItem(models.Model):
     related_readings = models.CharField(max_length=100)
     sheet_music_url = models.URLField()
     recording = models.URLField()
-    past_performances = models.PositiveIntegerField()
+    past_performances = models.PositiveIntegerField(default=0)
     comments = models.CharField(max_length=200)
     # keywords = models.ManyToManyField(
     #     'keywords.Keyword',
     #     related_name='music',
     #     blank=True
     # )
-    user = models.ForeignKey(
+    added_by = models.ForeignKey(
         'users.User',
         related_name='music',
         on_delete=models.SET_NULL,

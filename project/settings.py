@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'services',
-    'music'
+    'music',
+    'keywords'
 ]
 
 REST_FRAMEWORK = {

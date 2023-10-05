@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MusicItem
+from .models import Keyword
 
 # Register your models here.
-admin.site.register(MusicItem)
+admin.site.register(Keyword)
