@@ -11,6 +11,7 @@ class Service(models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='past_services')
+    music_items = models.CharField(default='none')
 
 
     def __str__(self):
