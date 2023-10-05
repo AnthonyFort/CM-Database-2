@@ -9,11 +9,11 @@ class MusicItem(models.Model):
     recording = models.URLField()
     past_performances = models.PositiveIntegerField(default=0)
     comments = models.CharField(max_length=200)
-    # keywords = models.ManyToManyField(
-    #     'keywords.Keyword',
-    #     related_name='music',
-    #     blank=True
-    # )
+    keywords = models.ManyToManyField(
+        'keywords.Keyword',
+        related_name='music',
+        blank=True
+    )
     added_by = models.ForeignKey(
         'users.User',
         related_name='music',
