@@ -1,5 +1,6 @@
 from .common import KeywordSerializer
-from music.serializers.common import MusicItemSerializer
+from music.serializers.common import MusicItemSerializerForKeywords
 
 class PopulatedKeywordSerializer(KeywordSerializer):
-  related_music_items = MusicItemSerializer(many=True)
+  music = MusicItemSerializerForKeywords(many=True, required=False)
+  
