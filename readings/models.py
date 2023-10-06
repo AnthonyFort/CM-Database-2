@@ -5,7 +5,7 @@ class RelatedReading(models.Model):
   chapter = models.PositiveIntegerField()
   start_verse = models.PositiveIntegerField()
   end_verse = models.PositiveIntegerField()
-  text = models.CharField()
+  text = models.CharField(blank=True, null=True)
 
   def __str__(self):
     return f"{self.book} {self.chapter}: {self.start_verse}-{self.end_verse}"
