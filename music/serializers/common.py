@@ -5,11 +5,18 @@ from keywords.models import Keyword
 from readings.models import RelatedReading
 from readings.serializers.common import RelatedReadingSerializer
 from services.models import Service
+from users.models import User
+
+class UserSerializerJustChurch(serializers.ModelSerializer):
+   class Meta:
+      model = User
+      fields = ['church']  
 
 class ServiceSerializerForMusic(serializers.ModelSerializer):
+   church = UserSerializerJustChurch(source='user', read_only=True)
    class Meta:
       model = Service
-      fields = ['id','date_of_service']
+      fields = ['id','date_of_service', 'church']
 
 class MusicItemSerializer(serializers.ModelSerializer):
   keywords = KeywordSerializer(many=True)

@@ -50,3 +50,4 @@ class SimplifiedUserSerializer(serializers.ModelSerializer):
       user.past_services.add(past_service)
 
     return user
+  
