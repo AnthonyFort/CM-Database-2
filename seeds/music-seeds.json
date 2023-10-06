@@ -1,0 +1,23 @@
+[
+  {
+    "model": "music.MusicItem",
+    "pk": 1,
+    "fields": {
+      "keywords": [
+        {
+          "keyword": "faith"
+        }
+      ],
+      "related_readings": [
+        {
+          "book": "Psalms",
+          "chapter": 23,
+          "start_verse": 1,
+          "end_verse": 4
+        }
+      ],
+      "title": "Dummy Faith Hymn",
+      "composer": "John Smith (Dummy)"
+    }
+  }
+]  
