@@ -11,7 +11,10 @@ class Service(models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='past_services')
-    music_items = models.CharField(default='none')
+    music_items = models.ManyToManyField(
+        'music.MusicItem',
+        related_name='performances',
+    )
 
 
     def __str__(self):

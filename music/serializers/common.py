@@ -4,10 +4,17 @@ from keywords.serializers.common import KeywordSerializer
 from keywords.models import Keyword
 from readings.models import RelatedReading
 from readings.serializers.common import RelatedReadingSerializer
+from services.models import Service
+
+class ServiceSerializerForMusic(serializers.ModelSerializer):
+   class Meta:
+      model = Service
+      fields = ['id']
 
 class MusicItemSerializer(serializers.ModelSerializer):
   keywords = KeywordSerializer(many=True)
   related_readings = RelatedReadingSerializer(many=True)
+  performances = ServiceSerializerForMusic(many=True, read_only=True)
   class Meta:
     model = MusicItem
     fields = '__all__'
