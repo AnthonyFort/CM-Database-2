@@ -4,8 +4,13 @@ from users.models import User
 from music.serializers.common import MusicItemSerializer
 from music.models import MusicItem
 
+class MusicItemSerializerForService(serializers.ModelSerializer):
+   class Meta:
+      model = MusicItem
+      fields = ['id', 'title', 'composer']
+
 class ServiceSerializer(serializers.ModelSerializer):
-  music_items = serializers.PrimaryKeyRelatedField(queryset=MusicItem.objects.all(), many=True)
+  music_items = MusicItemSerializerForService(many=True)
 
   user = serializers.PrimaryKeyRelatedField(read_only=True)
   class Meta:
@@ -21,8 +26,5 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     return service
   
-class ServiceSerializerForMusic(serializers.ModelSerializer):
-   class Meta:
-      model = Service
-      fields = [id]
+
  
