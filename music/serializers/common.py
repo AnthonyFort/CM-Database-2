@@ -9,7 +9,7 @@ from services.models import Service
 class ServiceSerializerForMusic(serializers.ModelSerializer):
    class Meta:
       model = Service
-      fields = ['id']
+      fields = ['id','date_of_service']
 
 class MusicItemSerializer(serializers.ModelSerializer):
   keywords = KeywordSerializer(many=True)
