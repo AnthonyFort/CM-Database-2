@@ -26,5 +26,22 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     return service
   
+class ServiceSerializerForChurch(serializers.ModelSerializer):
+  music_items = MusicItemSerializerForService(many=True)
+
+
+  class Meta:
+    model = Service
+    fields = ['music_items', 'date_of_service', 'type_of_service']
+
+  def create(self, validated_data):
+   
+    music_items_data = validated_data.pop('music_items')
+    service = Service.objects.create(**validated_data)
+    for music_item in music_items_data:
+        service.music_items.add(music_item)
+
+    return service
+  
 
  
