@@ -1,6 +1,8 @@
 import axiosAuth from './lib/axios'
 import { getToken } from './lib/auth'
 
+import { Routes, Route } from 'react-router-dom'
+
 import AddService from './components/AddService'
 import ChurchPage from './components/ChurchPage'
 import ChurchSearch from './components/ChurchSearch'
@@ -15,5 +17,21 @@ import SavedMusicItems from './components/SavedMusicItems'
 
 export default function App() {
 
-  return <Login />
+  return (
+    <>
+      <NavBar />
+      <main>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/add-service' element={<AddService />} />
+          <Route path='/church-page' element={<ChurchPage />} />
+          <Route path='/church-search' element={<ChurchSearch />} />
+          <Route path='/music-search' element={<MusicSearch />} />
+          <Route path='/saved-music' element={<SavedMusicItems />} />
+        </Routes>
+      </main>
+    </>
+  )
 }
