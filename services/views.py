@@ -18,7 +18,8 @@ class PastServiceView(GenericAPIView):
   serializer_class=ServiceSerializer
 
 class PastServiceListView(PastServiceView, UserListCreateAPIView):
-  permission_classes = [IsAuthenticated]  
+  permission_classes = [IsAuthenticated]
+  serializer_class=ServiceSerializer  
 
 class PastServiceDetaillView(PastServiceView, RetrieveUpdateDestroyAPIView):
   permission_classes = [IsOwnerOrReadOnly]
