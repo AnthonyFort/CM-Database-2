@@ -13,6 +13,8 @@ class MusicItemSerializerForService(serializers.ModelSerializer):
 
 from django.db import IntegrityError
 
+import requests
+
 class ServiceSerializer(serializers.ModelSerializer):
 
     music_items = MusicItemSerializer(many=True)
@@ -21,6 +23,16 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
         fields = ('date_of_service', 'type_of_service', 'music_items')
 
+    def fetch_reading_text(self, reading):
+       book = reading.get('book')
+       chapter = reading.get('chapter')
+       start_verse = reading.get('start_verse')
+       end_verse = reading.get('end_verse')
+       api_text = requests.get(f"http://bible-api.com/{book} {chapter}:{start_verse}-{end_verse}")
+       text = api_text.json().get('text')
+       return text
+
+
     def create(self, validated_data):
        music_items_data = validated_data.pop('music_items', [])
        service = Service.objects.create(**validated_data)
@@ -28,6 +40,10 @@ class ServiceSerializer(serializers.ModelSerializer):
        for music_item_data in music_items_data:
           keywords_data = music_item_data.pop('keywords', [])
           related_readings_data = music_item_data.pop('related_readings', [])
+
+          for reading in related_readings_data:
+             reading_text = self.fetch_reading_text(reading)
+             reading['text'] = reading_text
 
           music_item, created = MusicItem.objects.get_or_create(
              title=music_item_data['title'],
