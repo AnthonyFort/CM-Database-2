@@ -23,6 +23,12 @@ class PastServiceListView(PastServiceView, UserListCreateAPIView):
 
 class PastServiceDetaillView(PastServiceView, RetrieveUpdateDestroyAPIView):
   permission_classes = [IsOwnerOrReadOnly]
+  serializer_class=ServiceSerializer  
 
   def patch(self, request, *args, **kwargs):
-    music_item = self.get_object()
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True) 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
