@@ -47,7 +47,7 @@ class MusicItemListView(MusicItemView, UserListCreateAPIView):
           return response
 
 class MusicItemDetailView(MusicItemView, RetrieveUpdateDestroyAPIView):
-  permission_classes = [IsOwnerOrReadOnly]
+  permission_classes = [IsAuthenticated]
 
   def patch(self, request, *args, **kwargs):
     if request.method == 'PATCH':
