@@ -4,7 +4,7 @@ from datetime import date
 # Create your models here.
 class Service(models.Model):
     
-    date_of_service = models.DateField(default=date.today)
+    date_of_service = models.DateField(default=date.today, unique=True)
     type_of_service = models.CharField(max_length=50, default='sunday service')
     user = models.ForeignKey(
         'users.User', 
