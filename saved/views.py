@@ -10,7 +10,7 @@ from music.models import MusicItem
 from .models import SavedMusic
 from .serializers.common import SavedMusicItemSerializer
   
-class SavedMusicItemsView(UserListCreateAPIView):
+class SavedMusicItemsView(UserListCreateAPIView, RetrieveUpdateDestroyAPIView):
   permission_classes = [IsAuthenticated, IsOwner]
 
   def get(self, request):
@@ -34,3 +34,14 @@ class SavedMusicItemsView(UserListCreateAPIView):
     SavedMusic.objects.create(user=request.user, music_item=music_item)
 
     return Response({'message': 'Music item saved'})
+  
+  def destroy(self, request, *args, **kwargs):
+     saved_music_item = kwargs.get('pk')
+     
+     try:
+      saved_music_item = SavedMusic.objects.get(id=saved_music_item, user=request.user)
+     except SavedMusic.DoesNotExist:
+      return Response({'error': 'Music item not found'})
+
+     saved_music_item.delete()
+     return Response ({'message': 'Saved music item removed'})
