@@ -23,8 +23,8 @@ class MusicItem(models.Model):
         null=True
     )
   
-    class Meta:
-        unique_together = [['title', 'composer']]
+    # class Meta:
+    #     unique_together = [['title', 'composer']]
 
 
 
