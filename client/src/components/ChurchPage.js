@@ -35,11 +35,11 @@ export default function ChurchPage() {
     <>
       {showErrorModal && <ErrorModal closeModal={() => setShowErrorModal(false)} />}
 
-      <h1>{churchData.performances[0].church.church}</h1>
+      <h1>{churchData.church}</h1>
 
       <section>
         <h2>Past Services</h2>
-        {churchData.map((service) => (
+        {churchData.past_services.map((service) => (
           <div key={service.date_of_service}>
             <h3>{service.date_of_service} - {service.type_of_service}</h3>
             <ul>
@@ -47,9 +47,18 @@ export default function ChurchPage() {
                 <li key={item.id}>
                   <strong>{item.title}</strong> by {item.composer}
                   <ul>
+                    <p>Related Readings</p>
                     {item.related_readings.map((reading, idx) => (
                       <li key={idx}>
                         {reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    <p>Keywords</p>
+                    {item.keywords.map((keyword, idx) => (
+                      <li key={idx}>
+                        {keyword.keyword}
                       </li>
                     ))}
                   </ul>
@@ -59,6 +68,7 @@ export default function ChurchPage() {
           </div>
         ))}
       </section>
+
     </>
   )
 
