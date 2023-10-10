@@ -34,19 +34,30 @@ export default function MusicSearch() {
     getMusicData()
   }, [])
 
-  function handleInputChange(event) {
+  function handleBookInputChange(event) {
     const newBookValue = event.target.value
     setReadingSearch(current => ({
       ...current,
       book: newBookValue,
     }))
   }
-  
-  function handleKeyup() {
-    const searchTerm = readingSearch.book.toLowerCase()
+
+  function handleChapterInputChange(event) {
+    const newChapterValue = event.target.value
+    setReadingSearch(current => ({
+      ...current,
+      chapter: newChapterValue,
+    }))
+  }
+
+  function handleSearch() {
+    const bookTerm = readingSearch.book.toLowerCase()
+    const chapterTerm = readingSearch.chapter
+
     const newSearchedMusic = allMusic.filter(item =>
       item.related_readings.some(reading =>
-        reading.book.toLowerCase().includes(searchTerm)
+        reading.book.toLowerCase().includes(bookTerm) &&
+        (chapterTerm ? reading.chapter === parseInt(chapterTerm) : true)
       )
     )
     setMusic(newSearchedMusic)
@@ -66,14 +77,15 @@ export default function MusicSearch() {
         <input
           type='text'
           value={readingSearch.book}
-          onChange={handleInputChange}
-          onKeyUp={handleKeyup}
+          onChange={handleBookInputChange}
+          onKeyUp={handleSearch}
           placeholder='Search Book'
         />
         <input
           type='text'
           value={readingSearch.chapter}
-          onChange={(event) => setReadingSearch({ ...readingSearch, chapter: event.target.value })}
+          onChange={handleChapterInputChange}
+          onKeyUp={handleSearch} 
           placeholder='Search Chapter'
         />
       </div>
