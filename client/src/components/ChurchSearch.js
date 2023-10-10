@@ -51,8 +51,8 @@ export default function SearchUsers() {
       <section className='user-section'>
         {churches && churches.map(church => {
           return (
-            <div key={church.id} value={church._id}>
-              {/* <Link to={`/users/${user._id}`}>{user.username}</Link> */}
+            <div key={church.id} value={church.id}>
+              <Link to={`/church-page/${church.id}`}>{church.church}</Link>
             </div>
           )
         })}

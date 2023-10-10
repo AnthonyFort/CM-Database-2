@@ -26,7 +26,7 @@ export default function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/add-service' element={<AddService />} />
-          <Route path='/church-page' element={<ChurchPage />} />
+          <Route path='/church-page/:id' element={<ChurchPage />} />
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />
           <Route path='/saved-music' element={<SavedMusicItems />} />
