@@ -7,9 +7,7 @@ import axiosAuth from '../lib/axios'
 
 export default function ChurchPage() {
   const navigate = useNavigate()
-  const [churchPageData, setChurchPageData] = useState({
-    userSongs: [],
-  })
+  
   const [churchData, setChurchData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
   const { id } = useParams()
@@ -151,6 +149,14 @@ export default function ChurchPage() {
                     {item.related_readings.map((reading, index) => (
                       <li key={index}>
                         {reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    <p>Keywords</p>
+                    {item.keywords.map((keyword, index) => (
+                      <li key={index}>
+                        {keyword.keyword}
                       </li>
                     ))}
                   </ul>
