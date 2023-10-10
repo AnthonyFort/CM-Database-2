@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 
-export default function SearchUsers() {
+export default function ChurchSearch() {
 
   const [allChurches, setAllChurches] = useState([])
   const [churches, setChurches] = useState()

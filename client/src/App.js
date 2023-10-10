@@ -14,6 +14,7 @@ import NavBar from './components/Nav'
 import NotFound from './components/NotFound'
 import Register from './components/Register'
 import SavedMusicItems from './components/SavedMusicItems'
+import MusicItem from './components/MusicItem'
 
 export default function App() {
 
@@ -29,6 +30,7 @@ export default function App() {
           <Route path='/church-page/:id' element={<ChurchPage />} />
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />
+          <Route path='/music-page/:id' element={<MusicItem />} />
           <Route path='/saved-music' element={<SavedMusicItems />} />
         </Routes>
       </main>
