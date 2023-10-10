@@ -1,23 +1,152 @@
 [
   {
-    "model": "music.MusicItem",
-    "pk": 1,
-    "fields": {
-      "keywords": [
-        {
-          "keyword": "faith"
-        }
-      ],
-      "related_readings": [
-        {
-          "book": "Psalms",
-          "chapter": 23,
-          "start_verse": 1,
-          "end_verse": 4
-        }
-      ],
-      "title": "Dummy Faith Hymn",
-      "composer": "John Smith (Dummy)"
-    }
+      "model": "music.MusicItem",
+      "pk": 1,
+      "fields": {
+          "title": "Dummy Song of Creation",
+          "composer": "Jane Doe (Dummy)",
+          "related_readings": [1],
+          "keywords": [1]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 2,
+      "fields": {
+          "title": "Dummy Desert Wanderer",
+          "composer": "John Smith (Dummy)",
+          "related_readings": [2],
+          "keywords": [2]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 3,
+      "fields": {
+          "title": "Dummy Sacrificial Ode",
+          "composer": "Alice Brown (Dummy)",
+          "related_readings": [3],
+          "keywords": [3]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 4,
+      "fields": {
+          "title": "Dummy Melody of Commandments",
+          "composer": "Bob Green (Dummy)",
+          "related_readings": [4],
+          "keywords": [4]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 5,
+      "fields": {
+          "title": "Dummy Harmony of Jericho",
+          "composer": "Charlie Blue (Dummy)",
+          "related_readings": [5],
+          "keywords": [5]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 6,
+      "fields": {
+          "title": "Dummy Ballad of Ruth",
+          "composer": "Daisy Yellow (Dummy)",
+          "related_readings": [6],
+          "keywords": [6]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 7,
+      "fields": {
+          "title": "Dummy Anthem of David",
+          "composer": "Eddie Red (Dummy)",
+          "related_readings": [7],
+          "keywords": [7]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 8,
+      "fields": {
+          "title": "Dummy Temple Tune",
+          "composer": "Fiona Violet (Dummy)",
+          "related_readings": [8],
+          "keywords": [8]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 9,
+      "fields": {
+          "title": "Dummy Song of Exile",
+          "composer": "George Black (Dummy)",
+          "related_readings": [9],
+          "keywords": [9]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 10,
+      "fields": {
+          "title": "Dummy Wall Restoration Rhapsody",
+          "composer": "Helen White (Dummy)",
+          "related_readings": [10],
+          "keywords": [10]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 11,
+      "fields": {
+          "title": "Dummy Esther's Elegy",
+          "composer": "Ian Pink (Dummy)",
+          "related_readings": [11],
+          "keywords": [11]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 12,
+      "fields": {
+          "title": "Dummy Job's Lament",
+          "composer": "Jasmine Cyan (Dummy)",
+          "related_readings": [12],
+          "keywords": [12]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 13,
+      "fields": {
+          "title": "Dummy Genesis Groove",
+          "composer": "Keith Maroon (Dummy)",
+          "related_readings": [13],
+          "keywords": [13]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 14,
+      "fields": {
+          "title": "Dummy Leviticus Lyric",
+          "composer": "Lana Orange (Dummy)",
+          "related_readings": [14],
+          "keywords": [14]
+      }
+  },
+  {
+      "model": "music.MusicItem",
+      "pk": 15,
+      "fields": {
+          "title": "Dummy Deuteronomy Ditty",
+          "composer": "Mike Gray (Dummy)",
+          "related_readings": [15],
+          "keywords": [15]
+      }
   }
-]  
+]

@@ -1,0 +1,167 @@
+[
+  {
+      "model": "readings.RelatedReading",
+      "pk": 1,
+      "fields": {
+          "book": "DummyGenesis",
+          "chapter": 1,
+          "start_verse": 1,
+          "end_verse": 3,
+          "text": "In the beginning, Dummy created the heavens and the earth."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 2,
+      "fields": {
+          "book": "DummyExodus",
+          "chapter": 2,
+          "start_verse": 2,
+          "end_verse": 4,
+          "text": "Dummy saw the burning bush."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 3,
+      "fields": {
+          "book": "DummyLeviticus",
+          "chapter": 3,
+          "start_verse": 3,
+          "end_verse": 5,
+          "text": "Dummy offered sacrifices."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 4,
+      "fields": {
+          "book": "DummyNumbers",
+          "chapter": 4,
+          "start_verse": 4,
+          "end_verse": 6,
+          "text": "Dummy wandered in the desert."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 5,
+      "fields": {
+          "book": "DummyDeuteronomy",
+          "chapter": 5,
+          "start_verse": 5,
+          "end_verse": 7,
+          "text": "Dummy gave commandments."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 6,
+      "fields": {
+          "book": "DummyJoshua",
+          "chapter": 6,
+          "start_verse": 6,
+          "end_verse": 8,
+          "text": "Dummy conquered Jericho."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 7,
+      "fields": {
+          "book": "DummyJudges",
+          "chapter": 7,
+          "start_verse": 7,
+          "end_verse": 9,
+          "text": "Dummy delivered the Israelites."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 8,
+      "fields": {
+          "book": "DummyRuth",
+          "chapter": 8,
+          "start_verse": 8,
+          "end_verse": 10,
+          "text": "Dummy met Boaz."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 9,
+      "fields": {
+          "book": "DummySamuel",
+          "chapter": 9,
+          "start_verse": 9,
+          "end_verse": 11,
+          "text": "Dummy anointed David."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 10,
+      "fields": {
+          "book": "DummyKings",
+          "chapter": 10,
+          "start_verse": 10,
+          "end_verse": 12,
+          "text": "Dummy built the temple."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 11,
+      "fields": {
+          "book": "DummyChronicles",
+          "chapter": 11,
+          "start_verse": 11,
+          "end_verse": 13,
+          "text": "Dummy reigned in Jerusalem."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 12,
+      "fields": {
+          "book": "DummyEzra",
+          "chapter": 12,
+          "start_verse": 12,
+          "end_verse": 14,
+          "text": "Dummy returned from exile."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 13,
+      "fields": {
+          "book": "DummyNehemiah",
+          "chapter": 13,
+          "start_verse": 13,
+          "end_verse": 15,
+          "text": "Dummy rebuilt the walls."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 14,
+      "fields": {
+          "book": "DummyEsther",
+          "chapter": 14,
+          "start_verse": 14,
+          "end_verse": 16,
+          "text": "Dummy saved her people."
+      }
+  },
+  {
+      "model": "readings.RelatedReading",
+      "pk": 15,
+      "fields": {
+          "book": "DummyJob",
+          "chapter": 15,
+          "start_verse": 15,
+          "end_verse": 17,
+          "text": "Why has Dummy forsaken me?"
+      }
+  }
+]

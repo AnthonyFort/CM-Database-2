@@ -1,0 +1,107 @@
+[
+  {
+      "model": "keywords.Keyword",
+      "pk": 1,
+      "fields": {
+          "keyword": "faith-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 2,
+      "fields": {
+          "keyword": "hope-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 3,
+      "fields": {
+          "keyword": "love-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 4,
+      "fields": {
+          "keyword": "peace-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 5,
+      "fields": {
+          "keyword": "joy-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 6,
+      "fields": {
+          "keyword": "grace-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 7,
+      "fields": {
+          "keyword": "redemption-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 8,
+      "fields": {
+          "keyword": "salvation-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 9,
+      "fields": {
+          "keyword": "mercy-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 10,
+      "fields": {
+          "keyword": "repentance-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 11,
+      "fields": {
+          "keyword": "resurrection-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 12,
+      "fields": {
+          "keyword": "forgiveness-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 13,
+      "fields": {
+          "keyword": "worship-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 14,
+      "fields": {
+          "keyword": "prayer-dummy"
+      }
+  },
+  {
+      "model": "keywords.Keyword",
+      "pk": 15,
+      "fields": {
+          "keyword": "blessing-dummy"
+      }
+  }
+]
