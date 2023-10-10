@@ -19,7 +19,17 @@ export default function ChurchPage() {
   const [newService, setNewService] = useState({
     date_of_service: '',
     type_of_service: '',
-    music_items: [],
+    music_items: [{
+      title: '',
+      composer: '',
+      keywords: '',
+      related_readings: {
+        book: '',
+        chapter: '',
+        start_verse: '',
+        end_verse: '',
+      },
+    }],
   })
 
   useEffect(() => {
@@ -45,6 +55,36 @@ export default function ChurchPage() {
     }
   }
 
+  const handleMusicItemChange = (index, key, value) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems[index][key] = value
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+
+  const addMusicItem = () => {
+    setNewService({
+      ...newService,
+      music_items: [...newService.music_items, {
+        title: '',
+        composer: '',
+        keywords: '',
+        related_readings: {
+          book: '',
+          chapter: '',
+          start_verse: '',
+          end_verse: '',
+        },
+      }],
+    })
+  }
+
+  const handleReadingChange = (index, key, value) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems[index].related_readings[key] = value
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+  
+
   if (!churchData) return <div>Loading...</div>
 
   return (
@@ -64,16 +104,16 @@ export default function ChurchPage() {
                   <strong>{item.title}</strong> by {item.composer}
                   <ul>
                     <p>Related Readings</p>
-                    {item.related_readings.map((reading, idx) => (
-                      <li key={idx}>
+                    {item.related_readings.map((reading, index) => (
+                      <li key={index}>
                         {reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}
                       </li>
                     ))}
                   </ul>
                   <ul>
                     <p>Keywords</p>
-                    {item.keywords.map((keyword, idx) => (
-                      <li key={idx}>
+                    {item.keywords.map((keyword, index) => (
+                      <li key={index}>
                         {keyword.keyword}
                       </li>
                     ))}
@@ -101,8 +141,77 @@ export default function ChurchPage() {
               type="text"
               value={newService.type_of_service}
               onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
-            />  
+            />
           </label>
+          <button type='button' onClick={addMusicItem}>Add Music Item</button>
+          <div>
+            {newService.music_items.map((musicItem, index) => (
+              <div key={index}>
+                <label>
+                  Title:
+                  <input
+                    value={musicItem.title}
+                    onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
+                  />
+                </label>
+
+                <label>
+                  Composer:
+                  <input
+                    value={musicItem.composer}
+                    onChange={event => handleMusicItemChange(index, 'composer', event.target.value)}
+                  />
+                </label>
+                <label>
+                  Keywords:
+                  <input
+                    value={musicItem.keywords}
+                    onChange={event => handleMusicItemChange(index, 'keywords', event.target.value)}
+                  />
+                </label>
+                <div>
+                  <h4>Related Readings</h4>
+
+                  <label>
+                    Book:
+                    <input
+                      value={musicItem.related_readings.book}
+                      onChange={e => handleReadingChange(index, 'book', e.target.value)}
+                    />
+                  </label>
+
+                  <label>
+                    Chapter:
+                    <input
+                      type="number"
+                      value={musicItem.related_readings.chapter}
+                      onChange={e => handleReadingChange(index, 'chapter', e.target.value)}
+                    />
+                  </label>
+
+                  <label>
+                    Start Verse:
+                    <input
+                      type="number"
+                      value={musicItem.related_readings.start_verse}
+                      onChange={e => handleReadingChange(index, 'start_verse', e.target.value)}
+                    />
+                  </label>
+
+                  <label>
+                    End Verse:
+                    <input
+                      type="number"
+                      value={musicItem.related_readings.end_verse}
+                      onChange={e => handleReadingChange(index, 'end_verse', e.target.value)}
+                    />
+                  </label>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
           <button type="submit>">Add Service</button>
         </form>
       </section>
