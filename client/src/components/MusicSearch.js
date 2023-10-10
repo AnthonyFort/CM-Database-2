@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 import MusicItem from './MusicItem'
+import { all } from 'axios'
 
 export default function MusicSearch() {
 
@@ -9,11 +10,17 @@ export default function MusicSearch() {
   const [music, setMusic] = useState()
 
   const [keywordSearch, setKeywordSearch] = useState('')
-  const [readingSearch, setReadingSearch] = useState('')
+
+  const [readingSearch, setReadingSearch] = useState({
+    book: '',
+    chapter: null,
+  })
+
+  const [bookSearch, setBookSearch] = useState('')
 
 
   useEffect(() => {
-    async function getUserData() {
+    async function getMusicData() {
       try {
         const { data } = await axiosAuth.get('/api/music')
         data.sort()
@@ -24,41 +31,30 @@ export default function MusicSearch() {
         console.log(error)
       }
     }
-    getUserData()
+    getMusicData()
   }, [])
 
-  function filterMusicItems() {
-    const filteredMusic = allMusic.filter(item => {
-      if (!item.keywords) return false
-      return item.keywords.some(keyword =>
-        keyword.keyword.toLowerCase().includes(keywordSearch.toLowerCase())
-      )
-    })
-    setMusic(filteredMusic)
+  function handleInputChange(event) {
+    const newBookValue = event.target.value
+    setReadingSearch(current => ({
+      ...current,
+      book: newBookValue,
+    }))
   }
-
-
-
-  function handleKeyup(event) {
-    const selectedMusic = [...allMusic]
-    const newSearchedMusic = selectedMusic.filter(music => music.title.toLowerCase().includes(event.target.value.toLowerCase()))
+  
+  function handleKeyup() {
+    const searchTerm = readingSearch.book.toLowerCase()
+    const newSearchedMusic = allMusic.filter(item =>
+      item.related_readings.some(reading =>
+        reading.book.toLowerCase().includes(searchTerm)
+      )
+    )
     setMusic(newSearchedMusic)
     console.log('SEARCHED', newSearchedMusic)
   }
 
-  function handleKeywordKeyup(event) {
-    setKeywordSearch(event.target.value)
-    filterMusicItems()
-  }
 
-  const [searchInput, setSearchInput] = useState('')
-  const [searchBy, setSearchBy] = useState('title')
-  const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value)
-  }
-  const handleSearchByChange = (event) => {
-    setSearchBy(event.target.value)
-  }
+
 
 
 
@@ -66,7 +62,20 @@ export default function MusicSearch() {
     <div>
       <div className='search-header'>
         <h1>Search Music</h1>
-        <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />
+        {/* <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' /> */}
+        <input
+          type='text'
+          value={readingSearch.book}
+          onChange={handleInputChange}
+          onKeyUp={handleKeyup}
+          placeholder='Search Book'
+        />
+        <input
+          type='text'
+          value={readingSearch.chapter}
+          onChange={(event) => setReadingSearch({ ...readingSearch, chapter: event.target.value })}
+          placeholder='Search Chapter'
+        />
       </div>
       <section className='user-section'>
         {music && music.map(item => {
