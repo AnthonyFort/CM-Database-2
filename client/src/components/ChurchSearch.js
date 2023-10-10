@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import axiosAuth from '../lib/axios'
 
 export default function SearchUsers() {
 
-  const [allChurches, setAllChurches] = useState()
+  const [allChurches, setAllChurches] = useState([])
   const [churches, setChurches] = useState()
 
 
   useEffect(() => {
     async function getUserData() {
       try {
-        const { data } = await axios.get('/api/auth')
+        const { data } = await axiosAuth.get('/api/auth')
         data.sort()
         setAllChurches(data)
+        console.log('ALL CHURCHES', allChurches)
         setChurches(data)
       } catch (error) {
         console.log(error)
@@ -26,6 +28,7 @@ export default function SearchUsers() {
     const selectedChurches = [...allChurches]
     const newSearchedChurches = selectedChurches.filter(church => church.church.toLowerCase().includes(event.target.value.toLowerCase()))
     setChurches(newSearchedChurches)
+    console.log('SEARCHED', newSearchedChurches)
   }
 
 
