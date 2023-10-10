@@ -6,8 +6,10 @@ import { all } from 'axios'
 
 export default function MusicSearch() {
 
-  const [allMusic, setAllMusic] = useState([])
-  const [music, setMusic] = useState()
+  const [allReadingMusic, setAllReadingMusic] = useState([])
+  const [readingMusic, setReadingMusic] = useState([])
+  const [allKeywordMusic, setAllKeywordMusic] = useState([])
+  const [keywordMusic, setKeywordMusic] = useState([])
 
   const [keywordSearch, setKeywordSearch] = useState('')
 
@@ -20,18 +22,31 @@ export default function MusicSearch() {
 
 
   useEffect(() => {
-    async function getMusicData() {
+    async function getMusicDataForReadings() {
       try {
         const { data } = await axiosAuth.get('/api/music')
         data.sort()
-        setAllMusic(data)
-        console.log('ALL MUSIC', allMusic)
-        setMusic(data)
+        setAllReadingMusic(data)
+        setReadingMusic(data)
       } catch (error) {
         console.log(error)
       }
     }
-    getMusicData()
+    getMusicDataForReadings()
+  }, [])
+
+  useEffect(() => {
+    async function getMusicDataForKeywords() {
+      try {
+        const { data } = await axiosAuth.get('/api/music')
+        data.sort()
+        setAllKeywordMusic(data)
+        setKeywordMusic(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getMusicDataForKeywords()
   }, [])
 
   function handleBookInputChange(event) {
@@ -51,20 +66,28 @@ export default function MusicSearch() {
   }
 
   function handleSearch() {
-    const bookTerm = readingSearch.book.toLowerCase()
-    const chapterTerm = readingSearch.chapter
+    const book = readingSearch.book.toLowerCase()
+    const chapter = readingSearch.chapter
 
-    const newSearchedMusic = allMusic.filter(item =>
+    const newSearchedMusic = allReadingMusic.filter(item =>
       item.related_readings.some(reading =>
-        reading.book.toLowerCase().includes(bookTerm) &&
-        (chapterTerm ? reading.chapter === parseInt(chapterTerm) : true)
+        reading.book.toLowerCase().includes(book) &&
+        (chapter ? reading.chapter === parseInt(chapter) : true)
       )
     )
-    setMusic(newSearchedMusic)
+    setReadingMusic(newSearchedMusic)
     console.log('SEARCHED', newSearchedMusic)
   }
 
+  function handleKeywordKeyup(event) {
+    const selectedMusic = [...allKeywordMusic]
+    const newSearchedMusic = selectedMusic.filter(item =>
+      item.keywords.some(keyword =>
+        keyword.keyword.toLowerCase().includes(event.target.value)
+      ))
+    setKeywordMusic(newSearchedMusic)
 
+  }
 
 
 
@@ -73,24 +96,37 @@ export default function MusicSearch() {
     <div>
       <div className='search-header'>
         <h1>Search Music</h1>
-        {/* <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' /> */}
-        <input
-          type='text'
-          value={readingSearch.book}
-          onChange={handleBookInputChange}
-          onKeyUp={handleSearch}
-          placeholder='Search Book'
-        />
-        <input
-          type='text'
-          value={readingSearch.chapter}
-          onChange={handleChapterInputChange}
-          onKeyUp={handleSearch} 
-          placeholder='Search Chapter'
-        />
+        <div>
+          <h2>Search by Reading</h2>
+          <input
+            type='text'
+            value={readingSearch.book}
+            onChange={handleBookInputChange}
+            onKeyUp={handleSearch}
+            placeholder='Search Book'
+          />
+          <input
+            type='text'
+            value={readingSearch.chapter}
+            onChange={handleChapterInputChange}
+            onKeyUp={handleSearch}
+            placeholder='Search Chapter'
+          />
+        </div>
+        <section className='user-section'>
+          {readingMusic && readingMusic.map(item => {
+            return (
+              <div key={item.id} value={item.id}>
+                <Link to={`/music-page/${item.id}`}>{item.title}</Link>
+              </div>
+            )
+          })}
+        </section>
       </div>
+      <h2>Search by Keyword</h2>
+      <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />\
       <section className='user-section'>
-        {music && music.map(item => {
+        {keywordMusic && keywordMusic.map(item => {
           return (
             <div key={item.id} value={item.id}>
               <Link to={`/music-page/${item.id}`}>{item.title}</Link>
@@ -98,6 +134,7 @@ export default function MusicSearch() {
           )
         })}
       </section>
+
     </div>
   )
 }
