@@ -16,6 +16,12 @@ export default function ChurchPage() {
   const [showErrorModal, setShowErrorModal] = useState(false)
   const { id } = useParams()
 
+  const [newService, setNewService] = useState({
+    date_of_service: '',
+    type_of_service: '',
+    music_items: [],
+  })
+
   useEffect(() => {
     async function getChurchData() {
       try {
@@ -28,6 +34,16 @@ export default function ChurchPage() {
     }
     getChurchData()
   }, [id])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    try {
+      await axiosAuth.post('/api/services/', newService)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   if (!churchData) return <div>Loading...</div>
 
@@ -67,6 +83,28 @@ export default function ChurchPage() {
             </ul>
           </div>
         ))}
+      </section>
+      <section>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Date of Service:
+            <input
+              type="date"
+              value={newService.date_of_service}
+              onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
+            />
+          </label>
+
+          <label>
+            Type of Service:
+            <input
+              type="text"
+              value={newService.type_of_service}
+              onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
+            />  
+          </label>
+          <button type="submit>">Add Service</button>
+        </form>
       </section>
 
     </>
