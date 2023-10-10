@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
+import MusicItem from './MusicItem'
 
 export default function MusicSearch() {
 
   const [allMusic, setAllMusic] = useState([])
   const [music, setMusic] = useState()
+
+  const [keywordSearch, setKeywordSearch] = useState('')
+  const [readingSearch, setReadingSearch] = useState('')
 
 
   useEffect(() => {
@@ -23,6 +27,18 @@ export default function MusicSearch() {
     getUserData()
   }, [])
 
+  function filterMusicItems() {
+    const filteredMusic = allMusic.filter(item => {
+      if (!item.keywords) return false
+      return item.keywords.some(keyword =>
+        keyword.keyword.toLowerCase().includes(keywordSearch.toLowerCase())
+      )
+    })
+    setMusic(filteredMusic)
+  }
+
+
+
   function handleKeyup(event) {
     const selectedMusic = [...allMusic]
     const newSearchedMusic = selectedMusic.filter(music => music.title.toLowerCase().includes(event.target.value.toLowerCase()))
@@ -30,10 +46,13 @@ export default function MusicSearch() {
     console.log('SEARCHED', newSearchedMusic)
   }
 
-
+  function handleKeywordKeyup(event) {
+    setKeywordSearch(event.target.value)
+    filterMusicItems()
+  }
 
   const [searchInput, setSearchInput] = useState('')
-  const [searchBy, setSearchBy] = useState('title') 
+  const [searchBy, setSearchBy] = useState('title')
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value)
   }
@@ -41,11 +60,13 @@ export default function MusicSearch() {
     setSearchBy(event.target.value)
   }
 
+
+
   return (
     <div>
       <div className='search-header'>
         <h1>Search Music</h1>
-        <input onKeyUp={handleKeyup} placeholder='Search name' />
+        <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />
       </div>
       <section className='user-section'>
         {music && music.map(item => {
