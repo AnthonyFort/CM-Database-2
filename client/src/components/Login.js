@@ -4,6 +4,7 @@ import { getToken, setToken } from '../lib/auth'
 import { useNavigate } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 
+
 export default function Login() {
 
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ export default function Login() {
   const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState()
   const [accessToken, setAccessToken] = useState()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -28,6 +30,7 @@ export default function Login() {
       setToken('access-token', data.access)
       setToken('refresh-token', data.refresh)
       setAccessToken(data.access)
+      setIsLoggedIn(true)
     } catch (error) {
       console.log(error)
       setMessage(error.response.data.detail)

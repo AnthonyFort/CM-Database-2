@@ -8,6 +8,20 @@ export default function ChurchSearch() {
   const [allChurches, setAllChurches] = useState([])
   const [churches, setChurches] = useState()
 
+  const [currentUser, setCurrentUser] = useState()
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const { data } = await axiosAuth.get('/api/auth/current')
+        setCurrentUser(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCurrentUser()
+  }, [])
+
 
   useEffect(() => {
     async function getUserData() {
@@ -42,6 +56,7 @@ export default function ChurchSearch() {
     setSearchBy(event.target.value)
   }
 
+  if (!currentUser) return <div>Unauthorised</div>
   return (
     <div>
       <div className='search-header'>

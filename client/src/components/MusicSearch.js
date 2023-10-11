@@ -20,6 +20,20 @@ export default function MusicSearch() {
 
   const [bookSearch, setBookSearch] = useState('')
 
+  const [currentUser, setCurrentUser] = useState()
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const { data } = await axiosAuth.get('/api/auth/current')
+        setCurrentUser(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCurrentUser()
+  }, [])
+
 
   useEffect(() => {
     async function getMusicDataForReadings() {
@@ -90,7 +104,7 @@ export default function MusicSearch() {
   }
 
 
-
+  if (!currentUser) return <div>Unauthorised</div>
 
   return (
     <div>
@@ -124,7 +138,7 @@ export default function MusicSearch() {
         </section>
       </div>
       <h2>Search by Keyword</h2>
-      <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />\
+      <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />
       <section className='user-section'>
         {keywordMusic && keywordMusic.map(item => {
           return (

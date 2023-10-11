@@ -37,6 +37,7 @@ export default function ChurchPage() {
     ],
   })
 
+
   useEffect(() => {
     async function getChurchData() {
       try {
@@ -142,7 +143,7 @@ export default function ChurchPage() {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
-  if (!churchData) return <div>Loading...</div>
+  if (!churchData) return <div>Unauthorised</div>
 
   return (
     <>

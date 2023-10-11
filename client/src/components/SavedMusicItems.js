@@ -7,6 +7,20 @@ export default function SavedMusicItems() {
   const [musicItemData, setMusicItemData] = useState([])
   const [showErrorModal, setShowErrorModal] = useState(false)
 
+  const [currentUser, setCurrentUser] = useState()
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const { data } = await axiosAuth.get('/api/auth/current')
+        setCurrentUser(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCurrentUser()
+  }, [])
+
 
   useEffect(() => {
     async function getSavedMusicItems() {
@@ -35,6 +49,7 @@ export default function SavedMusicItems() {
     }
   }
 
+  if (!currentUser) return <div>Unauthorised</div>
   if (!musicItemData) return <div>Loading...</div>
 
   return (

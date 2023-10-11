@@ -1,6 +1,8 @@
 import axiosAuth from './lib/axios'
 import { getToken } from './lib/auth'
 
+import { useEffect, useState } from 'react'
+
 import { Routes, Route } from 'react-router-dom'
 
 import ChurchPage from './components/ChurchPage'
@@ -13,8 +15,25 @@ import NotFound from './components/NotFound'
 import Register from './components/Register'
 import SavedMusicItems from './components/SavedMusicItems'
 import MusicItem from './components/MusicItem'
+import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
+
+  const [currentUser, setCurrentUser] = useState()
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      try {
+        const { data } = await axiosAuth.get('/api/auth/current')
+        setCurrentUser(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCurrentUser()
+  }, [])
+
+
 
   return (
     <>
