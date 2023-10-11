@@ -10,6 +10,7 @@ export default function MusicItem() {
   const [showErrorModal, setShowErrorModal] = useState(false)
   const { id } = useParams()
 
+
   useEffect(() => {
     async function getMusicItemData() {
       try {
@@ -22,6 +23,21 @@ export default function MusicItem() {
     }
     getMusicItemData()
   }, [id])
+
+
+
+  const saveMusicItem = async (e) => {
+    e.preventDefault()
+    try {
+      const payload = {
+        music_item: parseInt(id),
+      }
+      const { data } = await axiosAuth.post('/api/saved/', payload)
+    } catch (error) {
+      console.log(error)
+      setShowErrorModal(true)
+    }
+  }
 
   if (!musicItemData) return <div>Loading...</div>
 
@@ -47,6 +63,7 @@ export default function MusicItem() {
             </li>
           ))}
         </ul>
+        <button onClick={saveMusicItem}>Save Music Item</button>
       </section>
     </>
   )
