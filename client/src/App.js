@@ -29,6 +29,7 @@ export default function App() {
           <Route path='/music-search' element={<MusicSearch />} />
           <Route path='/music-page/:id' element={<MusicItem />} />
           <Route path='/saved-music' element={<SavedMusicItems />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
     </>
