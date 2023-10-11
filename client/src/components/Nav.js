@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode'
 export default function NavBar() {
   const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState()
+  const [navBarOpen, setNavBarOpen] = useState(false)
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -27,7 +28,14 @@ export default function NavBar() {
   return (
     <div className='nav-wrapper'>
       {currentUser && (
-        <Navbar bg="light" expand="lg" className="nav-bar">
+        <Navbar
+          bg="light"
+          expand="lg"
+          className="nav-bar"
+          expanded={navBarOpen}
+          onSelect={() => setNavBarOpen(false)}
+          onToggle={(expanded) => setNavBarOpen(expanded)}
+        >
           <Container>
             <Navbar.Brand href="/">AAG Music</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav:" />
