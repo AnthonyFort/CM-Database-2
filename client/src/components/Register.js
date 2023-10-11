@@ -34,15 +34,15 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="username" value={formData.username} onChange={handleChange} />
+      <input type="text" name="username" placeholder="username" value={formData.username} onChange={handleChange} />
       <br />
-      <input type="email" name="email" value={formData.email} onChange={handleChange} />
+      <input type="email" name="email" placeholder="email" value={formData.email} onChange={handleChange} />
       <br />
-      <input type="password" name="password" value={formData.password} onChange={handleChange}  />
+      <input type="password" name="password" placeholder="password" value={formData.password} onChange={handleChange}  />
       <br />
-      <input type="password" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange}  />
+      <input type="password" name="password_confirmation" placeholder="password confirmation" value={formData.password_confirmation} onChange={handleChange}  />
       <br />
-      <input type="text" name="church" value={formData.church} onChange={handleChange} />
+      <input type="text" name="church" placeholder="affiliated church" value={formData.church} onChange={handleChange} />
       <br />
       {message && <p>{message}</p>}
       <input type="submit" value="Submit"/>

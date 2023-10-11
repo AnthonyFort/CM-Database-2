@@ -31,9 +31,9 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="username" value={formData.username} onChange={handleChange} />
+      <input type="text" name="username" placeholder="username" value={formData.username} onChange={handleChange} />
       <br />
-      <input type="password" name="password" value={formData.password} onChange={handleChange}  />
+      <input type="password" name="password" placeholder="password" value={formData.password} onChange={handleChange}  />
       <br />
       {message && <p>{message}</p>}
       <input type="submit" value="Submit" />
