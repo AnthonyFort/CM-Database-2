@@ -3,10 +3,8 @@ import { getToken } from './lib/auth'
 
 import { Routes, Route } from 'react-router-dom'
 
-import AddService from './components/AddService'
 import ChurchPage from './components/ChurchPage'
 import ChurchSearch from './components/ChurchSearch'
-import FormPage from './components/FormPage'
 import Home from './components/Home'
 import Login from './components/Login'
 import MusicSearch from './components/MusicSearch'
@@ -26,7 +24,6 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/add-service' element={<AddService />} />
           <Route path='/church-page/:id' element={<ChurchPage />} />
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />
