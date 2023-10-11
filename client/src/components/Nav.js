@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap'
 
-import { getToken } from '../utils/auth'
+import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 
@@ -37,7 +37,7 @@ export default function NavBar() {
                 <Nav.Link href="/church-search">Church Search</Nav.Link>
                 <Nav.Link href="/saved-music">Saved Music</Nav.Link>
                 <Nav.Link href={`/church-page/${currentUser.id}`}>Your Church</Nav.Link>
-                {/* <Nav.Link href={`/users/${userID}/songs`}>Check pending songs</Nav.Link> */}
+                <Nav.Link onClick={removeToken} href="/">Logout</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
