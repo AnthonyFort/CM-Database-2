@@ -6,6 +6,7 @@ from lib.views import UserListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from lib.permissions import IsOwnerOrReadOnly
 
+from rest_framework.response import Response
 
 User = get_user_model()
 
@@ -26,3 +27,12 @@ class UserDetailView(RetrieveAPIView):
    serializer_class = UserSerializer
    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
    lookup_field = 'id'
+
+class UserPersonalView(RetrieveAPIView):
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
+  def get(self, request, *args, **kwargs):
+     current_user = request.user   
+     return Response({
+        "id": current_user.id
+     })

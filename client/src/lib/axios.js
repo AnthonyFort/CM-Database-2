@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { getToken, setToken, tokenIsValid } from './auth'
+import jwtDecode from 'jwt-decode'
 
 
 const axiosAuth = axios.create()
@@ -20,7 +21,8 @@ axiosAuth.interceptors.request.use(async (config) => {
       throw new axios.Cancel('Session expired, please log in again.')
     }
   }
-  
+
+
   config.headers.Authorization = `Bearer ${getToken('access-token')}`
 
   return config
