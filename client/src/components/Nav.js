@@ -33,7 +33,6 @@ export default function NavBar() {
           expand="lg"
           className="nav-bar"
           expanded={navBarOpen}
-          onSelect={() => setNavBarOpen(false)}
           onToggle={(expanded) => setNavBarOpen(expanded)}
         >
           <Container>
@@ -41,13 +40,14 @@ export default function NavBar() {
             <Navbar.Toggle aria-controls="basic-navbar-nav:" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link href="/music-search">Music Search</Nav.Link>
-                <Nav.Link href="/church-search">Church Search</Nav.Link>
-                <Nav.Link href="/saved-music">Saved Music</Nav.Link>
-                <Nav.Link href={`/church-page/${currentUser.id}`}>Your Church</Nav.Link>
+                <Nav.Link href="/music-search" onSelect={() => setNavBarOpen(false)}>Music Search</Nav.Link>
+                <Nav.Link href="/church-search" onSelect={() => setNavBarOpen(false)}>Church Search</Nav.Link>
+                <Nav.Link href="/saved-music" onSelect={() => setNavBarOpen(false)}>Saved Music</Nav.Link>
+                <Nav.Link href={`/church-page/${currentUser.id}`} onSelect={() => setNavBarOpen(false)}>Your Church</Nav.Link>
                 <Nav.Link onClick={() => {
                   removeToken()
-                  navigate('/')
+                  setNavBarOpen(false)
+                  navigate('/')    
                 }}
                 >Logout</Nav.Link>
               </Nav>
