@@ -22,6 +22,19 @@ export default function SavedMusicItems() {
     getSavedMusicItems()
   }, [])
 
+  async function deleteMusicItem(musicId) {
+    try {
+      await axiosAuth.delete(`/api/saved/${musicId}/`)
+      const remainingMusicItems = musicItemData.filter(item => (
+        item.id !== parseInt(musicId)
+      ))
+      setMusicItemData(remainingMusicItems)
+    } catch (error) {
+      console.log(error)
+      setShowErrorModal(true)
+    }
+  }
+
   if (!musicItemData) return <div>Loading...</div>
 
   return (
@@ -57,6 +70,9 @@ export default function SavedMusicItems() {
               </li>
             ))}
           </ul>
+          <button onClick={() => deleteMusicItem(item.id)}>
+            Remove Item
+          </button>
         </div>
 
       ))}
