@@ -1,7 +1,7 @@
 import FormPage from './FormPage'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -14,6 +14,8 @@ export default function Register() {
 
   const [message, setMessage] = useState('')
 
+  const navigate = useNavigate()
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -22,11 +24,13 @@ export default function Register() {
     e.preventDefault()
     try {
       const { data } = await axios.post('/api/auth/register/', formData)
+      navigate('/login')
     } catch (error) {
       console.log(error)
       setMessage(error.response.data.detail)
     }
   }
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -41,7 +45,7 @@ export default function Register() {
       <input type="text" name="church" value={formData.church} onChange={handleChange} />
       <br />
       {message && <p>{message}</p>}
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit"/>
     </form>
   )
 }
