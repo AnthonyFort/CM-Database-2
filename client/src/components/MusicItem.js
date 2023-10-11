@@ -49,17 +49,27 @@ export default function MusicItem() {
         <h2>{musicItemData.composer}</h2>
         <h3>Related Readings</h3>
         <ul>
-          {musicItemData.related_readings.map((reading, index) => (
+          <h4>Keywords</h4>
+          {musicItemData.keywords && musicItemData.keywords.length > 0 && musicItemData.keywords.map((keyword, index) => (
             <li key={index}>
-              {reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}
+              {keyword.keyword}
             </li>
           ))}
         </ul>
         <ul>
-          <p>Keywords</p>
-          {musicItemData.keywords.map((keyword, index) => (
+          <h4>Related Readings</h4>
+          {musicItemData.related_readings && musicItemData.related_readings.length > 0 && musicItemData.related_readings.map((reading, index) => (
             <li key={index}>
-              {keyword.keyword}
+              <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
+              <p>{reading.text}</p>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          <h4>Performances</h4>
+          {musicItemData.performances && musicItemData.performances.length > 0 && musicItemData.performances.map((performance, index) => (
+            <li key={index}>
+              {performance.date_of_service} - {performance.church.church}
             </li>
           ))}
         </ul>
