@@ -37,7 +37,11 @@ export default function NavBar() {
                 <Nav.Link href="/church-search">Church Search</Nav.Link>
                 <Nav.Link href="/saved-music">Saved Music</Nav.Link>
                 <Nav.Link href={`/church-page/${currentUser.id}`}>Your Church</Nav.Link>
-                <Nav.Link onClick={removeToken} href="/">Logout</Nav.Link>
+                <Nav.Link onClick={() => {
+                  removeToken()
+                  navigate('/')
+                }}
+                >Logout</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

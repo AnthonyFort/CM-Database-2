@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 const tokenName = 'user-token '
 
 export function setToken(token){
@@ -8,8 +10,9 @@ export function getToken(){
   return localStorage.getItem(tokenName)
 }
 
-export function removeToken(){
-  return localStorage.removeItem(tokenName)
+export function removeToken(tokenNames = ['access-token', 'refresh-token']) {
+  tokenNames.forEach(tokenName => localStorage.removeItem(tokenName))
+
 }
 
 export function isAuthenticated(){
