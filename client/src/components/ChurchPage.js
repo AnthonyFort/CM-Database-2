@@ -163,41 +163,6 @@ export default function ChurchPage() {
       {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <Container>
         <h1>{churchData.church}</h1>
-
-        <section>
-          <h2>Past Services</h2>
-          {churchData.past_services.map((service) => (
-            <Card className="mb-4" key={service.date_of_service}>
-              <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
-              <Card.Body>
-                <ListGroup variant="flush">
-                  {service.music_items.map((item) => (
-                    <ListGroup.Item key={item.id}>
-                      <strong>{item.title}</strong> by {item.composer}
-                      <ul>
-                        <h4>Keywords</h4>
-                        {item.keywords.map((keyword, index) => (
-                          <li key={index}>
-                            {keyword.keyword}
-                          </li>
-                        ))}
-                      </ul>
-                      <ul>
-                        <h4>Related Readings</h4>
-                        {item.related_readings.map((reading, index) => (
-                          <li key={index}>
-                            <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
-                            <p>{reading.text}</p>
-                          </li>
-                        ))}
-                      </ul>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          ))}
-        </section>
         {currentUser && currentUser.id === churchData.id && (
           <>
 
@@ -308,6 +273,40 @@ export default function ChurchPage() {
             )}
           </>
         )}
+        <section>
+          <h2>Past Services</h2>
+          {churchData.past_services.map((service) => (
+            <Card className="mb-4" key={service.date_of_service}>
+              <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
+              <Card.Body>
+                <ListGroup variant="flush">
+                  {service.music_items.map((item) => (
+                    <ListGroup.Item key={item.id}>
+                      <strong>{item.title}</strong> by {item.composer}
+                      <ul>
+                        <h4>Keywords</h4>
+                        {item.keywords.map((keyword, index) => (
+                          <li key={index}>
+                            {keyword.keyword}
+                          </li>
+                        ))}
+                      </ul>
+                      <ul>
+                        <h4>Related Readings</h4>
+                        {item.related_readings.map((reading, index) => (
+                          <li key={index}>
+                            <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
+                            <p>{reading.text}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          ))}
+        </section>
       </Container>
     </>
   )
