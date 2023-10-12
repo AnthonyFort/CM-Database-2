@@ -19,14 +19,28 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
 
+
+  const [currentUser, setCurrentUser] = useState()
+  async function getCurrentUser() {
+    try {
+      const { data } = await axiosAuth.get('/api/auth/current')
+      setCurrentUser(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
   return (
     <>
-      <NavBar />
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<Login getCurrentUser={getCurrentUser} />} />
           <Route path='/church-page/:id' element={<ChurchPage />} />
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />

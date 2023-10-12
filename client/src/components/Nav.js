@@ -5,24 +5,23 @@ import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 
-import jwtDecode from 'jwt-decode'
 
-export default function NavBar() {
+export default function NavBar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()
-  const [currentUser, setCurrentUser] = useState()
+  // const [currentUser, setCurrentUser] = useState()
   const [navBarOpen, setNavBarOpen] = useState(false)
 
-  useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const { data } = await axiosAuth.get('/api/auth/current')
-        setCurrentUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getCurrentUser()
-  }, [])
+  // useEffect(() => {
+  //   async function getCurrentUser() {
+  //     try {
+  //       const { data } = await axiosAuth.get('/api/auth/current')
+  //       setCurrentUser(data)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   getCurrentUser()
+  // }, [])
 
   if (!currentUser) return <div>Loading...</div>
 
@@ -37,7 +36,7 @@ export default function NavBar() {
           onToggle={(expanded) => setNavBarOpen(expanded)}
         >
           <Container>
-            <Navbar.Brand href="/">AAG Music</Navbar.Brand>
+            <Navbar.Brand href="/">CM Database</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav:" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
@@ -49,6 +48,7 @@ export default function NavBar() {
                   removeToken()
                   setNavBarOpen(false)
                   navigate('/')
+                  setCurrentUser(undefined)
                 }}
                 >Logout</Nav.Link>
               </Nav>

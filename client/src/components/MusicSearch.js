@@ -22,6 +22,15 @@ export default function MusicSearch() {
 
   const [currentUser, setCurrentUser] = useState()
 
+  const [keywordButtonClicked, setKeywordButtonClicked] = useState(false)
+  const [readingButtonClicked, setReadingButtonClicked] = useState(false)
+  const [keywordFormData, setKeywordFormData] = useState({ keyword: '' })
+
+
+  const handleChange = (e) => {
+    setKeywordFormData({ ...keywordFormData, [e.target.name]: e.target.value })
+  }
+
   useEffect(() => {
     async function getCurrentUser() {
       try {
@@ -103,6 +112,17 @@ export default function MusicSearch() {
 
   }
 
+  const handleKeywordSubmit = async (event) => {
+    event.preventDefault()
+    const selectedMusic = [...allKeywordMusic]
+    const newSearchedMusic = selectedMusic.filter(item =>
+      item.keywords.some(keyword =>
+        keyword.keyword.toLowerCase().includes(keywordFormData.keyword)
+      ))
+    setKeywordMusic(newSearchedMusic)
+    setKeywordButtonClicked(true)
+  }
+
 
   if (!currentUser) return <div>Unauthorised</div>
 
@@ -138,16 +158,22 @@ export default function MusicSearch() {
         </section>
       </div>
       <h2>Search by Keyword</h2>
-      <input onKeyUp={handleKeywordKeyup} placeholder='Search keyword' />
-      <section className='user-section'>
-        {keywordMusic && keywordMusic.map(item => {
-          return (
-            <div key={item.id} value={item.id}>
-              <Link to={`/music-page/${item.id}`}>{item.title}</Link>
-            </div>
-          )
-        })}
-      </section>
+      <form onSubmit={handleKeywordSubmit}>
+        <input type="text" name="keyword" placeholder="search keyword" value={keywordFormData.keyword} onChange={handleChange} />
+        <input type="submit" value="Submit" />
+      </form>
+      {keywordButtonClicked && (
+        <section className='user-section'>
+          {keywordMusic && keywordMusic.map(item => {
+            return (
+              <div key={item.id} value={item.id}>
+                <Link to={`/music-page/${item.id}`}>{item.title}</Link>
+              </div>
+            )
+          })}
+        </section>
+      )}
+
 
     </div>
   )

@@ -7,12 +7,18 @@ export const getToken = (tokenName) => {
 }
 
 export const tokenIsValid = (tokenName) => {
+  
+
+  const exp = getPayload(tokenName).exp
+  const now = Date.now() / 1000
+  
+  return exp > now
+}
+
+export const getPayload = (tokenName) => {
   const token = getToken(tokenName)
 
   if (!token) return false
 
-  const exp = JSON.parse(atob(token.split('.')[1])).exp
-  const now = Date.now() / 1000
-  
-  return exp > now
+  return JSON.parse(atob(token.split('.')[1]))
 }
