@@ -25,6 +25,10 @@ export default function MusicSearch() {
   const [keywordButtonClicked, setKeywordButtonClicked] = useState(false)
   const [readingButtonClicked, setReadingButtonClicked] = useState(false)
   const [keywordFormData, setKeywordFormData] = useState({ keyword: '' })
+  const [readingFormData, setReadingFormData] = useState({
+    book: '',
+    chapter: '',
+  })
 
 
   const handleChange = (e) => {
@@ -123,6 +127,21 @@ export default function MusicSearch() {
     setKeywordButtonClicked(true)
   }
 
+  const handleReadingSubmit = async (event) => {
+    event.preventDefault()
+    const book = readingSearch.book.toLowerCase()
+    const chapter = readingSearch.chapter
+    const selectedMusic = [...allReadingMusic]
+    const newSearchedMusic = selectedMusic.filter(item =>
+      item.related_readings.some(reading =>
+        reading.book.toLowerCase().includes(book) &&
+        (chapter ? reading.chapter === parseInt(chapter) : true)
+      )
+    )
+    setReadingMusic(newSearchedMusic)
+    setReadingButtonClicked(true)
+  }
+
 
   if (!currentUser) return <div>Unauthorised</div>
 
@@ -132,30 +151,36 @@ export default function MusicSearch() {
         <h1>Search Music</h1>
         <div>
           <h2>Search by Reading</h2>
-          <input
-            type='text'
-            value={readingSearch.book}
-            onChange={handleBookInputChange}
-            onKeyUp={handleSearch}
-            placeholder='Search Book'
-          />
-          <input
-            type='text'
-            value={readingSearch.chapter}
-            onChange={handleChapterInputChange}
-            onKeyUp={handleSearch}
-            placeholder='Search Chapter'
-          />
+          <form onSubmit={handleReadingSubmit}>
+            <input
+              type='text'
+              value={readingSearch.book}
+              onChange={handleBookInputChange}
+              onKeyUp={handleSearch}
+              placeholder='Search Book'
+            />
+            <input
+              type='text'
+              value={readingSearch.chapter}
+              onChange={handleChapterInputChange}
+              onKeyUp={handleSearch}
+              placeholder='Search Chapter'
+            />
+            <input type="submit" value="Submit" />
+          </form>
         </div>
-        <section className='user-section'>
-          {readingMusic && readingMusic.map(item => {
-            return (
-              <div key={item.id} value={item.id}>
-                <Link to={`/music-page/${item.id}`}>{item.title}</Link>
-              </div>
-            )
-          })}
-        </section>
+        {readingButtonClicked && (
+          <section className='user-section'>
+            {readingMusic && readingMusic.map(item => {
+              return (
+                <div key={item.id} value={item.id}>
+                  <Link to={`/music-page/${item.id}`}>{item.title}</Link>
+                </div>
+              )
+            })}
+          </section>
+        )}
+
       </div>
       <h2>Search by Keyword</h2>
       <form onSubmit={handleKeywordSubmit}>
