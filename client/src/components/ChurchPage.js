@@ -14,6 +14,7 @@ export default function ChurchPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
   const [currentUser, setCurrentUser] = useState()
+  const [showFormFields, setShowFormFields] = useState(false)
 
   const [newService, setNewService] = useState({
     date_of_service: '',
@@ -198,108 +199,113 @@ export default function ChurchPage() {
           ))}
         </section>
         {currentUser && currentUser.id === churchData.id && (
-          <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>Date of Service:</Form.Label>
-              <Form.Control
-                type="date"
-                value={newService.date_of_service}
-                onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Type of Service:</Form.Label>
-              <Form.Control
-                type="text"
-                value={newService.type_of_service}
-                onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
-              />
-            </Form.Group>
-            <Button variant="primary" onClick={addMusicItem}>Add Music Item</Button>
-            {newService.music_items.map((musicItem, index) => (
-              <div key={index}>
+          <>
 
-                <InputGroup className="mb-3">
-                  <InputGroup.Text>Title:</InputGroup.Text>
+            <Button onClick={() => setShowFormFields(!showFormFields)}>
+              {showFormFields ? 'Hide Form' : 'Add Service'}
+            </Button>
+            {showFormFields && (
+              <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Date of Service:</Form.Label>
                   <Form.Control
-                    value={musicItem.title}
-                    onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
-                    aria-label="Title of the Music Item"
+                    type="date"
+                    value={newService.date_of_service}
+                    onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
                   />
-                </InputGroup>
-
-                <InputGroup className="mb-3">
-                  <InputGroup.Text>Composer:</InputGroup.Text>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Type of Service:</Form.Label>
                   <Form.Control
-                    value={musicItem.composer}
-                    onChange={event => handleMusicItemChange(index, 'composer', event.target.value)}
-                    aria-label="Composer of the Music Item"
+                    type="text"
+                    value={newService.type_of_service}
+                    onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
                   />
-                </InputGroup>
+                </Form.Group>
+                <Button variant="primary" onClick={addMusicItem}>Add Music Item</Button>
+                {newService.music_items.map((musicItem, index) => (
+                  <div key={index}>
 
-                <div>
-                  {musicItem.keywords.map((k, keywordIndex) => (
-                    <InputGroup key={keywordIndex} className="mb-3">
-                      <InputGroup.Text>Keyword:</InputGroup.Text>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text>Title:</InputGroup.Text>
                       <Form.Control
-                        value={k.keyword}
-                        onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
-                        aria-label="Keyword for the Music Item"
+                        value={musicItem.title}
+                        onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
+                        aria-label="Title of the Music Item"
                       />
                     </InputGroup>
-                  ))}
-                  <Button onClick={() => addKeyword(index)}>Add Keyword</Button>
-                </div>
 
-                <div>
-                  <h4>Related Readings</h4>
-                  {musicItem.related_readings.map((reading, readingIndex) => (
-                    <div key={readingIndex}>
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text>Book:</InputGroup.Text>
-                        <Form.Control
-                          value={reading.book}
-                          onChange={event => handleReadingChange(index, readingIndex, 'book', event.target.value)}
-                          aria-label="Book of the Related Reading"
-                        />
-                      </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text>Composer:</InputGroup.Text>
+                      <Form.Control
+                        value={musicItem.composer}
+                        onChange={event => handleMusicItemChange(index, 'composer', event.target.value)}
+                        aria-label="Composer of the Music Item"
+                      />
+                    </InputGroup>
 
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text>Chapter:</InputGroup.Text>
-                        <Form.Control
-                          value={reading.chapter}
-                          onChange={event => handleReadingChange(index, readingIndex, 'chapter', event.target.value)}
-                          aria-label="Chapter of the Related Reading"
-                        />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text>Start Verse:</InputGroup.Text>
-                        <Form.Control
-                          value={reading.start_verse}
-                          onChange={event => handleReadingChange(index, readingIndex, 'start_verse', event.target.value)}
-                          aria-label="Start Verse of the Related Reading"
-                        />
-                      </InputGroup>
-
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text>End Verse:</InputGroup.Text>
-                        <Form.Control
-                          value={reading.end_verse}
-                          onChange={event => handleReadingChange(index, readingIndex, 'end_verse', event.target.value)}
-                          aria-label="End Verse of the Related Reading"
-                        />
-                      </InputGroup>
+                    <div>
+                      {musicItem.keywords.map((k, keywordIndex) => (
+                        <InputGroup key={keywordIndex} className="mb-3">
+                          <InputGroup.Text>Keyword:</InputGroup.Text>
+                          <Form.Control
+                            value={k.keyword}
+                            onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
+                            aria-label="Keyword for the Music Item"
+                          />
+                        </InputGroup>
+                      ))}
+                      <Button onClick={() => addKeyword(index)}>Add Keyword</Button>
                     </div>
-                  ))}
-                  <Button onClick={() => addReading(index)}>Add Reading</Button>
-                </div>
 
-              </div>
-            ))}
+                    <div>
+                      <h4>Related Readings</h4>
+                      {musicItem.related_readings.map((reading, readingIndex) => (
+                        <div key={readingIndex}>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text>Book:</InputGroup.Text>
+                            <Form.Control
+                              value={reading.book}
+                              onChange={event => handleReadingChange(index, readingIndex, 'book', event.target.value)}
+                              aria-label="Book of the Related Reading"
+                            />
+                          </InputGroup>
 
-            <Button type="submit">Add Service</Button>
-          </Form>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text>Chapter:</InputGroup.Text>
+                            <Form.Control
+                              value={reading.chapter}
+                              onChange={event => handleReadingChange(index, readingIndex, 'chapter', event.target.value)}
+                              aria-label="Chapter of the Related Reading"
+                            />
+                          </InputGroup>
+
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text>Start Verse:</InputGroup.Text>
+                            <Form.Control
+                              value={reading.start_verse}
+                              onChange={event => handleReadingChange(index, readingIndex, 'start_verse', event.target.value)}
+                              aria-label="Start Verse of the Related Reading"
+                            />
+                          </InputGroup>
+
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text>End Verse:</InputGroup.Text>
+                            <Form.Control
+                              value={reading.end_verse}
+                              onChange={event => handleReadingChange(index, readingIndex, 'end_verse', event.target.value)}
+                              aria-label="End Verse of the Related Reading"
+                            />
+                          </InputGroup>
+                        </div>
+                      ))}
+                      <Button onClick={() => addReading(index)}>Add Reading</Button>
+                    </div>
+                  </div>
+                ))}
+              </Form>
+            )}
+          </>
         )}
       </Container>
     </>
