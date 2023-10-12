@@ -39,17 +39,16 @@ export default function ChurchPage() {
       }
     ],
   })
-
-
-  useEffect(() => {
-    async function getChurchData() {
-      try {
-        const { data } = await axiosAuth.get(`/api/auth/${id}`)
-        setChurchData(data)
-      } catch (error) {
-        console.error(error)
-      }
+  async function getChurchData() {
+    try {
+      const { data } = await axiosAuth.get(`/api/auth/${id}`)
+      setChurchData(data)
+    } catch (error) {
+      console.error(error)
     }
+  }
+
+  useEffect(() => { 
     getChurchData()
   }, [id])
 
@@ -63,7 +62,10 @@ export default function ChurchPage() {
     }
 
     try {
-      await axiosAuth.post('/api/services/', newService)
+      const response = await axiosAuth.post('/api/services/', newService)
+      if (response.data) {
+        getChurchData()
+      }
     } catch (error) {
       console.error(error)
       setErrorMessage(error.message)
@@ -155,8 +157,6 @@ export default function ChurchPage() {
   }
 
   if (!churchData) return <div>Unauthorised</div>
-
-
 
   return (
     <>
@@ -303,6 +303,7 @@ export default function ChurchPage() {
                     </div>
                   </div>
                 ))}
+                <Button type="submit">Submit</Button>
               </Form>
             )}
           </>
