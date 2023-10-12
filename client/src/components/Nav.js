@@ -24,6 +24,7 @@ export default function NavBar() {
     getCurrentUser()
   }, [])
 
+  if (!currentUser) return <div>Loading...</div>
 
   return (
     <div className='nav-wrapper'>
@@ -47,7 +48,7 @@ export default function NavBar() {
                 <Nav.Link onClick={() => {
                   removeToken()
                   setNavBarOpen(false)
-                  navigate('/')    
+                  navigate('/')
                 }}
                 >Logout</Nav.Link>
               </Nav>
@@ -58,3 +59,4 @@ export default function NavBar() {
     </div>
   )
 }
+

@@ -13,7 +13,7 @@ export default function Register() {
     church: '',
   })
 
-  const [message, setMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [showErrorModal, setShowErrorModal] = useState(false)
 
   const navigate = useNavigate()
@@ -29,7 +29,7 @@ export default function Register() {
       navigate('/login')
     } catch (error) {
       console.log(error)
-      setMessage(error.response.data.detail)
+      setErrorMessage(error.message)
       setShowErrorModal(true)
     }
   }
@@ -37,7 +37,7 @@ export default function Register() {
 
   return (
     <>
-      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} />}
+      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <form onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="username" value={formData.username} onChange={handleChange} />
         <br />
@@ -49,7 +49,6 @@ export default function Register() {
         <br />
         <input type="text" name="church" placeholder="affiliated church" value={formData.church} onChange={handleChange} />
         <br />
-        {message && <p>{message}</p>}
         <input type="submit" value="Submit" />
       </form>
     </>

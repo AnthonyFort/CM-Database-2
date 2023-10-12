@@ -3,6 +3,7 @@ import axios from 'axios'
 import { getToken, setToken } from '../lib/auth'
 import { useNavigate } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
+import ErrorModal from './ErrorModal'
 
 
 export default function Login() {
@@ -12,7 +13,8 @@ export default function Login() {
     password: '',
   })
 
-  const [message, setMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showErrorModal, setShowErrorModal] = useState(false)
   const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState()
   const [accessToken, setAccessToken] = useState()
@@ -33,7 +35,8 @@ export default function Login() {
       setIsLoggedIn(true)
     } catch (error) {
       console.log(error)
-      setMessage(error.response.data.detail)
+      setErrorMessage(error.message)
+      setShowErrorModal(true)
     }
   }
 
@@ -56,13 +59,16 @@ export default function Login() {
   }, [accessToken])
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="username" placeholder="username" value={formData.username} onChange={handleChange} />
-      <br />
-      <input type="password" name="password" placeholder="password" value={formData.password} onChange={handleChange} />
-      <br />
-      {message && <p>{message}</p>}
-      <input type="submit" value="Submit" />
-    </form>
+    <>
+
+      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="username" placeholder="username" value={formData.username} onChange={handleChange} />
+        <br />
+        <input type="password" name="password" placeholder="password" value={formData.password} onChange={handleChange} />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    </>
   )
 }
