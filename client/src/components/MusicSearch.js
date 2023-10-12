@@ -127,7 +127,7 @@ export default function MusicSearch() {
             <input type="submit" value="Submit" />
           </form>
         </div>
-        {submitButtonClicked && (
+        {submitButtonClicked && searchedMusic.length > 0 ? (
           <section className='user-section'>
             {searchedMusic && searchedMusic.map(item => {
               return (
@@ -137,7 +137,7 @@ export default function MusicSearch() {
               )
             })}
           </section>
-        )}
+        ) :  'No music items found'}
       </div>
     </div>
   )
