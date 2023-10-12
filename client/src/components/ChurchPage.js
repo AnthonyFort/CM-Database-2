@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
+import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormControl, Modal } from 'react-bootstrap'
 
 export default function ChurchPage() {
   const navigate = useNavigate()
@@ -154,137 +155,153 @@ export default function ChurchPage() {
 
   if (!churchData) return <div>Unauthorised</div>
 
+
+
   return (
     <>
       {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
-      <h1>{churchData.church}</h1>
-      <section>
-        <h2>Past Services</h2>
-        {churchData.past_services.map((service) => (
-          <div key={service.date_of_service}>
-            <h3>{service.date_of_service} - {service.type_of_service}</h3>
-            <ul>
-              {service.music_items.map((item) => (
-                <li key={item.id}>
-                  <strong>{item.title}</strong> by {item.composer}
-                  <ul>
-                    <h4>Keywords</h4>
-                    {item.keywords.map((keyword, index) => (
-                      <li key={index}>
-                        {keyword.keyword}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul>
-                    <h4>Related Readings</h4>
-                    {item.related_readings.map((reading, index) => (
-                      <li key={index}>
-                        <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
-                        <p>{reading.text}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-      {currentUser && currentUser.id === churchData.id && (
+      <Container>
+        <h1>{churchData.church}</h1>
+
         <section>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Date of Service:
-              <input
+          <h2>Past Services</h2>
+          {churchData.past_services.map((service) => (
+            <Card className="mb-4" key={service.date_of_service}>
+              <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
+              <Card.Body>
+                <ListGroup variant="flush">
+                  {service.music_items.map((item) => (
+                    <ListGroup.Item key={item.id}>
+                      <strong>{item.title}</strong> by {item.composer}
+                      <ul>
+                        <h4>Keywords</h4>
+                        {item.keywords.map((keyword, index) => (
+                          <li key={index}>
+                            {keyword.keyword}
+                          </li>
+                        ))}
+                      </ul>
+                      <ul>
+                        <h4>Related Readings</h4>
+                        {item.related_readings.map((reading, index) => (
+                          <li key={index}>
+                            <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
+                            <p>{reading.text}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          ))}
+        </section>
+        {currentUser && currentUser.id === churchData.id && (
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Label>Date of Service:</Form.Label>
+              <Form.Control
                 type="date"
                 value={newService.date_of_service}
                 onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
               />
-            </label>
-
-            <label>
-              Type of Service:
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Type of Service:</Form.Label>
+              <Form.Control
                 type="text"
                 value={newService.type_of_service}
                 onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
               />
-            </label>
-            <button type='button' onClick={addMusicItem}>Add Music Item</button>
+            </Form.Group>
+            <Button variant="primary" onClick={addMusicItem}>Add Music Item</Button>
             {newService.music_items.map((musicItem, index) => (
               <div key={index}>
-                <label>
-                  Title:
-                  <input
+
+                <InputGroup className="mb-3">
+                  <InputGroup.Text>Title:</InputGroup.Text>
+                  <Form.Control
                     value={musicItem.title}
                     onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
+                    aria-label="Title of the Music Item"
                   />
-                </label>
+                </InputGroup>
 
-                <label>
-                  Composer:
-                  <input
+                <InputGroup className="mb-3">
+                  <InputGroup.Text>Composer:</InputGroup.Text>
+                  <Form.Control
                     value={musicItem.composer}
                     onChange={event => handleMusicItemChange(index, 'composer', event.target.value)}
+                    aria-label="Composer of the Music Item"
                   />
-                </label>
+                </InputGroup>
+
                 <div>
                   {musicItem.keywords.map((k, keywordIndex) => (
-                    <div key={keywordIndex}>
-                      <label>
-                        Keyword:
-                        <input
-                          value={k.keyword}
-                          onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
-                        />
-                      </label>
-                    </div>
+                    <InputGroup key={keywordIndex} className="mb-3">
+                      <InputGroup.Text>Keyword:</InputGroup.Text>
+                      <Form.Control
+                        value={k.keyword}
+                        onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
+                        aria-label="Keyword for the Music Item"
+                      />
+                    </InputGroup>
                   ))}
-                  <button onClick={() => addKeyword(index)}>Add Keyword</button>
+                  <Button onClick={() => addKeyword(index)}>Add Keyword</Button>
                 </div>
+
                 <div>
                   <h4>Related Readings</h4>
                   {musicItem.related_readings.map((reading, readingIndex) => (
                     <div key={readingIndex}>
-                      <label>
-                        Book:
-                        <input
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text>Book:</InputGroup.Text>
+                        <Form.Control
                           value={reading.book}
                           onChange={event => handleReadingChange(index, readingIndex, 'book', event.target.value)}
+                          aria-label="Book of the Related Reading"
                         />
-                      </label>
-                      <label>
-                        Chapter:
-                        <input
+                      </InputGroup>
+
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text>Chapter:</InputGroup.Text>
+                        <Form.Control
                           value={reading.chapter}
                           onChange={event => handleReadingChange(index, readingIndex, 'chapter', event.target.value)}
+                          aria-label="Chapter of the Related Reading"
                         />
-                      </label>
-                      <label>
-                        Start Verse:
-                        <input
+                      </InputGroup>
+
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text>Start Verse:</InputGroup.Text>
+                        <Form.Control
                           value={reading.start_verse}
                           onChange={event => handleReadingChange(index, readingIndex, 'start_verse', event.target.value)}
+                          aria-label="Start Verse of the Related Reading"
                         />
-                      </label>
-                      <label>
-                        End Verse:
-                        <input
+                      </InputGroup>
+
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text>End Verse:</InputGroup.Text>
+                        <Form.Control
                           value={reading.end_verse}
                           onChange={event => handleReadingChange(index, readingIndex, 'end_verse', event.target.value)}
+                          aria-label="End Verse of the Related Reading"
                         />
-                      </label>
+                      </InputGroup>
                     </div>
                   ))}
-                  <button onClick={() => addReading(index)}>Add Reading</button>
+                  <Button onClick={() => addReading(index)}>Add Reading</Button>
                 </div>
+
               </div>
             ))}
-            <button type="submit">Add Service</button>
-          </form>
-        </section>
-      )}
 
+            <Button type="submit">Add Service</Button>
+          </Form>
+        )}
+      </Container>
     </>
   )
 }
