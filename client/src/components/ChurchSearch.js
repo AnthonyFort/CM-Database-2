@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
+import { Container, Row, Col, Form, ListGroup } from 'react-bootstrap'
 
 export default function ChurchSearch() {
 
@@ -48,7 +49,7 @@ export default function ChurchSearch() {
 
 
   const [searchInput, setSearchInput] = useState('')
-  const [searchBy, setSearchBy] = useState('church') 
+  const [searchBy, setSearchBy] = useState('church')
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value)
   }
@@ -57,21 +58,35 @@ export default function ChurchSearch() {
   }
 
   if (!currentUser) return <div>Unauthorised</div>
+
   return (
-    <div>
-      <div className='search-header'>
-        <h1>Search Churches</h1>
-        <input onKeyUp={handleKeyup} placeholder='Search name' />
-      </div>
-      <section className='user-section'>
-        {churches && churches.map(church => {
-          return (
-            <div key={church.id} value={church.id}>
-              <Link to={`/church-page/${church.id}`}>{church.church}</Link>
-            </div>
-          )
-        })}
-      </section>
-    </div>
+    <Container>
+      <Row className="mt-5 justify-content-center">
+        <Col xs={12} md={8} lg={6}>
+          <h1 className="text-center mb-4">Search Churches</h1>
+          <Form>
+            <Form.Group controlId="searchChurch">
+              <Form.Control
+                type="text"
+                placeholder="Search name"
+                onKeyUp={handleKeyup}
+              />
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+
+      <Row className="mt-4">
+        <Col>
+          <ListGroup>
+            {churches && churches.map(church => (
+              <ListGroup.Item key={church.id} >
+                <Link to={`/church-page/${church.id}`}>{church.church}</Link>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Col>
+      </Row>
+    </Container>
   )
 }
