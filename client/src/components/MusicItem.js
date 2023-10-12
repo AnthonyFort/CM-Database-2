@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
+import { Container, Card, Button, ListGroup, Modal } from 'react-bootstrap'
 
 export default function MusicItem() {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ export default function MusicItem() {
       try {
         const { data } = await axiosAuth.get(`/api/music/${id}`)
         setmusicItemData(data)
+        console.log('MUSIC ITEM', musicItemData)
       } catch (error) {
         console.error(error)
         setShowErrorModal(true)
@@ -44,37 +46,55 @@ export default function MusicItem() {
   return (
     <>
       {showErrorModal && <ErrorModal closeModal={() => setShowErrorModal(false)} />}
-      <h1>{musicItemData.title}</h1>
-      <section>
-        <h2>{musicItemData.composer}</h2>
-        <h3>Related Readings</h3>
-        <ul>
-          <h4>Keywords</h4>
-          {musicItemData.keywords && musicItemData.keywords.length > 0 && musicItemData.keywords.map((keyword, index) => (
-            <li key={index}>
-              {keyword.keyword}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          <h4>Related Readings</h4>
-          {musicItemData.related_readings && musicItemData.related_readings.length > 0 && musicItemData.related_readings.map((reading, index) => (
-            <li key={index}>
-              <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
-              <p>{reading.text}</p>
-            </li>
-          ))}
-        </ul>
-        <ul>
-          <h4>Performances</h4>
-          {musicItemData.performances && musicItemData.performances.length > 0 && musicItemData.performances.map((performance, index) => (
-            <li key={index}>
-              {performance.date_of_service} - {performance.church.church}
-            </li>
-          ))}
-        </ul>
-        <button onClick={saveMusicItem}>Save Music Item</button>
-      </section>
+
+      <Container className="mt-4">
+        <Card className="mb-4" xs={12} sm={10} md={8} lg={6} key={musicItemData.id}>
+          <Card.Body>
+            <Card.Title>{musicItemData.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{musicItemData.composer}</Card.Subtitle>
+            {musicItemData.keywords && musicItemData.keywords.length > 0 && (
+              <>
+                <h6>Keywords</h6>
+                <ListGroup variant="flush">
+                  {musicItemData.keywords.map((keyword, index) => (
+                    <ListGroup.Item key={index}>{keyword.keyword}</ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </>
+            )}
+
+            {musicItemData.related_readings && musicItemData.related_readings.length > 0 && (
+              <>
+                <h6 className="mt-3">Related Readings</h6>
+                <ListGroup variant="flush">
+                  {musicItemData.related_readings.map((reading, index) => (
+                    <ListGroup.Item key={index}>
+                      <strong>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</strong>
+                      <p>{reading.text}</p>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </>
+            )}
+
+            {musicItemData.performances && musicItemData.performances.length > 0 && (
+              <>
+                <h6 className="mt-3">Performances</h6>
+                <ListGroup variant="flush">
+                  {musicItemData.performances.map((performance, index) => (
+                    <ListGroup.Item key={index}>
+                      {performance.date_of_service} - {performance.church.church}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </>
+            )}
+
+            <Button onClick={saveMusicItem} className="mt-3">Save Music Item</Button> 
+          </Card.Body>
+        </Card >
+      </Container >
     </>
   )
+
 }

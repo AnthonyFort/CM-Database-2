@@ -68,7 +68,7 @@ export default function ChurchSearch() {
             <Form.Group controlId="searchChurch">
               <Form.Control
                 type="text"
-                placeholder="Search name"
+                placeholder="Search Church Name"
                 onKeyUp={handleKeyup}
               />
             </Form.Group>
