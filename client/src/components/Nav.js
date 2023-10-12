@@ -8,22 +8,9 @@ import axiosAuth from '../lib/axios'
 
 export default function NavBar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()
-  // const [currentUser, setCurrentUser] = useState()
-  const [navBarOpen, setNavBarOpen] = useState(false)
+  const [navBarOpen, setNavBarOpen] = useState(false) 
 
-  // useEffect(() => {
-  //   async function getCurrentUser() {
-  //     try {
-  //       const { data } = await axiosAuth.get('/api/auth/current')
-  //       setCurrentUser(data)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   getCurrentUser()
-  // }, [])
-
-  if (!currentUser) return <div>Loading...</div>
+  if (!currentUser) return <div></div>
 
   return (
     <div className='nav-wrapper'>
