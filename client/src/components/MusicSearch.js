@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 import MusicItem from './MusicItem'
+import { Button, Container, Row, Col, Form, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 
 export default function MusicSearch() {
@@ -98,47 +99,61 @@ export default function MusicSearch() {
   if (!currentUser) return <div>Unauthorised</div>
 
   return (
-    <div>
-      <div className='search-header'>
-        <h1>Search Music</h1>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="keyword"
-              placeholder="search keyword"
-              value={formData.keyword}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="book"
-              placeholder="Search Book"
-              value={formData.book}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="chapter"
-              placeholder="Search Chapter"
-              value={formData.chapter}
-              onChange={handleChange}
-            />
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-        {submitButtonClicked && searchedMusic.length > 0 ? (
-          <section className='user-section'>
-            {searchedMusic && searchedMusic.map(item => {
-              return (
-                <div key={item.id} value={item.id}>
+    <Container>
+      <h1 className="text-center mb-4">Search Music</h1>
+
+      <Form onSubmit={handleSubmit} className="form-groups">
+        <Form.Group className="mb-2" controlId="keyword">
+          <Form.Control
+            type="text"
+            name="keyword"
+            placeholder="Enter keyword (optional)"
+            value={formData.keyword}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-2" controlId="book">
+          <Form.Control
+            type="text"
+            name="book"
+            placeholder="Enter Bible book (optional)"
+            value={formData.book}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-2" controlId="chapter">
+          <Form.Control
+            type="text"
+            name="chapter"
+            placeholder="Enter Chapter Number (optional)"
+            value={formData.chapter}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+
+      {submitButtonClicked ? (
+        searchedMusic.length > 0 ? (
+          <Container className="mt-3">
+            <h2>Search Results</h2>
+            <ListGroup className="mt-4">
+              {searchedMusic.map(item => (
+                <ListGroup.Item key={item.id}>
                   <Link to={`/music-page/${item.id}`}>{item.title}</Link>
-                </div>
-              )
-            })}
-          </section>
-        ) :  'No music items found'}
-      </div>
-    </div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Container>
+        ) : (
+          <p className="mt-4 text-center">No music items found</p>
+        )
+      ) : null}
+    </Container>
   )
 }
