@@ -24,6 +24,12 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!formData.username || !formData.email || !formData.password || !formData.password_confirmation || !formData.church) {
+      setErrorMessage('Please fill out all fields.')
+      setShowErrorModal(true)
+      return
+    }
     try {
       const { data } = await axios.post('/api/auth/register/', formData)
       navigate('/login')

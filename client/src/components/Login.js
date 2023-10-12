@@ -27,6 +27,12 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!formData.username || !formData.password) {
+      setErrorMessage('Please fill out all fields.')
+      setShowErrorModal(true)
+      return
+    }
     try {
       const { data } = await axios.post('/api/auth/login/', formData)
       setToken('access-token', data.access)

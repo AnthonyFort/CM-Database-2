@@ -10,6 +10,7 @@ export default function ChurchPage() {
 
   const [churchData, setChurchData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
   const [currentUser, setCurrentUser] = useState()
 
@@ -45,7 +46,6 @@ export default function ChurchPage() {
         setChurchData(data)
       } catch (error) {
         console.error(error)
-        setShowErrorModal(true)
       }
     }
     getChurchData()
@@ -53,10 +53,19 @@ export default function ChurchPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    if (!newService.date_of_service || !newService.type_of_service || !newService.music_items.length) {
+      setErrorMessage('Please fill out all fields.')
+      setShowErrorModal(true)
+      return
+    }
+
     try {
       await axiosAuth.post('/api/services/', newService)
     } catch (error) {
       console.error(error)
+      setErrorMessage(error.message)
+      setShowErrorModal(true)
     }
   }
 
@@ -147,7 +156,7 @@ export default function ChurchPage() {
 
   return (
     <>
-      {showErrorModal && <ErrorModal closeModal={() => setShowErrorModal(false)} />}
+      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <h1>{churchData.church}</h1>
       <section>
         <h2>Past Services</h2>
