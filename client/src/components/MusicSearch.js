@@ -6,33 +6,21 @@ import MusicItem from './MusicItem'
 
 export default function MusicSearch() {
 
-  const [allReadingMusic, setAllReadingMusic] = useState([])
-  const [readingMusic, setReadingMusic] = useState([])
-  const [allKeywordMusic, setAllKeywordMusic] = useState([])
-  const [keywordMusic, setKeywordMusic] = useState([])
-
-  const [keywordSearch, setKeywordSearch] = useState('')
-
-  const [readingSearch, setReadingSearch] = useState({
-    book: '',
-    chapter: null,
-  })
-
-  const [bookSearch, setBookSearch] = useState('')
-
   const [currentUser, setCurrentUser] = useState()
 
-  const [keywordButtonClicked, setKeywordButtonClicked] = useState(false)
-  const [readingButtonClicked, setReadingButtonClicked] = useState(false)
-  const [keywordFormData, setKeywordFormData] = useState({ keyword: '' })
-  const [readingFormData, setReadingFormData] = useState({
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false)
+
+  const [formData, setFormData] = useState({
+    keyword: '',
     book: '',
     chapter: '',
   })
 
+  const [allMusic, setAllMusic] = useState([])
+  const [searchedMusic, setSearchedMusic] = useState([])
 
   const handleChange = (e) => {
-    setKeywordFormData({ ...keywordFormData, [e.target.name]: e.target.value })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   useEffect(() => {
@@ -49,97 +37,61 @@ export default function MusicSearch() {
 
 
   useEffect(() => {
-    async function getMusicDataForReadings() {
+    async function getMusicData() {
       try {
         const { data } = await axiosAuth.get('/api/music')
         data.sort()
-        setAllReadingMusic(data)
-        setReadingMusic(data)
+        setAllMusic(data)
       } catch (error) {
         console.log(error)
       }
     }
-    getMusicDataForReadings()
+    getMusicData()
   }, [])
 
-  useEffect(() => {
-    async function getMusicDataForKeywords() {
-      try {
-        const { data } = await axiosAuth.get('/api/music')
-        data.sort()
-        setAllKeywordMusic(data)
-        setKeywordMusic(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getMusicDataForKeywords()
-  }, [])
 
-  function handleBookInputChange(event) {
-    const newBookValue = event.target.value
-    setReadingSearch(current => ({
-      ...current,
-      book: newBookValue,
-    }))
+  function rankResults(keyword, book, chapter) {
+    const results = [...allMusic]
+      .map(item => {
+        let score = 0
+
+        if (keyword) {
+          const keywordRegex = new RegExp(keyword, 'gi')
+          const keywordScore = (item.keywords || []).reduce((acc, k) => {
+            const match = k.keyword.match(keywordRegex)
+            return acc + (match ? match.length : 0)
+          }, 0)
+          score += keywordScore
+        }
+
+        if (book) {
+          const bookRegex = new RegExp(book, 'gi')
+          const readingScore = (item.related_readings || []).reduce((acc, reading) => {
+            const bookMatch = reading.book.match(bookRegex)
+            const chapterMatch = chapter ? reading.chapter === parseInt(chapter) : true
+            return acc + (bookMatch && chapterMatch ? 1 : 0)
+          }, 0)
+          score += readingScore
+        }
+
+        return {
+          ...item,
+          score,
+        }
+      })
+      .filter(item => item.score)
+
+    const uniqueResults = Array.from(new Map(results.map(item => [item.id, item])).values())
+    return uniqueResults.sort((a, b) => b.score - a.score)
   }
 
-  function handleChapterInputChange(event) {
-    const newChapterValue = event.target.value
-    setReadingSearch(current => ({
-      ...current,
-      chapter: newChapterValue,
-    }))
-  }
 
-  function handleSearch() {
-    const book = readingSearch.book.toLowerCase()
-    const chapter = readingSearch.chapter
-
-    const newSearchedMusic = allReadingMusic.filter(item =>
-      item.related_readings.some(reading =>
-        reading.book.toLowerCase().includes(book) &&
-        (chapter ? reading.chapter === parseInt(chapter) : true)
-      )
-    )
-    setReadingMusic(newSearchedMusic)
-    console.log('SEARCHED', newSearchedMusic)
-  }
-
-  function handleKeywordKeyup(event) {
-    const selectedMusic = [...allKeywordMusic]
-    const newSearchedMusic = selectedMusic.filter(item =>
-      item.keywords.some(keyword =>
-        keyword.keyword.toLowerCase().includes(event.target.value)
-      ))
-    setKeywordMusic(newSearchedMusic)
-
-  }
-
-  const handleKeywordSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-    const selectedMusic = [...allKeywordMusic]
-    const newSearchedMusic = selectedMusic.filter(item =>
-      item.keywords.some(keyword =>
-        keyword.keyword.toLowerCase().includes(keywordFormData.keyword)
-      ))
-    setKeywordMusic(newSearchedMusic)
-    setKeywordButtonClicked(true)
-  }
-
-  const handleReadingSubmit = async (event) => {
-    event.preventDefault()
-    const book = readingSearch.book.toLowerCase()
-    const chapter = readingSearch.chapter
-    const selectedMusic = [...allReadingMusic]
-    const newSearchedMusic = selectedMusic.filter(item =>
-      item.related_readings.some(reading =>
-        reading.book.toLowerCase().includes(book) &&
-        (chapter ? reading.chapter === parseInt(chapter) : true)
-      )
-    )
-    setReadingMusic(newSearchedMusic)
-    setReadingButtonClicked(true)
+    const rankedMusic = rankResults(formData.keyword, formData.book, formData.chapter)
+    console.log(rankedMusic)
+    setSearchedMusic(rankedMusic)
+    setSubmitButtonClicked(true)
   }
 
 
@@ -150,28 +102,34 @@ export default function MusicSearch() {
       <div className='search-header'>
         <h1>Search Music</h1>
         <div>
-          <h2>Search by Reading</h2>
-          <form onSubmit={handleReadingSubmit}>
+          <form onSubmit={handleSubmit}>
             <input
-              type='text'
-              value={readingSearch.book}
-              onChange={handleBookInputChange}
-              onKeyUp={handleSearch}
-              placeholder='Search Book'
+              type="text"
+              name="keyword"
+              placeholder="search keyword"
+              value={formData.keyword}
+              onChange={handleChange}
             />
             <input
-              type='text'
-              value={readingSearch.chapter}
-              onChange={handleChapterInputChange}
-              onKeyUp={handleSearch}
-              placeholder='Search Chapter'
+              type="text"
+              name="book"
+              placeholder="Search Book"
+              value={formData.book}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="chapter"
+              placeholder="Search Chapter"
+              value={formData.chapter}
+              onChange={handleChange}
             />
             <input type="submit" value="Submit" />
           </form>
         </div>
-        {readingButtonClicked && (
+        {submitButtonClicked && (
           <section className='user-section'>
-            {readingMusic && readingMusic.map(item => {
+            {searchedMusic && searchedMusic.map(item => {
               return (
                 <div key={item.id} value={item.id}>
                   <Link to={`/music-page/${item.id}`}>{item.title}</Link>
@@ -180,26 +138,7 @@ export default function MusicSearch() {
             })}
           </section>
         )}
-
       </div>
-      <h2>Search by Keyword</h2>
-      <form onSubmit={handleKeywordSubmit}>
-        <input type="text" name="keyword" placeholder="search keyword" value={keywordFormData.keyword} onChange={handleChange} />
-        <input type="submit" value="Submit" />
-      </form>
-      {keywordButtonClicked && (
-        <section className='user-section'>
-          {keywordMusic && keywordMusic.map(item => {
-            return (
-              <div key={item.id} value={item.id}>
-                <Link to={`/music-page/${item.id}`}>{item.title}</Link>
-              </div>
-            )
-          })}
-        </section>
-      )}
-
-
     </div>
   )
 }
