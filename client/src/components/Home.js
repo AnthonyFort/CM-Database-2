@@ -3,7 +3,7 @@ import { Button, Container, Row, Col, Image } from 'react-bootstrap'
 
 import logo from '../images/logo.png'
 
-// comment
+
 export default function Home() {
   return (
     <Container fluid className='homepage'>
