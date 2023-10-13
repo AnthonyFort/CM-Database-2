@@ -81,7 +81,7 @@ export default function MusicSearch() {
     if (Array.isArray(uniqueResults)) {
       return uniqueResults.sort((a, b) => b.score - a.score)
     } else {
-      console.error('not an array')
+      console.log('NOT AN ARRAY')
       return []
     }
   }
