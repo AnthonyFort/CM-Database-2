@@ -278,7 +278,7 @@ export default function ChurchPage() {
         )}
         <section>
           <h2>Past Services</h2>
-          {churchData.past_services && churchData.past_services.map((service) => (
+          {churchData.past_services?.map((service) => (
             <Card className="mb-4" key={service.date_of_service}>
               <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
               <Card.Body>
