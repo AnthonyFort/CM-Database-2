@@ -15,7 +15,7 @@ export default function MusicSearch() {
     book: '',
     chapter: '',
   })
-  
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -78,7 +78,12 @@ export default function MusicSearch() {
       .filter(item => item.score)
 
     const uniqueResults = Array.from(new Map(results.map(item => [item.id, item])).values())
-    return uniqueResults.sort((a, b) => b.score - a.score)
+    if (Array.isArray(uniqueResults)) {
+      return uniqueResults.sort((a, b) => b.score - a.score)
+    } else {
+      console.error('not an array')
+      return []
+    }
   }
 
 
