@@ -36,7 +36,7 @@ export default function MusicSearch() {
   useEffect(() => {
     async function getMusicData() {
       try {
-        const { data } = await axiosAuth.get('/api/music')
+        const { data } = await axiosAuth.get('/api/music/')
         data.sort()
         setAllMusic(data)
       } catch (error) {
