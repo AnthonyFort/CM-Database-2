@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework.generics import (
-  GenericAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+  GenericAPIView, RetrieveUpdateDestroyAPIView
 )
 from lib.views import UserListCreateAPIView
 
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from lib.permissions import IsOwnerOrReadOnly
 
 from .models import Service

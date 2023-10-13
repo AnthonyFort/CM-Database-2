@@ -5,13 +5,14 @@ from music.serializers.common import MusicItemSerializer
 from music.models import MusicItem
 from keywords.models import Keyword
 from readings.models import RelatedReading
+import requests
 
 class MusicItemSerializerForService(serializers.ModelSerializer):
    class Meta:
       model = MusicItem
       fields = ['id', 'title', 'composer']
 
-import requests
+
 
 class ServiceSerializer(serializers.ModelSerializer):
 

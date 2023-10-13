@@ -1,7 +1,6 @@
 from typing import Any, Dict
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from services.models import Service
 from services.serializers.common import ServiceSerializer, ServiceSerializerForChurch
 

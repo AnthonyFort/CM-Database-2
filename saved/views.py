@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.generics import (
-  GenericAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+  RetrieveUpdateDestroyAPIView
 )
 from lib.views import UserListCreateAPIView
 from lib.permissions import IsOwner

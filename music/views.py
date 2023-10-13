@@ -1,20 +1,13 @@
 from django.shortcuts import render
 from rest_framework.generics import (
-  GenericAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+  GenericAPIView, RetrieveUpdateDestroyAPIView
 )
 from lib.views import UserListCreateAPIView
-
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from lib.permissions import IsOwnerOrReadOnly
-
+from rest_framework.permissions import IsAuthenticated
 from .models import MusicItem
-
 from .serializers.common import MusicItemSerializer
-
 from rest_framework.response import Response
-
 import requests
-
 from keywords.models import Keyword
 from readings.models import RelatedReading
 

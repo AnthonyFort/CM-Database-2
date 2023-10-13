@@ -1,9 +1,8 @@
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers.common import RegistrationSerializer, UserSerializer, SimplifiedUserSerializer
 from django.contrib.auth import get_user_model
 from lib.views import UserListCreateAPIView 
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from lib.permissions import IsOwnerOrReadOnly
 
 from rest_framework.response import Response
