@@ -90,7 +90,7 @@ export default function MusicSearch() {
   const handleSubmit = (event) => {
     event.preventDefault()
     const rankedMusic = rankResults(formData.keyword, formData.book, formData.chapter)
-    console.log(rankedMusic)
+    console.log('RANKED MUSIC', rankedMusic)
     setSearchedMusic(rankedMusic)
     setSubmitButtonClicked(true)
   }
