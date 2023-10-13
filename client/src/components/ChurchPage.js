@@ -42,6 +42,11 @@ export default function ChurchPage() {
   async function getChurchData() {
     try {
       const { data } = await axiosAuth.get(`/api/auth/${id}`)
+      if (data.past_services) {
+        data.past_services.sort((a, b) => {     
+          return new Date(b.date_of_service) - new Date(a.date_of_service)
+        })
+      }
       setChurchData(data)
     } catch (error) {
       console.error(error)
@@ -62,8 +67,8 @@ export default function ChurchPage() {
     }
 
     try {
-      const response = await axiosAuth.post('/api/services/', newService)
-      if (response.data) {
+      const { data } = await axiosAuth.post('/api/services/', newService)
+      if (data) {
         getChurchData()
       }
     } catch (error) {
