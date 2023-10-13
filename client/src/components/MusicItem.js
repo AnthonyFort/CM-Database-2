@@ -16,6 +16,11 @@ export default function MusicItem() {
     async function getMusicItemData() {
       try {
         const { data } = await axiosAuth.get(`/api/music/${id}`)
+        if (data.past_services) {
+          data.past_services.sort((a, b) => {     
+            return new Date(b.date_of_service) - new Date(a.date_of_service)
+          })
+        }
         setmusicItemData(data)
         console.log('MUSIC ITEM', musicItemData)
       } catch (error) {
