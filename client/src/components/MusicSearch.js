@@ -37,7 +37,6 @@ export default function MusicSearch() {
     async function getMusicData() {
       try {
         const { data } = await axiosAuth.get('/api/music/')
-        data.sort()
         setAllMusic(data)
       } catch (error) {
         console.log(error)
