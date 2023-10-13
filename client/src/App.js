@@ -15,7 +15,6 @@ import NotFound from './components/NotFound'
 import Register from './components/Register'
 import SavedMusicItems from './components/SavedMusicItems'
 import MusicItem from './components/MusicItem'
-import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
 

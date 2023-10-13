@@ -5,17 +5,15 @@ import { useNavigate, useParams, Link } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
 import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormControl, Modal } from 'react-bootstrap'
-// comment
+
 export default function ChurchPage() {
   const navigate = useNavigate()
-
   const [churchData, setChurchData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
   const [currentUser, setCurrentUser] = useState()
   const [showFormFields, setShowFormFields] = useState(false)
-
   const [newService, setNewService] = useState({
     date_of_service: '',
     type_of_service: '',

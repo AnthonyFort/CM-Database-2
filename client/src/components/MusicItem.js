@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
 import { Container, Card, Button, ListGroup, Modal } from 'react-bootstrap'
 
 export default function MusicItem() {
-  const navigate = useNavigate()
 
   const [musicItemData, setmusicItemData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
   const { id } = useParams()
-
 
   useEffect(() => {
     async function getMusicItemData() {
@@ -30,8 +28,6 @@ export default function MusicItem() {
     }
     getMusicItemData()
   }, [id])
-
-
 
   const saveMusicItem = async (e) => {
     e.preventDefault()
@@ -101,5 +97,4 @@ export default function MusicItem() {
       </Container >
     </>
   )
-
 }

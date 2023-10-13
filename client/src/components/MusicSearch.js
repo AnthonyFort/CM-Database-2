@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
-import MusicItem from './MusicItem'
-import { Button, Container, Row, Col, Form, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Button, Container, Form, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 
 export default function MusicSearch() {
 
   const [currentUser, setCurrentUser] = useState()
-
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false)
-
+  const [allMusic, setAllMusic] = useState([])
+  const [searchedMusic, setSearchedMusic] = useState([])
   const [formData, setFormData] = useState({
     keyword: '',
     book: '',
     chapter: '',
   })
-
-  const [allMusic, setAllMusic] = useState([])
-  const [searchedMusic, setSearchedMusic] = useState([])
-
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -94,7 +90,6 @@ export default function MusicSearch() {
     setSearchedMusic(rankedMusic)
     setSubmitButtonClicked(true)
   }
-
 
   if (!currentUser) return <div>Unauthorised</div>
 

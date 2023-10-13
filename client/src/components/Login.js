@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { getToken, setToken, getPayload } from '../lib/auth'
+import { setToken, getPayload } from '../lib/auth'
 import { useNavigate } from 'react-router-dom'
-import axiosAuth from '../lib/axios'
 import ErrorModal from './ErrorModal'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 
@@ -12,16 +11,13 @@ export default function Login({ getCurrentUser }) {
     username: '',
     password: '',
   })
-
   const [errorMessage, setErrorMessage] = useState('')
   const [showErrorModal, setShowErrorModal] = useState(false)
   const navigate = useNavigate()
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault()

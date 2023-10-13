@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap'
-
 import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
-import axiosAuth from '../lib/axios'
-
 
 export default function NavBar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()

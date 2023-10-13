@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 import { Container, Row, Col, Form, ListGroup } from 'react-bootstrap'
@@ -8,8 +7,9 @@ export default function ChurchSearch() {
 
   const [allChurches, setAllChurches] = useState([])
   const [churches, setChurches] = useState()
-
   const [currentUser, setCurrentUser] = useState()
+  const [searchInput, setSearchInput] = useState('')
+  const [searchBy, setSearchBy] = useState('church')
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -22,7 +22,6 @@ export default function ChurchSearch() {
     }
     getCurrentUser()
   }, [])
-
 
   useEffect(() => {
     async function getUserData() {
@@ -44,11 +43,7 @@ export default function ChurchSearch() {
     setChurches(newSearchedChurches)
     console.log('SEARCHED', newSearchedChurches)
   }
-
-
-
-  const [searchInput, setSearchInput] = useState('')
-  const [searchBy, setSearchBy] = useState('church')
+  
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value)
   }

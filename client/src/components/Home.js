@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button, Container, Row, Col, Image } from 'react-bootstrap'
-
 import logo from '../images/logo.png'
-
 
 export default function Home() {
   return (
