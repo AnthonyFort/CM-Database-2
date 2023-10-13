@@ -30,7 +30,6 @@ export default function ChurchSearch() {
         const { data } = await axiosAuth.get('/api/auth')
         data.sort()
         setAllChurches(data)
-        console.log('ALL CHURCHES', allChurches)
         setChurches(data)
       } catch (error) {
         console.log(error)
