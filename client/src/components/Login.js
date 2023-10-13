@@ -29,6 +29,7 @@ export default function Login({ getCurrentUser }) {
     }
     try {
       const { data } = await axios.post('/api/auth/login/', formData)
+      console.log(data)
       setToken('access-token', data.access)
       setToken('refresh-token', data.refresh)
       await getCurrentUser()
