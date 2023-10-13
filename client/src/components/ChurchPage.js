@@ -8,7 +8,7 @@ import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormCon
 
 export default function ChurchPage() {
   const navigate = useNavigate()
-  const [churchData, setChurchData] = useState(null)
+  const [churchData, setChurchData] = useState({ past_services: [] })
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
