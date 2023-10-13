@@ -159,7 +159,7 @@ export default function ChurchPage() {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
-  if (!churchData) return <div>Unauthorised</div>
+  if (!churchData) return <div>Loading</div>
 
   return (
     <>
