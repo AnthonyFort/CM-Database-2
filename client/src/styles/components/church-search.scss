@@ -1,0 +1,23 @@
+
+.container {
+  padding: 2rem 0; 
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.search-input {
+  margin: 1rem 0;
+}
+
+.list-item {
+  margin: 0.5rem 0;
+  transition: background-color 0.3s;
+}
+
+.list-item:hover {
+  background-color: #f8f9fa; 
+}

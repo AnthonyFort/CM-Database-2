@@ -61,7 +61,7 @@ export default function ChurchSearch() {
         </Col>
       </Row>
 
-      <Row className="mt-4">
+      <Row className="m-4">
         <Col>
           <ListGroup>
             {churches && churches.map(church => (
