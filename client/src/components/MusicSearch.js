@@ -23,7 +23,7 @@ export default function MusicSearch() {
   useEffect(() => {
     async function getCurrentUser() {
       try {
-        const { data } = await axiosAuth.get('/api/auth/current')
+        const { data } = await axiosAuth.get('/api/auth/current/')
         setCurrentUser(data)
       } catch (error) {
         console.log(error)

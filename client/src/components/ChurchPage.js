@@ -39,7 +39,7 @@ export default function ChurchPage() {
   })
   async function getChurchData() {
     try {
-      const { data } = await axiosAuth.get(`/api/auth/${id}`)
+      const { data } = await axiosAuth.get(`/api/auth/${id}/`)
       if (data.past_services) {
         data.past_services.sort((a, b) => {     
           return new Date(b.date_of_service) - new Date(a.date_of_service)
