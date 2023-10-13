@@ -46,7 +46,7 @@ export default function Register() {
     <>
       {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <div className='form'>
-        <h1 className="mt-5">Register</h1>
+        <h1 className="mt-5">Sign Up</h1>
         <Container className="mt-1">
           <Row className="justify-content-md-center">
             <Col xs={12} md={6} lg={4}>
