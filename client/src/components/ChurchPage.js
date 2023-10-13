@@ -191,7 +191,7 @@ export default function ChurchPage() {
                   />
                 </Form.Group>
                 <Button variant="primary" onClick={addMusicItem}>Add Music Item</Button>
-                {newService.music_items.map((musicItem, index) => (
+                {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
                   <div key={index}>
 
                     <InputGroup className="mb-3">
@@ -213,7 +213,7 @@ export default function ChurchPage() {
                     </InputGroup>
 
                     <div>
-                      {musicItem.keywords.map((k, keywordIndex) => (
+                      {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
                         <InputGroup key={keywordIndex} className="mb-3">
                           <InputGroup.Text>Keyword:</InputGroup.Text>
                           <Form.Control
@@ -228,7 +228,7 @@ export default function ChurchPage() {
 
                     <div>
                       <h4>Related Readings</h4>
-                      {musicItem.related_readings.map((reading, readingIndex) => (
+                      {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
                         <div key={readingIndex}>
                           <InputGroup className="mb-3">
                             <InputGroup.Text>Book:</InputGroup.Text>
@@ -278,7 +278,7 @@ export default function ChurchPage() {
         )}
         <section>
           <h2>Past Services</h2>
-          {churchData.past_services && churchData.past_services.map((service) => (
+          {churchData.past_services && Array.isArray(churchData.past_services) && churchData.past_services.map((service) => (
             <Card className="mb-4" key={service.date_of_service}>
               <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
               <Card.Body>
@@ -296,7 +296,7 @@ export default function ChurchPage() {
                       </ul>
                       <ul>
                         <h4>Related Readings</h4>
-                        {item.related_readings.map((reading, index) => (
+                        {item.related_readings && Array.isArray(item.related_readings) && item.related_readings.map((reading, index) => (
                           <li key={index}>
                             <h5>{reading.book} {reading.chapter}:{reading.start_verse}-{reading.end_verse}</h5>
                             <p>{reading.text}</p>
