@@ -39,7 +39,7 @@ export default function ChurchPage() {
   })
   async function getChurchData() {
     try {
-      const { data } = await axiosAuth.get(`/api/auth/${id}/`)
+      const { data } = await axiosAuth.get(`/api/auth/${id}`)
       if (data.past_services) {
         data.past_services.sort((a, b) => {     
           return new Date(b.date_of_service) - new Date(a.date_of_service)
@@ -278,7 +278,7 @@ export default function ChurchPage() {
         )}
         <section>
           <h2>Past Services</h2>
-          {churchData.past_services?.map((service) => (
+          {churchData.past_services && churchData.past_services.map((service) => (
             <Card className="mb-4" key={service.date_of_service}>
               <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
               <Card.Body>
