@@ -209,7 +209,7 @@ export default function ChurchPage() {
                     onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
                   />
                 </Form.Group>
-                <Button variant="primary" onClick={addMusicItem}>Add Music Item</Button>
+                <Button variant="secondary" onClick={addMusicItem} className="m-3">Add Music Item</Button>
                 {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
                   <div key={index}>
 
@@ -247,7 +247,7 @@ export default function ChurchPage() {
                           )}
                         </InputGroup>
                       ))}
-                      <Button onClick={() => addKeyword(index)}>Add Keyword</Button>
+                      <Button variant="secondary" className="m-3" onClick={() => addKeyword(index)}>Add Keyword</Button>
                     </div>
 
                     <div>
@@ -289,21 +289,21 @@ export default function ChurchPage() {
                               aria-label="End Verse of the Related Reading"
                             />
                             {musicItem.related_readings.length > 1 && (
-                              <Button variant="outline-danger" onClick={() => removeReading(index, readingIndex)}>Remove Reading</Button>
+                              <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index, readingIndex)}>Remove Reading</Button>
                             )}
                           </InputGroup>
                         </div>
                       ))}
-                      <Button onClick={() => addReading(index)}>Add Reading</Button>
+                      <Button variant="secondary" className="m-3" onClick={() => addReading(index)}>Add Reading</Button>
 
                     </div>
                     {newService.music_items.length > 1 && (
-                      <Button variant="outline-danger" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
+                      <Button variant="outline-danger" className="m-3" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
                     )}
                   </div>
                 ))}
 
-                <Button type="submit" >Submit</Button>
+                <Button type="submit" className="m-3" >Submit</Button>
               </Form>
             )}
           </>
@@ -317,7 +317,7 @@ export default function ChurchPage() {
                 <ListGroup variant="flush">
                   {service.music_items.map((item) => (
                     <ListGroup.Item key={item.id}>
-                      <strong>{item.title}</strong> by {item.composer}
+                      <h3><strong>{item.title}</strong> by {item.composer}</h3>
                       <ul>
                         <h4>Keywords</h4>
                         {item.keywords.map((keyword, index) => (

@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap'
 import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
+import logo from '../images/logo.png'
 
 export default function NavBar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()
-  const [navBarOpen, setNavBarOpen] = useState(false) 
+  const [navBarOpen, setNavBarOpen] = useState(false)
 
   if (!currentUser) return <div></div>
 
@@ -13,15 +14,21 @@ export default function NavBar({ currentUser, setCurrentUser }) {
     <div className='nav-wrapper'>
       {currentUser && (
         <Navbar
-          bg="light"
+          class="navbar navbar-dark bg-success"
+          // style={{ backgroundColor: '#4729BF' }}
           expand="lg"
-          className="nav-bar"
+          className="nav-bar text-white"
           expanded={navBarOpen}
           onToggle={(expanded) => setNavBarOpen(expanded)}
         >
           <Container>
-            <Navbar.Brand href="/">CM Database</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav:" />
+            <Navbar.Brand href="/">
+              <img src={logo} alt="CM Database Logo" height="50" className="d-inline-block align-top" /></Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav">
+              Click for more
+            </Navbar.Toggle>
+
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/music-search" onSelect={() => setNavBarOpen(false)}>Music Search</Nav.Link>
@@ -43,4 +50,3 @@ export default function NavBar({ currentUser, setCurrentUser }) {
     </div>
   )
 }
-
