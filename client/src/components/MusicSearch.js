@@ -79,6 +79,7 @@ export default function MusicSearch() {
 
     const uniqueResults = Array.from(new Map(results.map(item => [item.id, item])).values())
     if (Array.isArray(uniqueResults)) {
+      console.log('IS ARRAY')
       return uniqueResults.sort((a, b) => b.score - a.score)
     } else {
       console.log('NOT AN ARRAY')
