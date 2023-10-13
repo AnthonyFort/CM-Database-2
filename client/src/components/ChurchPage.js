@@ -163,7 +163,7 @@ export default function ChurchPage() {
 
   return (
     <>
-      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
+      {/* {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <Container>
         <h1>{churchData.church}</h1>
         {currentUser && currentUser.id === churchData.id && (
@@ -310,7 +310,8 @@ export default function ChurchPage() {
             </Card>
           ))}
         </section>
-      </Container>
+      </Container> */}
+      <h1>HELLO WORLD</h1>
     </>
   )
 }
