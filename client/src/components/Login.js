@@ -35,7 +35,7 @@ export default function Login({ getCurrentUser }) {
       await getCurrentUser()
       navigate(`/church-page/${getPayload('access-token').user_id}`)
     } catch (error) {
-      console.log(error)
+      console.log('LOGIN ERROR', error)
       setErrorMessage(error.message)
       setShowErrorModal(true)
     }
