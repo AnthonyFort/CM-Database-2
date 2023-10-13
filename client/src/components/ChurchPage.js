@@ -41,7 +41,7 @@ export default function ChurchPage() {
     try {
       const { data } = await axiosAuth.get(`/api/auth/${id}`)
       if (data.past_services) {
-        data.past_services.sort((a, b) => {     
+        data.past_services.sort((a, b) => {
           return new Date(b.date_of_service) - new Date(a.date_of_service)
         })
       }
@@ -51,7 +51,7 @@ export default function ChurchPage() {
     }
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     getChurchData()
   }, [id])
 
@@ -69,6 +69,7 @@ export default function ChurchPage() {
       if (data) {
         getChurchData()
       }
+      setShowFormFields(!showFormFields)
     } catch (error) {
       console.error(error)
       setErrorMessage(error.message)
@@ -159,11 +160,29 @@ export default function ChurchPage() {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
-  if (!churchData) return <div>Loading</div>
+  const removeKeyword = (index, keywordIndex) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems[index].keywords.splice(keywordIndex, 1)
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+
+  const removeReading = (index, ReadingIndex) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems[index].related_readings.splice(ReadingIndex, 1)
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+
+  const removeMusicItem = (index) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems.splice(index, 1)
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+
+  if (!churchData) return <div>Unauthorised</div>
 
   return (
     <>
-      {/* {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
+      {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
       <Container>
         <h1>{churchData.church}</h1>
         {currentUser && currentUser.id === churchData.id && (
@@ -201,6 +220,8 @@ export default function ChurchPage() {
                         onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
                         aria-label="Title of the Music Item"
                       />
+
+
                     </InputGroup>
 
                     <InputGroup className="mb-3">
@@ -221,6 +242,9 @@ export default function ChurchPage() {
                             onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
                             aria-label="Keyword for the Music Item"
                           />
+                          {musicItem.keywords.length > 1 && (
+                            <Button variant="outline-danger" onClick={() => removeKeyword(index, keywordIndex)}>Remove Keyword</Button>
+                          )}
                         </InputGroup>
                       ))}
                       <Button onClick={() => addKeyword(index)}>Add Keyword</Button>
@@ -264,14 +288,22 @@ export default function ChurchPage() {
                               onChange={event => handleReadingChange(index, readingIndex, 'end_verse', event.target.value)}
                               aria-label="End Verse of the Related Reading"
                             />
+                            {musicItem.related_readings.length > 1 && (
+                              <Button variant="outline-danger" onClick={() => removeReading(index, readingIndex)}>Remove Reading</Button>
+                            )}
                           </InputGroup>
                         </div>
                       ))}
                       <Button onClick={() => addReading(index)}>Add Reading</Button>
+
                     </div>
+                    {newService.music_items.length > 1 && (
+                      <Button variant="outline-danger" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
+                    )}
                   </div>
                 ))}
-                <Button type="submit">Submit</Button>
+
+                <Button type="submit" >Submit</Button>
               </Form>
             )}
           </>
@@ -310,8 +342,7 @@ export default function ChurchPage() {
             </Card>
           ))}
         </section>
-      </Container> */}
-      <h1>HELLO WORLD</h1>
+      </Container>
     </>
   )
 }
