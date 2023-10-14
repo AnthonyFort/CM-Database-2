@@ -39,7 +39,7 @@ export default function ChurchPage() {
   })
   async function getChurchData() {
     try {
-      const { data } = await axiosAuth.get(`/api/auth/${id}`)
+      const { data } = await axiosAuth.get(`/api/auth/${id}/`)
       if (data.past_services) {
         data.past_services.sort((a, b) => {
           return new Date(b.date_of_service) - new Date(a.date_of_service)
@@ -80,7 +80,7 @@ export default function ChurchPage() {
   useEffect(() => {
     async function getCurrentUser() {
       try {
-        const { data } = await axiosAuth.get('/api/auth/current')
+        const { data } = await axiosAuth.get('/api/auth/current/')
         setCurrentUser(data)
       } catch (error) {
         console.log(error)
