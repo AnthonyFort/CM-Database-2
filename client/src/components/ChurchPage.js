@@ -1,13 +1,13 @@
 
 
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
 import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormControl, Modal } from 'react-bootstrap'
 
 export default function ChurchPage() {
-  const navigate = useNavigate()
+
   const [churchData, setChurchData] = useState({ past_services: [] })
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -53,7 +53,7 @@ export default function ChurchPage() {
 
   useEffect(() => {
     getChurchData()
-  }, [id])
+  }, [id,churchData])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -178,6 +178,21 @@ export default function ChurchPage() {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  async function deleteService(serviceId) {
+    try {
+      await axiosAuth.delete(`/api/services/${serviceId}`)
+      const remainingServices = churchData.past_services.filter(item => (
+        item.id !== parseInt(serviceId)
+      ))
+      setChurchData(remainingServices)
+    } catch (error) {
+      console.log(serviceId)
+      console.log(churchData.past_services[0].id)
+      console.log(error)
+      setShowErrorModal(true)
+    }
+  }
+
   if (!churchData) return <div>Unauthorised</div>
 
   return (
@@ -220,7 +235,6 @@ export default function ChurchPage() {
                         onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
                         aria-label="Title of the Music Item"
                       />
-
 
                     </InputGroup>
 
@@ -336,9 +350,11 @@ export default function ChurchPage() {
                         ))}
                       </ul>
                     </ListGroup.Item>
+                    
                   ))}
                 </ListGroup>
               </Card.Body>
+              <Button variant="outline-danger" className="m-3" onClick={() => deleteService(service.id)}>Delete Service</Button>
             </Card>
           ))}
         </section>

@@ -20,7 +20,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = ('date_of_service', 'type_of_service', 'music_items')
+        fields = ('id', 'date_of_service', 'type_of_service', 'music_items')
 
     def fetch_reading_text(self, reading):
         book = reading.get('book')
@@ -91,7 +91,7 @@ class ServiceSerializerForChurch(serializers.ModelSerializer):
 
   class Meta:
     model = Service
-    fields = ['music_items', 'date_of_service', 'type_of_service']
+    fields = ['id', 'music_items', 'date_of_service', 'type_of_service']
 
   def create(self, validated_data):
    
