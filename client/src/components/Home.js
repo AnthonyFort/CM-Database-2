@@ -10,7 +10,7 @@ export default function Home() {
           <Image src={logo} className='logo' roundedCircle fluid />  
           <div className='homepage-blurb'>
             <p>
-              Welcome to CM Database, a powerful tool for church musicians to find music for any occasion.
+              Welcome to CM Database, a handy tool for church musicians to find music for any occasion.
             </p>
             <p>
               Just search for the related Bible readings or keywords for the service, and we’ll do the rest.

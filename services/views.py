@@ -19,11 +19,9 @@ class PastServiceView(GenericAPIView):
 
 class PastServiceListView(PastServiceView, UserListCreateAPIView):
   permission_classes = [IsAuthenticated]
-  serializer_class=ServiceSerializer  
-
+  
 class PastServiceDetaillView(PastServiceView, RetrieveUpdateDestroyAPIView):
   permission_classes = [IsOwnerOrReadOnly]
-  serializer_class=ServiceSerializer  
 
   def patch(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -32,3 +30,4 @@ class PastServiceDetaillView(PastServiceView, RetrieveUpdateDestroyAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+  

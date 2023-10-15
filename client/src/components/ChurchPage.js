@@ -14,6 +14,7 @@ export default function ChurchPage() {
   const { id } = useParams()
   const [currentUser, setCurrentUser] = useState()
   const [showFormFields, setShowFormFields] = useState(false)
+  const [serviceInfoChanged, setServiceInfoChanged] = useState(false)
   const [newService, setNewService] = useState({
     date_of_service: '',
     type_of_service: '',
@@ -52,8 +53,8 @@ export default function ChurchPage() {
   }
 
   useEffect(() => {
-    getChurchData()
-  }, [id,churchData])
+    getChurchData() 
+  }, [id])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -185,10 +186,11 @@ export default function ChurchPage() {
         item.id !== parseInt(serviceId)
       ))
       setChurchData(remainingServices)
+      setServiceInfoChanged(!serviceInfoChanged)
     } catch (error) {
       console.log(serviceId)
-      console.log(churchData.past_services[0].id)
-      console.log(error)
+      console.log(currentUser)
+      console.log('ERROR', error)
       setShowErrorModal(true)
     }
   }

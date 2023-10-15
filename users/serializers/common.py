@@ -1,8 +1,8 @@
-from typing import Any, Dict
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+
 from services.models import Service
-from services.serializers.common import ServiceSerializer, ServiceSerializerForChurch
+from services.serializers.common import ServiceSerializer
 
 User = get_user_model()
 
@@ -34,19 +34,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'church', 'past_services')
 
-class SimplifiedUserSerializer(serializers.ModelSerializer):
-  past_services = ServiceSerializerForChurch(many=True, read_only=True)
-  class Meta:
-    model = User
-    fields = ['id', 'username', 'church', 'past_services' ]
+    def create(self, validated_data):  
+      past_services_data = validated_data.pop('past_services')
+      user = User.objects.create(**validated_data)
 
-  def create(self, validated_data):  
-    past_services_data = validated_data.pop('past_services')
-    user = User.objects.create(**validated_data)
+      for past_service_data in past_services_data:
+        past_service, created = Service.objects.get_or_create(**past_service_data)
+        user.past_services.add(past_service)
 
-    for past_service_data in past_services_data:
-      past_service, created = Service.objects.get_or_create(**past_service_data)
-      user.past_services.add(past_service)
+      return user    
 
-    return user
-  
+

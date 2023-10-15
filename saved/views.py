@@ -22,26 +22,20 @@ class SavedMusicItemsView(UserListCreateAPIView, RetrieveUpdateDestroyAPIView):
     music_item_id = request.data.get('music_item')
     if not music_item_id:
         return Response({'error': 'music_item_id not provided in request body'})
-
     try:
         music_item = MusicItem.objects.get(id=music_item_id)
     except MusicItem.DoesNotExist:
         return Response({'error': 'Music item does not exist'})  
-
     if SavedMusic.objects.filter(user=request.user, music_item=music_item).exists():
-        return Response({'error': 'Music item already saved'})
-    
+        return Response({'error': 'Music item already saved'})    
     SavedMusic.objects.create(user=request.user, music_item=music_item)
-
     return Response({'message': 'Music item saved'})
   
   def destroy(self, request, *args, **kwargs):
-     saved_music_item = kwargs.get('pk')
-     
+     saved_music_item = kwargs.get('pk')   
      try:
       saved_music_item = SavedMusic.objects.get(id=saved_music_item, user=request.user)
      except SavedMusic.DoesNotExist:
       return Response({'error': 'Music item not found'})
-
      saved_music_item.delete()
      return Response ({'message': 'Saved music item removed'})
