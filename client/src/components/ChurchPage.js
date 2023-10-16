@@ -82,7 +82,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   }
 
-  // Here is where the input fields are updated
+  // This is where form fields are updated
 
   const handleMusicItemChange = (index, updates, keywordIndex, readingIndex) => {
     const updatedMusicItems = [...newService.music_items]
@@ -104,26 +104,24 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  // This is where new form fields are created or deleted
+
   const addMusicItem = () => {
-    setNewService({
-      ...newService,
-      music_items: [
-        ...newService.music_items,
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems.push({
+      title: '',
+      composer: '',
+      keywords: [],
+      related_readings: [
         {
-          title: '',
-          composer: '',
-          keywords: [],
-          related_readings: [
-            {
-              book: '',
-              chapter: '',
-              start_verse: '',
-              end_verse: '',
-            }
-          ],
+          book: '',
+          chapter: '',
+          start_verse: '',
+          end_verse: '',
         }
-      ],
+      ],    
     })
+    setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
   const addKeyword = (index) => {
@@ -149,6 +147,12 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  const removeMusicItem = (index) => {
+    const updatedMusicItems = [...newService.music_items]
+    updatedMusicItems.splice(index, 1)
+    setNewService({ ...newService, music_items: updatedMusicItems })
+  }
+
   const removeKeyword = (index, keywordIndex) => {
     const updatedMusicItems = [...newService.music_items]
     updatedMusicItems[index].keywords.splice(keywordIndex, 1)
@@ -161,24 +165,15 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
-  const removeMusicItem = (index) => {
-    const updatedMusicItems = [...newService.music_items]
-    updatedMusicItems.splice(index, 1)
-    setNewService({ ...newService, music_items: updatedMusicItems })
-  }
-
   async function deleteService(serviceId) {
     try {
-      await axiosAuth.delete(`/api/services/${serviceId}`)
+      await axiosAuth.delete(`/api/services/${serviceId}/`)
       const remainingServices = churchData.past_services.filter(item => (
         item.id !== parseInt(serviceId)
       ))
       setChurchData(remainingServices)
       setServiceInfoChanged(!serviceInfoChanged)
     } catch (error) {
-      console.log(serviceId)
-      console.log(currentUser)
-      console.log('ERROR', error)
       setShowErrorModal(true)
     }
   }
