@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
-import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormControl, Modal } from 'react-bootstrap'
+import { Button, Container, InputGroup, Card, ListGroup, Form, FormControl } from 'react-bootstrap'
 
 export default function ChurchPage({ currentUser, getCurrentUser }) {
 
@@ -160,9 +160,9 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
   const handleShowUpdate = (service) => {
     setServiceToUpdate(service)
-    console.log(service)
     setShowUpdateServiceForm(true)
-    console.log(setShowUpdateServiceForm)
+    setShowFormFields(true)
+    setFormType('update')
   }
 
   const handleValidation = () => {
