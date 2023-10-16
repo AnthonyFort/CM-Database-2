@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Container, Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap'
 import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
@@ -14,8 +14,7 @@ export default function NavBar({ currentUser, setCurrentUser }) {
     <div className='nav-wrapper'>
       {currentUser && (
         <Navbar
-          class="navbar navbar-dark bg-success"
-          // style={{ backgroundColor: '#4729BF' }}
+          class="navbar bg-success"
           expand="lg"
           className="nav-bar text-white"
           expanded={navBarOpen}
@@ -23,7 +22,8 @@ export default function NavBar({ currentUser, setCurrentUser }) {
         >
           <Container>
             <Navbar.Brand href="/">
-              <img src={logo} alt="CM Database Logo" height="50" className="d-inline-block align-top" /></Navbar.Brand>
+              <img src={logo} alt="CM Database Logo" height="50" className="d-inline-block align-top" />
+            </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="basic-navbar-nav">
               Click for more

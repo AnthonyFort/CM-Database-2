@@ -6,13 +6,12 @@ import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
 import { Button, Container, Row, Col, InputGroup, Card, ListGroup, Form, FormControl, Modal } from 'react-bootstrap'
 
-export default function ChurchPage() {
+export default function ChurchPage({ currentUser, getCurrentUser }) {
 
   const [churchData, setChurchData] = useState({ past_services: [] })
   const [showErrorModal, setShowErrorModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
-  const [currentUser, setCurrentUser] = useState()
   const [showFormFields, setShowFormFields] = useState(false)
   const [serviceInfoChanged, setServiceInfoChanged] = useState(false)
   const [newService, setNewService] = useState({
@@ -51,10 +50,15 @@ export default function ChurchPage() {
       console.error(error)
     }
   }
-
   useEffect(() => {
     getChurchData() 
   }, [id])
+
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  // Here is where the axios post is made, adding a new service
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -78,21 +82,25 @@ export default function ChurchPage() {
     }
   }
 
-  useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const { data } = await axiosAuth.get('/api/auth/current/')
-        setCurrentUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getCurrentUser()
-  }, [])
+  // Here is where the input fields are updated
 
-  const handleMusicItemChange = (index, key, value) => {
+  const handleMusicItemChange = (index, updates, keywordIndex, readingIndex) => {
     const updatedMusicItems = [...newService.music_items]
-    updatedMusicItems[index][key] = value
+    let itemToUpdate = updatedMusicItems[index]
+    if (typeof keywordIndex !== 'undefined') {
+      itemToUpdate = itemToUpdate.keywords[keywordIndex]
+    } else if (typeof readingIndex !== 'undefined'){
+      if (!itemToUpdate.related_readings[readingIndex]) {
+        itemToUpdate.related_readings[readingIndex] = {
+          book: '',
+          chapter: '',
+          start_verse: '',
+          end_verse: '',
+        }
+      }
+      itemToUpdate = itemToUpdate.related_readings[readingIndex]
+    }
+    Object.assign(itemToUpdate, updates)
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
@@ -118,17 +126,12 @@ export default function ChurchPage() {
     })
   }
 
-  const handleReadingChange = (index, readingIndex, key, value) => {
+  const addKeyword = (index) => {
     const updatedMusicItems = [...newService.music_items]
-    if (!updatedMusicItems[index].related_readings[readingIndex]) {
-      updatedMusicItems[index].related_readings[readingIndex] = {
-        book: '',
-        chapter: '',
-        start_verse: '',
-        end_verse: '',
-      }
+    if (!updatedMusicItems[index].keywords) {
+      updatedMusicItems[index].keywords = []
     }
-    updatedMusicItems[index].related_readings[readingIndex][key] = value
+    updatedMusicItems[index].keywords.push({ keyword: '' })
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
@@ -143,21 +146,6 @@ export default function ChurchPage() {
       start_verse: '',
       end_verse: '',
     })
-    setNewService({ ...newService, music_items: updatedMusicItems })
-  }
-
-  const handleKeywordChange = (index, keywordIndex, value) => {
-    const updatedMusicItems = [...newService.music_items]
-    updatedMusicItems[index].keywords[keywordIndex].keyword = value
-    setNewService({ ...newService, music_items: updatedMusicItems })
-  }
-
-  const addKeyword = (index) => {
-    const updatedMusicItems = [...newService.music_items]
-    if (!updatedMusicItems[index].keywords) {
-      updatedMusicItems[index].keywords = []
-    }
-    updatedMusicItems[index].keywords.push({ keyword: '' })
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
@@ -234,7 +222,7 @@ export default function ChurchPage() {
                       <InputGroup.Text>Title:</InputGroup.Text>
                       <Form.Control
                         value={musicItem.title}
-                        onChange={event => handleMusicItemChange(index, 'title', event.target.value)}
+                        onChange={event => handleMusicItemChange(index, { title: event.target.value })}
                         aria-label="Title of the Music Item"
                       />
 
@@ -244,7 +232,7 @@ export default function ChurchPage() {
                       <InputGroup.Text>Composer:</InputGroup.Text>
                       <Form.Control
                         value={musicItem.composer}
-                        onChange={event => handleMusicItemChange(index, 'composer', event.target.value)}
+                        onChange={event => handleMusicItemChange(index, { composer: event.target.value })}
                         aria-label="Composer of the Music Item"
                       />
                     </InputGroup>
@@ -255,7 +243,7 @@ export default function ChurchPage() {
                           <InputGroup.Text>Keyword:</InputGroup.Text>
                           <Form.Control
                             value={k.keyword}
-                            onChange={e => handleKeywordChange(index, keywordIndex, e.target.value)}
+                            onChange={e => handleMusicItemChange(index, { keyword: e.target.value }, keywordIndex)}
                             aria-label="Keyword for the Music Item"
                           />
                           {musicItem.keywords.length > 1 && (
@@ -274,7 +262,7 @@ export default function ChurchPage() {
                             <InputGroup.Text>Book:</InputGroup.Text>
                             <Form.Control
                               value={reading.book}
-                              onChange={event => handleReadingChange(index, readingIndex, 'book', event.target.value)}
+                              onChange={event => handleMusicItemChange(index, { book: event.target.value }, undefined, readingIndex)}
                               aria-label="Book of the Related Reading"
                             />
                           </InputGroup>
@@ -283,7 +271,7 @@ export default function ChurchPage() {
                             <InputGroup.Text>Chapter:</InputGroup.Text>
                             <Form.Control
                               value={reading.chapter}
-                              onChange={event => handleReadingChange(index, readingIndex, 'chapter', event.target.value)}
+                              onChange={event => handleMusicItemChange(index, { chapter: event.target.value }, undefined, readingIndex)}
                               aria-label="Chapter of the Related Reading"
                             />
                           </InputGroup>
@@ -292,7 +280,7 @@ export default function ChurchPage() {
                             <InputGroup.Text>Start Verse:</InputGroup.Text>
                             <Form.Control
                               value={reading.start_verse}
-                              onChange={event => handleReadingChange(index, readingIndex, 'start_verse', event.target.value)}
+                              onChange={event => handleMusicItemChange(index, { start_verse: event.target.value }, undefined, readingIndex)}
                               aria-label="Start Verse of the Related Reading"
                             />
                           </InputGroup>
@@ -301,7 +289,7 @@ export default function ChurchPage() {
                             <InputGroup.Text>End Verse:</InputGroup.Text>
                             <Form.Control
                               value={reading.end_verse}
-                              onChange={event => handleReadingChange(index, readingIndex, 'end_verse', event.target.value)}
+                              onChange={event => handleMusicItemChange(index, { end_verse: event.target.value }, undefined, readingIndex)}
                               aria-label="End Verse of the Related Reading"
                             />
                             {musicItem.related_readings.length > 1 && (

@@ -1,8 +1,5 @@
 import axiosAuth from './lib/axios'
-import { getToken } from './lib/auth'
-
 import { useEffect, useState } from 'react'
-
 import { Routes, Route } from 'react-router-dom'
 
 import ChurchPage from './components/ChurchPage'
@@ -17,7 +14,6 @@ import SavedMusicItems from './components/SavedMusicItems'
 import MusicItem from './components/MusicItem'
 
 export default function App() {
-
 
   const [currentUser, setCurrentUser] = useState()
   async function getCurrentUser() {
@@ -40,7 +36,7 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login getCurrentUser={getCurrentUser} />} />
-          <Route path='/church-page/:id' element={<ChurchPage />} />
+          <Route path='/church-page/:id' element={<ChurchPage currentUser={currentUser} getCurrentUser={getCurrentUser} />} />
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />
           <Route path='/music-page/:id' element={<MusicItem />} />

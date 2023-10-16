@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { setToken, getPayload } from '../lib/auth'
 import { useNavigate } from 'react-router-dom'
@@ -29,13 +29,12 @@ export default function Login({ getCurrentUser }) {
     }
     try {
       const { data } = await axios.post('/api/auth/login/', formData)
-      console.log(data)
       setToken('access-token', data.access)
       setToken('refresh-token', data.refresh)
+      // by invoking getCurrentUser, current user state is updated, which triggers the nav bar to render
       await getCurrentUser()
       navigate(`/church-page/${getPayload('access-token').user_id}`)
     } catch (error) {
-      console.log('LOGIN ERROR', error)
       setErrorMessage(error.message)
       setShowErrorModal(true)
     }

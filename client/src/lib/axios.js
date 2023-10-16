@@ -14,19 +14,13 @@ axiosAuth.interceptors.request.use(async (config) => {
       const { data } = await axios.post('/api/auth/refresh/', {
         refresh: getToken('refresh-token'),
       })
-
       setToken('access-token', data.access)
-
     } else {
       throw new axios.Cancel('Session expired, please log in again.')
     }
   }
-
-
   config.headers.Authorization = `Bearer ${getToken('access-token')}`
-
   return config
 })
-
 
 export default axiosAuth
