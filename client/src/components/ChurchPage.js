@@ -14,6 +14,9 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
   const { id } = useParams()
   const [showFormFields, setShowFormFields] = useState(false)
   const [serviceInfoChanged, setServiceInfoChanged] = useState(false)
+  const [serviceToUpdate, setServiceToUpdate] = useState(null)
+  const [showUpdateServiceForm, setShowUpdateServiceForm] = useState(false)
+  const [formType, setFormType] = useState('create')
   const [newService, setNewService] = useState({
     date_of_service: '',
     type_of_service: '',
@@ -51,36 +54,13 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   }
   useEffect(() => {
-    getChurchData() 
+    getChurchData()
   }, [id])
 
   useEffect(() => {
     getCurrentUser()
   }, [])
 
-  // Here is where the axios post is made, adding a new service
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-
-    if (!newService.date_of_service || !newService.type_of_service || !newService.music_items.length) {
-      setErrorMessage('Please fill out all fields.')
-      setShowErrorModal(true)
-      return
-    }
-
-    try {
-      const { data } = await axiosAuth.post('/api/services/', newService)
-      if (data) {
-        getChurchData()
-      }
-      setShowFormFields(!showFormFields)
-    } catch (error) {
-      console.error(error)
-      setErrorMessage(error.message)
-      setShowErrorModal(true)
-    }
-  }
 
   // This is where form fields are updated
 
@@ -89,7 +69,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     let itemToUpdate = updatedMusicItems[index]
     if (typeof keywordIndex !== 'undefined') {
       itemToUpdate = itemToUpdate.keywords[keywordIndex]
-    } else if (typeof readingIndex !== 'undefined'){
+    } else if (typeof readingIndex !== 'undefined') {
       if (!itemToUpdate.related_readings[readingIndex]) {
         itemToUpdate.related_readings[readingIndex] = {
           book: '',
@@ -119,7 +99,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
           start_verse: '',
           end_verse: '',
         }
-      ],    
+      ],
     })
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
@@ -178,6 +158,69 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   }
 
+  const handleShowUpdate = (service) => {
+    setServiceToUpdate(service)
+    console.log(service)
+    setShowUpdateServiceForm(true)
+    console.log(setShowUpdateServiceForm)
+  }
+
+  const handleValidation = () => {
+    if (!newService.date_of_service || !newService.type_of_service || !newService.music_items.length) {
+      setErrorMessage('Please fill out all fields.')
+      setShowErrorModal(true)
+      return false
+    }
+    return true
+  }
+  
+  const handleCreateSubmit = async (event) => {
+    event.preventDefault()
+  
+    if (!handleValidation()) {
+      return
+    }
+  
+    try {
+      const response = await axiosAuth.post('/api/services/', newService)
+      const data = response.data
+  
+      if (data) {
+        getChurchData()
+        setShowFormFields(false)
+        setServiceToUpdate(null)
+      }
+    } catch (error) {
+      console.error(error)
+      setErrorMessage(error.message)
+      setShowErrorModal(true)
+    }
+  }
+  
+  const handleUpdateSubmit = async (event) => {
+    event.preventDefault()
+  
+    if (!handleValidation()) {
+      return
+    }
+  
+    try {
+      const response = await axiosAuth.put(`/api/services/${serviceToUpdate.id}/`, newService)
+      const data = response.data
+  
+      if (data) {
+        getChurchData()
+        setShowFormFields(false)
+        setServiceToUpdate(null)
+      }
+    } catch (error) {
+      console.error(error)
+      setErrorMessage(error.message)
+      setShowErrorModal(true)
+    }
+  }
+  
+
   if (!churchData) return <div>Unauthorised</div>
 
   return (
@@ -188,11 +231,15 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
         {currentUser && currentUser.id === churchData.id && (
           <>
 
-            <Button onClick={() => setShowFormFields(!showFormFields)}>
+            <Button onClick={() => {
+              setShowFormFields(!showFormFields)
+              setFormType('create')
+            }}>
               {showFormFields ? 'Hide Form' : 'Add Service'}
             </Button>
+
             {showFormFields && (
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit}>
                 <Form.Group>
                   <Form.Label>Date of Service:</Form.Label>
                   <Form.Control
@@ -302,15 +349,18 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                   </div>
                 ))}
 
-                <Button type="submit" className="m-3" >Submit</Button>
+                <Button type="submit" className="m-3">
+                  {formType === 'create' ? 'Add Service' : 'Update Service'}
+                </Button>
               </Form>
             )}
+
           </>
         )}
         <section>
           <h2>Past Services</h2>
           {churchData.past_services && Array.isArray(churchData.past_services) && churchData.past_services.map((service) => (
-            <Card className="mb-4" key={service.date_of_service}>
+            <Card className="mb-4" key={service.id}>
               <Card.Header>{service.date_of_service} - {service.type_of_service}</Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
@@ -335,10 +385,11 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                         ))}
                       </ul>
                     </ListGroup.Item>
-                    
+
                   ))}
                 </ListGroup>
               </Card.Body>
+              <Button className="btn-primary m-2" onClick={() => handleShowUpdate(service)}>Update Service</Button>
               <Button variant="outline-danger" className="m-3" onClick={() => deleteService(service.id)}>Delete Service</Button>
             </Card>
           ))}
