@@ -171,7 +171,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
       const remainingServices = churchData.past_services.filter(item => (
         item.id !== parseInt(serviceId)
       ))
-      setChurchData(remainingServices)
+      setChurchData({ ...churchData, past_services: remainingServices })
       setServiceInfoChanged(!serviceInfoChanged)
     } catch (error) {
       setShowErrorModal(true)
