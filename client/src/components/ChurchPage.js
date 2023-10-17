@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
-import { Button, Container, InputGroup, Card, ListGroup, Form, FormControl } from 'react-bootstrap'
+import { Button, Container, InputGroup, Card, ListGroup, Form } from 'react-bootstrap'
 
 export default function ChurchPage({ currentUser, getCurrentUser }) {
 
@@ -15,7 +15,6 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
   const [showFormFields, setShowFormFields] = useState(false)
   const [serviceInfoChanged, setServiceInfoChanged] = useState(false)
   const [serviceToUpdate, setServiceToUpdate] = useState(null)
-  const [showUpdateServiceForm, setShowUpdateServiceForm] = useState(false)
   const [formType, setFormType] = useState('create')
   const [newService, setNewService] = useState({
     date_of_service: '',
@@ -160,7 +159,6 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
   const handleShowUpdate = (service) => {
     setServiceToUpdate(service)
-    setShowUpdateServiceForm(true)
     setShowFormFields(true)
     setFormType('update')
   }
@@ -182,8 +180,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   
     try {
-      const response = await axiosAuth.post('/api/services/', newService)
-      const data = response.data
+      const { data } = await axiosAuth.post('/api/services/', newService)
   
       if (data) {
         getChurchData()

@@ -4,8 +4,6 @@ from keywords.serializers.common import KeywordSerializer
 from keywords.models import Keyword
 from readings.models import RelatedReading
 from readings.serializers.common import RelatedReadingSerializer
-from services.models import Service
-from users.models import User
 import requests
 
 def fetch_reading_text(book, chapter, start_verse, end_verse):
