@@ -199,14 +199,10 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
 
     try {
-      const response = await axiosAuth.put(`/api/services/${serviceToUpdate.id}/`, newService)
-      const data = response.data
-
-      if (data) {
-        getChurchData()
-        setShowFormFields(false)
-        setServiceToUpdate(null)
-      }
+      const { data } = await axiosAuth.put(`/api/services/${serviceToUpdate.id}/`, newService)
+      getChurchData()
+      setShowFormFields(false)
+      setServiceToUpdate(null)
     } catch (error) {
       console.error(error)
       setErrorMessage(error.message)
