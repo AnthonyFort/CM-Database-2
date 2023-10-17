@@ -171,40 +171,37 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
     return true
   }
-  
+
   const handleCreateSubmit = async (event) => {
     event.preventDefault()
-  
+
     if (!handleValidation()) {
       return
     }
-  
+
     try {
       const { data } = await axiosAuth.post('/api/services/', newService)
-  
-      if (data) {
-        getChurchData()
-        setShowFormFields(false)
-        setServiceToUpdate(null)
-      }
+      getChurchData()
+      setShowFormFields(false)
+      setServiceToUpdate(null)
     } catch (error) {
       console.error(error)
       setErrorMessage(error.message)
       setShowErrorModal(true)
     }
   }
-  
+
   const handleUpdateSubmit = async (event) => {
     event.preventDefault()
-  
+
     if (!handleValidation()) {
       return
     }
-  
+
     try {
       const response = await axiosAuth.put(`/api/services/${serviceToUpdate.id}/`, newService)
       const data = response.data
-  
+
       if (data) {
         getChurchData()
         setShowFormFields(false)
@@ -216,7 +213,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
       setShowErrorModal(true)
     }
   }
-  
+
 
   if (!churchData) return <div>Unauthorised</div>
 
