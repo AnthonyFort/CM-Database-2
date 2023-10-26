@@ -47,7 +47,7 @@ class MusicItemSerializer(serializers.ModelSerializer):
         keywords_data = validated_data.pop('keywords', [])
         related_readings_data = validated_data.pop('related_readings', [])
 
-        music_item, created = MusicItem.objects.get_or_create(
+        music_item, _ = MusicItem.objects.get_or_create(
             title=validated_data['title'],
             composer=validated_data['composer']
         )

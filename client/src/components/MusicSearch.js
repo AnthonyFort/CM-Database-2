@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
-import { Button, Container, Form, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Button, Container, Form, ListGroup } from 'react-bootstrap'
 
 
 export default function MusicSearch() {
@@ -79,10 +79,8 @@ export default function MusicSearch() {
 
     const uniqueResults = Array.from(new Map(results.map(item => [item.id, item])).values())
     if (Array.isArray(uniqueResults)) {
-      console.log('IS ARRAY')
       return uniqueResults.sort((a, b) => b.score - a.score)
     } else {
-      console.log('NOT AN ARRAY')
       return []
     }
   }
@@ -91,7 +89,6 @@ export default function MusicSearch() {
   const handleSubmit = (event) => {
     event.preventDefault()
     const rankedMusic = rankResults(formData.keyword, formData.book, formData.chapter)
-    console.log('RANKED MUSIC', rankedMusic)
     setSearchedMusic(rankedMusic)
     setSubmitButtonClicked(true)
   }

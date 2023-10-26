@@ -6,7 +6,7 @@ import { Container, Row, Col, Form, ListGroup } from 'react-bootstrap'
 export default function ChurchSearch() {
 
   const [allChurches, setAllChurches] = useState([])
-  const [churches, setChurches] = useState()
+  const [searchedChurches, setSearchedChurches] = useState()
   const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
@@ -25,9 +25,8 @@ export default function ChurchSearch() {
     async function getUserData() {
       try {
         const { data } = await axiosAuth.get('/api/auth/')
-        console.log(data)
         setAllChurches(data)
-        setChurches(data)
+        setSearchedChurches(data)
       } catch (error) {
         console.log(error)
       }
@@ -38,8 +37,7 @@ export default function ChurchSearch() {
   function handleKeyup(event) {
     const selectedChurches = [...allChurches]
     const newSearchedChurches = selectedChurches.filter(church => church.church.toLowerCase().includes(event.target.value.toLowerCase()))
-    setChurches(newSearchedChurches)
-    console.log('SEARCHED', newSearchedChurches)
+    setSearchedChurches(newSearchedChurches)
   }
 
   if (!currentUser) return <div>Unauthorised</div>
@@ -64,7 +62,7 @@ export default function ChurchSearch() {
       <Row className="m-4">
         <Col>
           <ListGroup>
-            {churches && churches.map(church => (
+            {searchedChurches && searchedChurches.map(church => (
               <ListGroup.Item key={church.id} >
                 <Link to={`/church-page/${church.id}`}>{church.church}</Link>
               </ListGroup.Item>

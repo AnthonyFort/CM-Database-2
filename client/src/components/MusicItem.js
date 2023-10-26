@@ -20,7 +20,6 @@ export default function MusicItem() {
           })
         }
         setmusicItemData(data)
-        console.log('MUSIC ITEM', musicItemData)
       } catch (error) {
         console.error(error)
         setShowErrorModal(true)
