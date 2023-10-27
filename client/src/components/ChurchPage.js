@@ -216,12 +216,12 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
   return (
     <>
       {showErrorModal && <ErrorModal show={showErrorModal} onClose={() => setShowErrorModal(false)} errorMessage={errorMessage} />}
-      <Container>
+      <Container >
         <h1>{churchData.church}</h1>
         {currentUser && currentUser.id === churchData.id && (
           <>
 
-            <Button onClick={() => {
+            <Button className="mb-2" onClick={() => {
               setShowFormFields(!showFormFields)
               setFormType('create')
             }}>
@@ -229,9 +229,9 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
             </Button>
 
             {showFormFields && (
-              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} >
-                <Row>
-                  <Col xs={12} md={6} lg={3}>
+              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} style={{ border: '1px solid #000', padding: '10px', margin: '10px' }} >
+                <Row >
+                  <Col xs={12} md={6} lg={2}>
 
                     <Form.Group style={{ display: 'inline' }} >
                       <Form.Control
@@ -253,9 +253,6 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                         placeholder='Type of Service (eg Mass)'
                       />
                     </Form.Group>
-                  </Col>
-                  <Col xs={12} md={4} lg={2}>
-                    <Button variant="secondary" onClick={addMusicItem} className="m-3">Add Music Item</Button>
                   </Col>
                 </Row>
                 {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
@@ -285,6 +282,12 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                       </Col>
 
                       <div>
+                        <Row>
+                          <Col xs={12} md={4} lg={2}>
+                            <Button variant="secondary" className="mb-2" onClick={() => addKeyword(index)}>More Keywords</Button>
+                          </Col>
+                        </Row>
+
                         {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
                           <Col xs={12} md={4} lg={2} key={keywordIndex}>
                             <InputGroup className="mb-3">
@@ -300,13 +303,17 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                             </InputGroup>
                           </Col>
                         ))}
-                        <Button variant="secondary" className="m-3" onClick={() => addKeyword(index)}>+</Button>
+
 
                       </div>
-                      <div>
-                        <h6 >Related Readings</h6>
+                      <div style={{ border: '1px solid #000', padding: '10px' }}>
+                        <Row>
+                          <Col xs={12} md={4} lg={2}>
+                            <Button variant="secondary" className="mb-2" onClick={() => addReading(index)} >More Readings</Button>
+                          </Col>
+                        </Row>
                         {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
-                          <Row key={readingIndex}>
+                          <Row key={readingIndex}  >
                             <Col xs={12} md={6} lg={2} >
                               <InputGroup className="mb-3">
                                 <Form.Control
@@ -352,7 +359,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                             </Col>
                           </Row>
                         ))}
-                        <Button variant="secondary" className="m-3" onClick={() => addReading(index)} >+</Button>
+
 
                       </div>
                       {
@@ -363,7 +370,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                     </Row>
                   </div>
                 ))}
-
+                <Button variant="secondary" onClick={addMusicItem} >More Music Items</Button>
                 <Button type="submit" className="m-3">
                   {formType === 'create' ? 'Add Service' : 'Update Service'}
                 </Button>
