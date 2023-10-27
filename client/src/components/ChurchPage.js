@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorModal from './ErrorModal'
 import axiosAuth from '../lib/axios'
-import { Button, Container, InputGroup, Card, ListGroup, Form } from 'react-bootstrap'
+import { Button, Container, InputGroup, Card, ListGroup, Form, Row, Col } from 'react-bootstrap'
 
 export default function ChurchPage({ currentUser, getCurrentUser }) {
 
@@ -230,122 +230,137 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
             {showFormFields && (
               <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} >
-                <Form.Group style={{ display: 'inline' }} >
-                  <Form.Control
-                    type="date"
-                    value={newService.date_of_service}
-                    onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
-                    class="service-form"
-                    style={{ display: 'inline', width: '20%' }}
-                  />
-                </Form.Group >
-                <Form.Group style={{ display: 'inline', width: '20%' }} >
-                  <Form.Control
-                    type="text"
-                    value={newService.type_of_service}
-                    onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
-                    class="service-form"
-                    style={{ display: 'inline', width: '20%' }}
-                    placeholder='Type of Service (eg Mass)'
-                  />
-                </Form.Group>
-                <Button variant="secondary" onClick={addMusicItem} className="m-3">Add Music Item</Button>
+                <Row>
+                  <Col xs={12} md={6} lg={3}>
+
+                    <Form.Group style={{ display: 'inline' }} >
+                      <Form.Control
+                        type="date"
+                        value={newService.date_of_service}
+                        onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
+                        class="service-form"
+
+                      />
+                    </Form.Group >
+                  </Col>
+                  <Col xs={12} md={4} lg={2}>
+                    <Form.Group >
+                      <Form.Control
+                        type="text"
+                        value={newService.type_of_service}
+                        onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
+                        class="service-form"
+                        placeholder='Type of Service (eg Mass)'
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col xs={12} md={4} lg={2}>
+                    <Button variant="secondary" onClick={addMusicItem} className="m-3">Add Music Item</Button>
+                  </Col>
+                </Row>
                 {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
                   <div key={index}>
-
-                    <InputGroup className="mb-3" style={{ display: 'inline', width: '20%' }} >
-                      <Form.Control
-                        value={musicItem.title}
-                        onChange={event => handleMusicItemChange(index, { title: event.target.value })}
-                        aria-label="Title of the Music Item"
-                        style={{ display: 'inline', width: '20%' }}
-                        placeholder='Title'
-                      />
-
-                    </InputGroup>
-
-                    <InputGroup className="mb-3" style={{ display: 'inline', width: '20%' }}>
-                      <Form.Control
-                        value={musicItem.composer}
-                        onChange={event => handleMusicItemChange(index, { composer: event.target.value })}
-                        aria-label="Composer of the Music Item"
-                        style={{ display: 'inline', width: '20%' }}
-                        placeholder='Composer'
-                      />
-                    </InputGroup>
-
-                    <div>
-                      {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
-                        <InputGroup key={keywordIndex} className="mb-3" style={{ display: 'inline', width: '10%' }}>
+                    <Row>
+                      <Col xs={12} md={4} lg={2}>
+                        <InputGroup className="mb-3" >
                           <Form.Control
-                            value={k.keyword}
-                            onChange={e => handleMusicItemChange(index, { keyword: e.target.value }, keywordIndex)}
-                            aria-label="Keyword for the Music Item"
-                            style={{ display: 'inline', width: '10%' }}
-                            placeholder='Keyword'
+                            value={musicItem.title}
+                            onChange={event => handleMusicItemChange(index, { title: event.target.value })}
+                            aria-label="Title of the Music Item"
+                            placeholder='Title'
                           />
-                          {musicItem.keywords.length > 1 && (
-                            <Button variant="outline-danger" onClick={() => removeKeyword(index, keywordIndex)} style={{ display: 'inline', width: '10%' }}>Remove Keyword</Button>
-                          )}
+
                         </InputGroup>
-                      ))}
-                      <Button variant="secondary" className="m-3" onClick={() => addKeyword(index)}>Add Keyword</Button>
-                    </div>
+                      </Col>
 
-                    <div>
-                      <h6 style={{ display: 'inline', width: '10%' }} >Related Readings</h6>
-                      {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
-                        <div key={readingIndex}>
-                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
-                            <Form.Control
-                              value={reading.book}
-                              onChange={event => handleMusicItemChange(index, { book: event.target.value }, undefined, readingIndex)}
-                              aria-label="Book of the Related Reading"
-                              style={{ display: 'inline', width: '10%' }}
-                              placeholder='Book'
-                            />
-                          </InputGroup>
+                      <Col xs={12} md={4} lg={2}>
+                        <InputGroup className="mb-3">
+                          <Form.Control
+                            value={musicItem.composer}
+                            onChange={event => handleMusicItemChange(index, { composer: event.target.value })}
+                            aria-label="Composer of the Music Item"
+                            placeholder='Composer'
+                          />
+                        </InputGroup>
+                      </Col>
 
-                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
-                            <Form.Control
-                              value={reading.chapter}
-                              onChange={event => handleMusicItemChange(index, { chapter: event.target.value }, undefined, readingIndex)}
-                              aria-label="Chapter of the Related Reading"
-                              style={{ display: 'inline', width: '10%' }}
-                              placeholder='Chapter'
-                            />
-                          </InputGroup>
+                      <div>
+                        {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
+                          <Col xs={12} md={4} lg={2} key={keywordIndex}>
+                            <InputGroup className="mb-3">
+                              <Form.Control
+                                value={k.keyword}
+                                onChange={e => handleMusicItemChange(index, { keyword: e.target.value }, keywordIndex)}
+                                aria-label="Keyword for the Music Item"
+                                placeholder='Keyword'
+                              />
+                              {musicItem.keywords.length > 1 && (
+                                <Button variant="outline-danger" onClick={() => removeKeyword(index, keywordIndex)}>-</Button>
+                              )}
+                            </InputGroup>
+                          </Col>
+                        ))}
+                        <Button variant="secondary" className="m-3" onClick={() => addKeyword(index)}>+</Button>
 
-                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
-                            <Form.Control
-                              value={reading.start_verse}
-                              onChange={event => handleMusicItemChange(index, { start_verse: event.target.value }, undefined, readingIndex)}
-                              aria-label="Start Verse of the Related Reading"
-                              style={{ display: 'inline', width: '10%' }}
-                              placeholder='Start Verse'
-                            />
-                          </InputGroup>
+                      </div>
+                      <div>
+                        <h6 >Related Readings</h6>
+                        {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
+                          <Row key={readingIndex}>
+                            <Col xs={12} md={6} lg={2} >
+                              <InputGroup className="mb-3">
+                                <Form.Control
+                                  value={reading.book}
+                                  onChange={event => handleMusicItemChange(index, { book: event.target.value }, undefined, readingIndex)}
+                                  aria-label="Book of the Related Reading"
+                                  placeholder='Book'
+                                />
+                              </InputGroup>
+                            </Col>
+                            <Col xs={12} md={6} lg={2} >
+                              <InputGroup className="mb-3">
+                                <Form.Control
+                                  value={reading.chapter}
+                                  onChange={event => handleMusicItemChange(index, { chapter: event.target.value }, undefined, readingIndex)}
+                                  aria-label="Chapter of the Related Reading"
+                                  placeholder='Chapter'
+                                />
+                              </InputGroup>
+                            </Col>
+                            <Col xs={12} md={6} lg={2} >
+                              <InputGroup className="mb-3" >
+                                <Form.Control
+                                  value={reading.start_verse}
+                                  onChange={event => handleMusicItemChange(index, { start_verse: event.target.value }, undefined, readingIndex)}
+                                  aria-label="Start Verse of the Related Reading"
+                                  placeholder='Start Verse'
+                                />
+                              </InputGroup>
+                            </Col>
+                            <Col xs={12} md={6} lg={2} >
+                              <InputGroup className="mb-3" >
+                                <Form.Control
+                                  value={reading.end_verse}
+                                  onChange={event => handleMusicItemChange(index, { end_verse: event.target.value }, undefined, readingIndex)}
+                                  aria-label="End Verse of the Related Reading"
+                                  placeholder='End Verse'
+                                />
+                                {musicItem.related_readings.length > 1 && (
+                                  <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index, readingIndex)}>-</Button>
+                                )}
+                              </InputGroup>
+                            </Col>
+                          </Row>
+                        ))}
+                        <Button variant="secondary" className="m-3" onClick={() => addReading(index)} >+</Button>
 
-                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
-                            <Form.Control
-                              value={reading.end_verse}
-                              onChange={event => handleMusicItemChange(index, { end_verse: event.target.value }, undefined, readingIndex)}
-                              aria-label="End Verse of the Related Reading"
-                              style={{ display: 'inline', width: '10%' }}
-                              placeholder='End Verse'
-                            />
-                            {musicItem.related_readings.length > 1 && (
-                              <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index, readingIndex)}>Remove Reading</Button>
-                            )}
-                          </InputGroup>
-                        </div>
-                      ))}
-                      <Button variant="secondary" className="m-3" onClick={() => addReading(index)} >Add Reading</Button>
-
-                    </div>
-                    {newService.music_items.length > 1 && (
-                      <Button variant="outline-danger" className="m-3" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
-                    )}
+                      </div>
+                      {
+                        newService.music_items.length > 1 && (
+                          <Button variant="outline-danger" className="m-3" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
+                        )
+                      }
+                    </Row>
                   </div>
                 ))}
 
@@ -356,7 +371,8 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
             )}
 
           </>
-        )}
+        )
+        }
         <section>
           <h2>Past Services</h2>
           {churchData.past_services && Array.isArray(churchData.past_services) && churchData.past_services.map((service) => (
@@ -394,7 +410,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
             </Card>
           ))}
         </section>
-      </Container>
+      </Container >
     </>
   )
 }
