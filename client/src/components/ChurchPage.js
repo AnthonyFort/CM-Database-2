@@ -230,7 +230,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
             {showFormFields && (
               <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} style={{ border: '1px solid #000', padding: '10px', margin: '10px' }} >
-                <Row >
+                <Row style={{ border: '1px solid #000', padding: '10px', margin: '10px' }} >
                   <Col xs={12} md={6} lg={2}>
 
                     <Form.Group style={{ display: 'inline' }} >
@@ -255,9 +255,10 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                     </Form.Group>
                   </Col>
                 </Row>
+                <h6>Music Items</h6>
                 {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
                   <div key={index}>
-                    <Row>
+                    <Row style={{ border: '1px solid #000', padding: '10px', margin: '10px' }}>
                       <Col xs={12} md={4} lg={2}>
                         <InputGroup className="mb-3" >
                           <Form.Control
@@ -282,11 +283,6 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                       </Col>
 
                       <div>
-                        <Row>
-                          <Col xs={12} md={4} lg={2}>
-                            <Button variant="secondary" className="mb-2" onClick={() => addKeyword(index)}>More Keywords</Button>
-                          </Col>
-                        </Row>
 
                         {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
                           <Col xs={12} md={4} lg={2} key={keywordIndex}>
@@ -303,15 +299,14 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                             </InputGroup>
                           </Col>
                         ))}
-
+                        <Row>
+                          <Col xs={12} md={4} lg={2}>
+                            <Button variant="success" size="sm" className="mb-2" onClick={() => addKeyword(index)}>More Keywords</Button>
+                          </Col>
+                        </Row>
 
                       </div>
                       <div style={{ border: '1px solid #000', padding: '10px' }}>
-                        <Row>
-                          <Col xs={12} md={4} lg={2}>
-                            <Button variant="secondary" className="mb-2" onClick={() => addReading(index)} >More Readings</Button>
-                          </Col>
-                        </Row>
                         {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
                           <Row key={readingIndex}  >
                             <Col xs={12} md={6} lg={2} >
@@ -353,14 +348,18 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                                   placeholder='End Verse'
                                 />
                                 {musicItem.related_readings.length > 1 && (
-                                  <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index, readingIndex)}>-</Button>
+                                  <Button variant="outline-danger" onClick={() => removeReading(index, readingIndex)}>-</Button>
                                 )}
                               </InputGroup>
                             </Col>
                           </Row>
                         ))}
 
-
+                        <Row>
+                          <Col xs={12} md={4} lg={2}>
+                            <Button variant="success" size="sm" className="mb-2" onClick={() => addReading(index)} >More Readings</Button>
+                          </Col>
+                        </Row>
                       </div>
                       {
                         newService.music_items.length > 1 && (
@@ -370,7 +369,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                     </Row>
                   </div>
                 ))}
-                <Button variant="secondary" onClick={addMusicItem} >More Music Items</Button>
+                <Button variant="success" onClick={addMusicItem} >More Music Items</Button>
                 <Button type="submit" className="m-3">
                   {formType === 'create' ? 'Add Service' : 'Update Service'}
                 </Button>
