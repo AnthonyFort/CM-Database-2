@@ -104,7 +104,7 @@ export default function MusicSearch() {
           <Form.Control
             type="text"
             name="keyword"
-            placeholder="Enter keyword (optional)"
+            placeholder="Keyword (optional)"
             value={formData.keyword}
             onChange={handleChange}
           />
@@ -114,7 +114,7 @@ export default function MusicSearch() {
           <Form.Control
             type="text"
             name="book"
-            placeholder="Enter Bible book (optional)"
+            placeholder="Bible Book (optional)"
             value={formData.book}
             onChange={handleChange}
           />
@@ -124,7 +124,7 @@ export default function MusicSearch() {
           <Form.Control
             type="text"
             name="chapter"
-            placeholder="Enter Chapter Number (optional)"
+            placeholder="Book Chapter (optional)"
             value={formData.chapter}
             onChange={handleChange}
           />
