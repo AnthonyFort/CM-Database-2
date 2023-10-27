@@ -229,57 +229,63 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
             </Button>
 
             {showFormFields && (
-              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit}>
-                <Form.Group>
-                  <Form.Label>Date of Service:</Form.Label>
+              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} >
+                <Form.Group style={{ display: 'inline' }} >
                   <Form.Control
                     type="date"
                     value={newService.date_of_service}
                     onChange={event => setNewService({ ...newService, date_of_service: event.target.value })}
+                    class="service-form"
+                    style={{ display: 'inline', width: '20%' }}
                   />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Type of Service:</Form.Label>
+                </Form.Group >
+                <Form.Group style={{ display: 'inline', width: '20%' }} >
                   <Form.Control
                     type="text"
                     value={newService.type_of_service}
                     onChange={event => setNewService({ ...newService, type_of_service: event.target.value })}
+                    class="service-form"
+                    style={{ display: 'inline', width: '20%' }}
+                    placeholder='Type of Service (eg Mass)'
                   />
                 </Form.Group>
                 <Button variant="secondary" onClick={addMusicItem} className="m-3">Add Music Item</Button>
                 {Array.isArray(newService.music_items) && newService.music_items.map((musicItem, index) => (
                   <div key={index}>
 
-                    <InputGroup className="mb-3">
-                      <InputGroup.Text>Title:</InputGroup.Text>
+                    <InputGroup className="mb-3" style={{ display: 'inline', width: '20%' }} >
                       <Form.Control
                         value={musicItem.title}
                         onChange={event => handleMusicItemChange(index, { title: event.target.value })}
                         aria-label="Title of the Music Item"
+                        style={{ display: 'inline', width: '20%' }}
+                        placeholder='Title'
                       />
 
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
-                      <InputGroup.Text>Composer:</InputGroup.Text>
+                    <InputGroup className="mb-3" style={{ display: 'inline', width: '20%' }}>
                       <Form.Control
                         value={musicItem.composer}
                         onChange={event => handleMusicItemChange(index, { composer: event.target.value })}
                         aria-label="Composer of the Music Item"
+                        style={{ display: 'inline', width: '20%' }}
+                        placeholder='Composer'
                       />
                     </InputGroup>
 
                     <div>
                       {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
-                        <InputGroup key={keywordIndex} className="mb-3">
-                          <InputGroup.Text>Keyword:</InputGroup.Text>
+                        <InputGroup key={keywordIndex} className="mb-3" style={{ display: 'inline', width: '10%' }}>
                           <Form.Control
                             value={k.keyword}
                             onChange={e => handleMusicItemChange(index, { keyword: e.target.value }, keywordIndex)}
                             aria-label="Keyword for the Music Item"
+                            style={{ display: 'inline', width: '10%' }}
+                            placeholder='Keyword'
                           />
                           {musicItem.keywords.length > 1 && (
-                            <Button variant="outline-danger" onClick={() => removeKeyword(index, keywordIndex)}>Remove Keyword</Button>
+                            <Button variant="outline-danger" onClick={() => removeKeyword(index, keywordIndex)} style={{ display: 'inline', width: '10%' }}>Remove Keyword</Button>
                           )}
                         </InputGroup>
                       ))}
@@ -287,42 +293,46 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                     </div>
 
                     <div>
-                      <h4>Related Readings</h4>
+                      <h6 style={{ display: 'inline', width: '10%' }} >Related Readings</h6>
                       {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
                         <div key={readingIndex}>
-                          <InputGroup className="mb-3">
-                            <InputGroup.Text>Book:</InputGroup.Text>
+                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
                             <Form.Control
                               value={reading.book}
                               onChange={event => handleMusicItemChange(index, { book: event.target.value }, undefined, readingIndex)}
                               aria-label="Book of the Related Reading"
+                              style={{ display: 'inline', width: '10%' }}
+                              placeholder='Book'
                             />
                           </InputGroup>
 
-                          <InputGroup className="mb-3">
-                            <InputGroup.Text>Chapter:</InputGroup.Text>
+                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
                             <Form.Control
                               value={reading.chapter}
                               onChange={event => handleMusicItemChange(index, { chapter: event.target.value }, undefined, readingIndex)}
                               aria-label="Chapter of the Related Reading"
+                              style={{ display: 'inline', width: '10%' }}
+                              placeholder='Chapter'
                             />
                           </InputGroup>
 
-                          <InputGroup className="mb-3">
-                            <InputGroup.Text>Start Verse:</InputGroup.Text>
+                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
                             <Form.Control
                               value={reading.start_verse}
                               onChange={event => handleMusicItemChange(index, { start_verse: event.target.value }, undefined, readingIndex)}
                               aria-label="Start Verse of the Related Reading"
+                              style={{ display: 'inline', width: '10%' }}
+                              placeholder='Start Verse'
                             />
                           </InputGroup>
 
-                          <InputGroup className="mb-3">
-                            <InputGroup.Text>End Verse:</InputGroup.Text>
+                          <InputGroup className="mb-3" style={{ display: 'inline', width: '10%' }}>
                             <Form.Control
                               value={reading.end_verse}
                               onChange={event => handleMusicItemChange(index, { end_verse: event.target.value }, undefined, readingIndex)}
                               aria-label="End Verse of the Related Reading"
+                              style={{ display: 'inline', width: '10%' }}
+                              placeholder='End Verse'
                             />
                             {musicItem.related_readings.length > 1 && (
                               <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index, readingIndex)}>Remove Reading</Button>
@@ -330,7 +340,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                           </InputGroup>
                         </div>
                       ))}
-                      <Button variant="secondary" className="m-3" onClick={() => addReading(index)}>Add Reading</Button>
+                      <Button variant="secondary" className="m-3" onClick={() => addReading(index)} >Add Reading</Button>
 
                     </div>
                     {newService.music_items.length > 1 && (
