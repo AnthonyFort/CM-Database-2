@@ -103,6 +103,12 @@ export default function MusicSearch() {
     setReadingFields([readingFields, { book: '', chapter: '' }])
   }
 
+  const removeKeyword = (index) => {
+    const updatedKeywords = [...keywordFields]
+    updatedKeywords.splice(index, 1)
+    setKeywordFields(updatedKeywords)
+  }
+
   if (!currentUser) return <div>Unauthorised</div>
 
   return (
@@ -119,6 +125,11 @@ export default function MusicSearch() {
               value={keyword.keyword}
               onChange={(e) => handleKeywordChange(e, index)}
             />
+            {
+              keywordFields.length > 1 && (
+                <Button variant="outline-danger" className="m-3" onClick={() => removeKeyword(index)}>-</Button>
+              )
+            }
           </Form.Group>
         )
         )}
@@ -148,11 +159,11 @@ export default function MusicSearch() {
             </Col>
           </Row>
         ))}
-        <Button onClick={handleAddKeyword}>
+        <Button variant="success" className="mb-2" onClick={handleAddKeyword}>
           Add Keyword
         </Button>
 
-        <Button onClick={handleAddReading}>
+        <Button variant="success" className="mb-2" onClick={handleAddReading}>
           Add Reading
         </Button>
 
