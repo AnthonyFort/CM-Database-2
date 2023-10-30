@@ -119,75 +119,75 @@ export default function MusicSearch() {
 
   return (
     <Container>
-      <h1 className="text-center mb-4">Search Music</h1>
+      <h3 className="text-center mb-4">Search Music by Keyword and/or Bible Reading</h3>
 
 
 
       <Form onSubmit={handleSubmit} className="form-groups">
-        <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
-          {keywordFields && keywordFields.map((keyword, index) => (
-            <Col xs={12} md={4} lg={3} key={index}>
-              <InputGroup className="mb-2" controlId={keyword} >
-                <Form.Control
-                  type='text'
-                  name='keyword'
-                  placeholder='keyword'
-                  value={keyword.keyword}
-                  onChange={(e) => handleKeywordChange(e, index)}
-                />
-                {
-                  keywordFields.length > 1 && (
-                    <Button variant="outline-danger" className="m-3" size="sm" onClick={() => removeKeyword(index)}>-</Button>
-                  )
-                }
-              </InputGroup>
-            </Col>
-          )
-          )}
-        </Row>
-        <Button variant="success" className="m-2" size='sm' onClick={handleAddKeyword}>
-          Add Keyword
-        </Button>
-        {readingFields.map((reading, index) => (
-          <Row key={index} style={{ border: '1px solid grey', padding: '10px', margin: '10px' }} >
-            <Col>
-              <InputGroup className="mb-2">
-                <Form.Control
-                  type='text'
-                  name='book'
-                  placeholder='Bible Book (optional)'
-                  value={reading.book}
-                  onChange={(e) => handleReadingChange(e, index, 'book')}
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <InputGroup className='mb-2'>
-                <Form.Control
-                  type='text'
-                  name='chapter'
-                  placeholder='Chapter (optional)'
-                  value={reading.chapter}
-                  onChange={(e) => handleReadingChange(e, index, 'chapter')}
-                />
-                {
-                  readingFields.length > 1 && (
-                    <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index)}>-</Button>
-                  )
-                }
-              </InputGroup>
-            </Col>
+        <div>
+          <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
+
+            {keywordFields && keywordFields.map((keyword, index) => (
+              <Col xs={12} md={6} lg={6} key={index}>
+                <InputGroup className="mb-2" controlId={keyword} >
+                  <Form.Control
+                    type='text'
+                    name='keyword'
+                    placeholder='keyword'
+                    value={keyword.keyword}
+                    onChange={(e) => handleKeywordChange(e, index)}
+                  />
+                  {
+                    keywordFields.length > 1 && (
+                      <Button variant="outline-danger" size="sm" onClick={() => removeKeyword(index)}>-</Button>
+                    )
+                  }
+                </InputGroup>
+              </Col>
+            )
+            )}
           </Row>
-        ))}
-
-
-        <Button variant="success" className="mb-2" size="sm" onClick={handleAddReading}>
-          Add Reading
-        </Button>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+          <Button variant="success" className="m-2" size='sm' onClick={handleAddKeyword}>
+            Add Keyword
+          </Button>
+          {readingFields.map((reading, index) => (
+            <Row key={index} style={{ border: '1px solid grey', padding: '10px', margin: '10px' }} >
+              <Col xs={12} md={6} lg={6}>
+                <InputGroup className="mb-2">
+                  <Form.Control
+                    type='text'
+                    name='book'
+                    placeholder='Book'
+                    value={reading.book}
+                    onChange={(e) => handleReadingChange(e, index, 'book')}
+                  />
+                </InputGroup>
+              </Col>
+              <Col xs={12} md={6} lg={6}>
+                <InputGroup className='mb-2'>
+                  <Form.Control
+                    type='text'
+                    name='chapter'
+                    placeholder='Chapter'
+                    value={reading.chapter}
+                    onChange={(e) => handleReadingChange(e, index, 'chapter')}
+                  />
+                  {
+                    readingFields.length > 1 && (
+                      <Button variant="outline-danger" onClick={() => removeReading(index)}>-</Button>
+                    )
+                  }
+                </InputGroup>
+              </Col>
+            </Row>
+          ))}
+          <Button variant="success" className="m-2" size="sm" onClick={handleAddReading}>
+            Add Reading
+          </Button>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </div>
       </Form>
 
       {submitButtonClicked ? (
