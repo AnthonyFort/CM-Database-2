@@ -109,6 +109,12 @@ export default function MusicSearch() {
     setKeywordFields(updatedKeywords)
   }
 
+  const removeReading = (index) => {
+    const updatedReadings = [...keywordFields]
+    updatedReadings.splice(index, 1)
+    setReadingFields(updatedReadings)
+  }
+
   if (!currentUser) return <div>Unauthorised</div>
 
   return (
@@ -155,6 +161,11 @@ export default function MusicSearch() {
                   value={reading.chapter}
                   onChange={(e) => handleReadingChange(e, index, 'chapter')}
                 />
+                {
+                  readingFields.length > 1 && (
+                    <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index)}>-</Button>
+                  )
+                }
               </Form.Group>
             </Col>
           </Row>
