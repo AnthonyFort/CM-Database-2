@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import ErrorModal from './ErrorModal'
+import { useParams, useNavigate } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 import { Container, Card, Button, ListGroup, Modal } from 'react-bootstrap'
+import SavedModal from './SavedModal'
+import ErrorModal from './ErrorModal'
 
 export default function MusicItem() {
 
   const [musicItemData, setmusicItemData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
   const { id } = useParams()
+  const navigate = useNavigate()
+  const [showSavedModal, setShowSavedModal] = useState(false)
 
   useEffect(() => {
     async function getMusicItemData() {
       try {
         const { data } = await axiosAuth.get(`/api/music/${id}/`)
         if (data.past_services) {
-          data.past_services.sort((a, b) => {     
+          data.past_services.sort((a, b) => {
             return new Date(b.date_of_service) - new Date(a.date_of_service)
           })
         }
@@ -35,6 +38,8 @@ export default function MusicItem() {
         music_item: parseInt(id),
       }
       const { data } = await axiosAuth.post('/api/saved/', payload)
+      setShowSavedModal(true)
+      // navigate('/music-search')
     } catch (error) {
       console.log(error)
       setShowErrorModal(true)
@@ -46,6 +51,11 @@ export default function MusicItem() {
   return (
     <>
       {showErrorModal && <ErrorModal closeModal={() => setShowErrorModal(false)} />}
+      {showSavedModal && <SavedModal show={showSavedModal} onClose={() => {
+        setShowSavedModal(false)
+        navigate('/saved-music')
+      }
+      } />}
 
       <Container className="mt-4">
         <Card className="mb-4" xs={12} sm={10} md={8} lg={6} key={musicItemData.id}>
@@ -90,7 +100,7 @@ export default function MusicItem() {
               </>
             )}
 
-            <Button onClick={saveMusicItem} className="mt-3">Save Music Item</Button> 
+            <Button onClick={saveMusicItem} className="mt-3">Save Music Item</Button>
           </Card.Body>
         </Card >
       </Container >
