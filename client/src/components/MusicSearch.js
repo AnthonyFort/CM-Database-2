@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
-import { Button, Container, Form, ListGroup } from 'react-bootstrap'
+import { Button, Container, Form, ListGroup, Row, Col, InputGroup } from 'react-bootstrap'
 
 
 export default function MusicSearch() {
@@ -10,14 +10,19 @@ export default function MusicSearch() {
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false)
   const [allMusic, setAllMusic] = useState([])
   const [searchedMusic, setSearchedMusic] = useState([])
-  const [formData, setFormData] = useState({
-    keyword: '',
-    book: '',
-    chapter: '',
-  })
+  const [keywordFields, setKeywordFields] = useState([{ keyword: '' }])
+  const [readingFields, setReadingFields] = useState([{ book: '', chapter: '' }])
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleKeywordChange = (e, index) => {
+    const updatedKeywordFields = [...keywordFields]
+    updatedKeywordFields[index].keyword = e.target.value
+    setKeywordFields(updatedKeywordFields)
+  }
+
+  const handleReadingChange = (e, index, field) => {
+    const updatedReadings = [...readingFields]
+    updatedReadings[index][field] = e.target.value
+    setReadingFields(updatedReadings)
   }
 
   useEffect(() => {
@@ -32,7 +37,6 @@ export default function MusicSearch() {
     getCurrentUser()
   }, [])
 
-
   useEffect(() => {
     async function getMusicData() {
       try {
@@ -45,12 +49,11 @@ export default function MusicSearch() {
     getMusicData()
   }, [])
 
+  function rankResults(keywords, readings) {
+    const results = [...allMusic].map(item => {
+      let score = 0
 
-  function rankResults(keyword, book, chapter) {
-    const results = [...allMusic]
-      .map(item => {
-        let score = 0
-
+      keywords.forEach(keyword => {
         if (keyword) {
           const keywordRegex = new RegExp(keyword, 'gi')
           const keywordScore = (item.keywords || []).reduce((acc, k) => {
@@ -59,7 +62,8 @@ export default function MusicSearch() {
           }, 0)
           score += keywordScore
         }
-
+      })
+      readings.forEach(({ book, chapter }) => {
         if (book) {
           const bookRegex = new RegExp(book, 'gi')
           const readingScore = (item.related_readings || []).reduce((acc, reading) => {
@@ -69,28 +73,34 @@ export default function MusicSearch() {
           }, 0)
           score += readingScore
         }
-
-        return {
-          ...item,
-          score,
-        }
       })
-      .filter(item => item.score)
 
-    const uniqueResults = Array.from(new Map(results.map(item => [item.id, item])).values())
-    if (Array.isArray(uniqueResults)) {
-      return uniqueResults.sort((a, b) => b.score - a.score)
-    } else {
-      return []
-    }
+      return {
+        ...item,
+        score,
+      }
+    })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+    return results
   }
-
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const rankedMusic = rankResults(formData.keyword, formData.book, formData.chapter)
+    const keywordsArray = keywordFields.map(k => k.keyword).filter(keyword => keyword.trim())
+    const readingsArray = readingFields.filter(reading => reading.book.trim())
+    const rankedMusic = rankResults(keywordsArray, readingsArray)
+
     setSearchedMusic(rankedMusic)
     setSubmitButtonClicked(true)
+  }
+
+  const handleAddKeyword = () => {
+    setKeywordFields([...keywordFields, { keyword: '' }])
+  }
+
+  const handleAddReading = () => {
+    setReadingFields([readingFields, { book: '', chapter: '' }])
   }
 
   if (!currentUser) return <div>Unauthorised</div>
@@ -100,35 +110,51 @@ export default function MusicSearch() {
       <h1 className="text-center mb-4">Search Music</h1>
 
       <Form onSubmit={handleSubmit} className="form-groups">
-        <Form.Group className="mb-2" controlId="keyword">
-          <Form.Control
-            type="text"
-            name="keyword"
-            placeholder="Keyword (optional)"
-            value={formData.keyword}
-            onChange={handleChange}
-          />
-        </Form.Group>
+        {keywordFields && keywordFields.map((keyword, index) => (
+          <Form.Group className="mb-2" controlId={keyword} key={index}>
+            <Form.Control
+              type='text'
+              name='keyword'
+              placeholder='keyword'
+              value={keyword.keyword}
+              onChange={(e) => handleKeywordChange(e, index)}
+            />
+          </Form.Group>
+        )
+        )}
+        {readingFields.map((reading, index) => (
+          <Row key={index}>
+            <Col>
+              <Form.Group className="mb-2">
+                <Form.Control
+                  type='text'
+                  name='book'
+                  placeholder='Bible Book (optional)'
+                  value={reading.book}
+                  onChange={(e) => handleReadingChange(e, index, 'book')}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className='mb-2'>
+                <Form.Control
+                  type='text'
+                  name='chapter'
+                  placeholder='Chapter (optional)'
+                  value={reading.chapter}
+                  onChange={(e) => handleReadingChange(e, index, 'chapter')}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        ))}
+        <Button onClick={handleAddKeyword}>
+          Add Keyword
+        </Button>
 
-        <Form.Group className="mb-2" controlId="book">
-          <Form.Control
-            type="text"
-            name="book"
-            placeholder="Bible Book (optional)"
-            value={formData.book}
-            onChange={handleChange}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-2" controlId="chapter">
-          <Form.Control
-            type="text"
-            name="chapter"
-            placeholder="Book Chapter (optional)"
-            value={formData.chapter}
-            onChange={handleChange}
-          />
-        </Form.Group>
+        <Button onClick={handleAddReading}>
+          Add Reading
+        </Button>
 
         <Button variant="primary" type="submit">
           Submit
