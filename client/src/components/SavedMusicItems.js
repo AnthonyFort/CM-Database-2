@@ -26,7 +26,7 @@ export default function SavedMusicItems() {
     async function getSavedMusicItems() {
       try {
         const { data } = await axiosAuth.get('/api/saved/')
-        setMusicItemData(data)
+        setMusicItemData(data.reverse())
         console.log(musicItemData)
       } catch (error) {
         console.error(error)
