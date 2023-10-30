@@ -229,7 +229,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
             </Button>
 
             {showFormFields && (
-              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} style={{ border: '1px solid grey', padding: '10px', margin: '10px' }} >
+              <Form onSubmit={formType === 'create' ? handleCreateSubmit : handleUpdateSubmit} style={{ border: '1px solid grey', padding: '10px', marginTop: '10px', marginBottom: '10px' }} >
                 <h5>New Service Info</h5>
                 <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }} >
                   <Col xs={12} md={6} lg={2}>
@@ -261,7 +261,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                   <div key={index}>
                     <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
                       <Col xs={12} md={4} lg={2}>
-                        <InputGroup className="mb-2" >
+                        <InputGroup className="mb-1" >
                           <Form.Control
                             value={musicItem.title}
                             onChange={event => handleMusicItemChange(index, { title: event.target.value })}
@@ -273,7 +273,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                       </Col>
 
                       <Col xs={12} md={4} lg={2}>
-                        <InputGroup className="mb-2">
+                        <InputGroup className="mb-1">
                           <Form.Control
                             value={musicItem.composer}
                             onChange={event => handleMusicItemChange(index, { composer: event.target.value })}
@@ -283,11 +283,10 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                         </InputGroup>
                       </Col>
 
-
-                      <Row>
+                      <div>
                         {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
-                          <Col xs={12} md={4} lg={3} key={keywordIndex}>
-                            <InputGroup className="mb-2">
+                          <Col xs={12} md={4} lg={2} key={keywordIndex}>
+                            <InputGroup className="mb-1">
                               <Form.Control
                                 value={k.keyword}
                                 onChange={e => handleMusicItemChange(index, { keyword: e.target.value }, keywordIndex)}
@@ -300,15 +299,12 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                             </InputGroup>
                           </Col>
                         ))}
-
-
-                      </Row>
-
+                      </div>
 
                       <div >
                         {Array.isArray(musicItem.related_readings) && musicItem.related_readings.map((reading, readingIndex) => (
                           <Row key={readingIndex}  >
-                            <Col xs={12} md={6} lg={2} >
+                            <Col xs={12} md={3} lg={2} className="mb-1" >
                               <InputGroup >
                                 <Form.Control
                                   value={reading.book}
@@ -318,7 +314,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                                 />
                               </InputGroup>
                             </Col>
-                            <Col xs={12} md={6} lg={2} >
+                            <Col xs={12} md={3} lg={2} className="mb-1" >
                               <InputGroup >
                                 <Form.Control
                                   value={reading.chapter}
@@ -328,7 +324,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                                 />
                               </InputGroup>
                             </Col>
-                            <Col xs={12} md={6} lg={2} >
+                            <Col xs={12} md={3} lg={2} className="mb-1" >
                               <InputGroup  >
                                 <Form.Control
                                   value={reading.start_verse}
@@ -338,7 +334,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                                 />
                               </InputGroup>
                             </Col>
-                            <Col xs={12} md={6} lg={2} >
+                            <Col xs={12} md={3} lg={2} className="mb-1" >
                               <InputGroup  >
                                 <Form.Control
                                   value={reading.end_verse}
@@ -365,7 +361,11 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                       </div>
                       {
                         newService.music_items.length > 1 && (
-                          <Button variant="outline-danger" className="m-3" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
+                          <Row>
+                            <Col xs={12} md={4} lg={2}>
+                              <Button variant="outline-danger" className="mb-1" size="sm" onClick={() => removeMusicItem(index)}>Remove Music Item</Button>
+                            </Col>
+                          </Row>
                         )
                       }
                     </Row>
