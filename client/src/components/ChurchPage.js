@@ -221,7 +221,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
         {currentUser && currentUser.id === churchData.id && (
           <>
 
-            <Button className="m-2" onClick={() => {
+            <Button className="mb-2" onClick={() => {
               setShowFormFields(!showFormFields)
               setFormType('create')
             }}>
@@ -413,8 +413,8 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
                   ))}
                 </ListGroup>
               </Card.Body>
-              <Button className="btn-primary m-2" onClick={() => handleShowUpdate(service)}>Update Service</Button>
-              <Button variant="outline-danger" className="m-3" onClick={() => deleteService(service.id)}>Delete Service</Button>
+              <Button className="btn-primary m-2" size="sm" onClick={() => handleShowUpdate(service)}>Update Service</Button>
+              <Button variant="outline-danger" className="m-3" size="sm" onClick={() => deleteService(service.id)}>Delete Service</Button>
             </Card>
           ))}
         </section>
