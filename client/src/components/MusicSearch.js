@@ -100,7 +100,7 @@ export default function MusicSearch() {
   }
 
   const handleAddReading = () => {
-    setReadingFields([readingFields, { book: '', chapter: '' }])
+    setReadingFields([...readingFields, { book: '', chapter: '' }])
   }
 
   const removeKeyword = (index) => {
@@ -110,7 +110,7 @@ export default function MusicSearch() {
   }
 
   const removeReading = (index) => {
-    const updatedReadings = [...keywordFields]
+    const updatedReadings = [...readingFields]
     updatedReadings.splice(index, 1)
     setReadingFields(updatedReadings)
   }
@@ -121,28 +121,37 @@ export default function MusicSearch() {
     <Container>
       <h1 className="text-center mb-4">Search Music</h1>
 
+
+
       <Form onSubmit={handleSubmit} className="form-groups">
-        {keywordFields && keywordFields.map((keyword, index) => (
-          <Form.Group className="mb-2" controlId={keyword} key={index}>
-            <Form.Control
-              type='text'
-              name='keyword'
-              placeholder='keyword'
-              value={keyword.keyword}
-              onChange={(e) => handleKeywordChange(e, index)}
-            />
-            {
-              keywordFields.length > 1 && (
-                <Button variant="outline-danger" className="m-3" onClick={() => removeKeyword(index)}>-</Button>
-              )
-            }
-          </Form.Group>
-        )
-        )}
+        <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
+          {keywordFields && keywordFields.map((keyword, index) => (
+            <Col xs={12} md={4} lg={3} key={index}>
+              <InputGroup className="mb-2" controlId={keyword} >
+                <Form.Control
+                  type='text'
+                  name='keyword'
+                  placeholder='keyword'
+                  value={keyword.keyword}
+                  onChange={(e) => handleKeywordChange(e, index)}
+                />
+                {
+                  keywordFields.length > 1 && (
+                    <Button variant="outline-danger" className="m-3" size="sm" onClick={() => removeKeyword(index)}>-</Button>
+                  )
+                }
+              </InputGroup>
+            </Col>
+          )
+          )}
+        </Row>
+        <Button variant="success" className="m-2" size='sm' onClick={handleAddKeyword}>
+          Add Keyword
+        </Button>
         {readingFields.map((reading, index) => (
-          <Row key={index}>
+          <Row key={index} style={{ border: '1px solid grey', padding: '10px', margin: '10px' }} >
             <Col>
-              <Form.Group className="mb-2">
+              <InputGroup className="mb-2">
                 <Form.Control
                   type='text'
                   name='book'
@@ -150,10 +159,10 @@ export default function MusicSearch() {
                   value={reading.book}
                   onChange={(e) => handleReadingChange(e, index, 'book')}
                 />
-              </Form.Group>
+              </InputGroup>
             </Col>
             <Col>
-              <Form.Group className='mb-2'>
+              <InputGroup className='mb-2'>
                 <Form.Control
                   type='text'
                   name='chapter'
@@ -166,15 +175,13 @@ export default function MusicSearch() {
                     <Button variant="outline-danger" className="m-3" onClick={() => removeReading(index)}>-</Button>
                   )
                 }
-              </Form.Group>
+              </InputGroup>
             </Col>
           </Row>
         ))}
-        <Button variant="success" className="mb-2" onClick={handleAddKeyword}>
-          Add Keyword
-        </Button>
 
-        <Button variant="success" className="mb-2" onClick={handleAddReading}>
+
+        <Button variant="success" className="mb-2" size="sm" onClick={handleAddReading}>
           Add Reading
         </Button>
 
@@ -199,6 +206,7 @@ export default function MusicSearch() {
           <p className="mt-4 text-center">No music items found</p>
         )
       ) : null}
+
     </Container>
   )
 }

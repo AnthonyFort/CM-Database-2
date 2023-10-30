@@ -286,7 +286,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
                       <Row>
                         {Array.isArray(musicItem.keywords) && musicItem.keywords.map((k, keywordIndex) => (
-                          <Col xs={12} md={4} lg={2} key={keywordIndex}>
+                          <Col xs={12} md={4} lg={3} key={keywordIndex}>
                             <InputGroup className="mb-2">
                               <Form.Control
                                 value={k.keyword}
