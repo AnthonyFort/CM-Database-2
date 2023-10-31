@@ -9,10 +9,11 @@ export default function MusicItem() {
 
   const [musicItemData, setmusicItemData] = useState(null)
   const [showErrorModal, setShowErrorModal] = useState(false)
+  const [showSavedModal, setShowSavedModal] = useState(false)
   const { id } = useParams()
   const navigate = useNavigate()
-  const [showSavedModal, setShowSavedModal] = useState(false)
-
+  
+  // Fetches information about the queried music item
   useEffect(() => {
     async function getMusicItemData() {
       try {
@@ -31,6 +32,10 @@ export default function MusicItem() {
     getMusicItemData()
   }, [id])
 
+  useEffect(() => {
+    console.log(musicItemData)
+  })
+
   const saveMusicItem = async (e) => {
     e.preventDefault()
     try {
@@ -39,7 +44,6 @@ export default function MusicItem() {
       }
       const { data } = await axiosAuth.post('/api/saved/', payload)
       setShowSavedModal(true)
-      // navigate('/music-search')
     } catch (error) {
       console.log(error)
       setShowErrorModal(true)
@@ -91,7 +95,7 @@ export default function MusicItem() {
               <>
                 <h6 className="mt-3">Performances</h6>
                 <ListGroup variant="flush">
-                  {musicItemData.performances.map((performance, index) => (
+                  {musicItemData.past_performances.map((performance, index) => (
                     <ListGroup.Item key={index}>
                       {performance.date_of_service} - {performance.church.church}
                     </ListGroup.Item>

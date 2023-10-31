@@ -4,6 +4,7 @@ import { removeToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom'
 import logo from '../images/logo.png'
 
+// The nav bar uses the currentUser to direct the user to the correct page when they click on the "Your Church" tab
 export default function NavBar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()
   const [navBarOpen, setNavBarOpen] = useState(false)

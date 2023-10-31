@@ -12,12 +12,12 @@ export default function SavedMusicItems({ currentUser, setCurrentUser }) {
   }, [])
 
 
+  // Fetches that user's saved music items
   useEffect(() => {
     async function getSavedMusicItems() {
       try {
         const { data } = await axiosAuth.get('/api/saved/')
         setMusicItemData(data.reverse())
-        console.log(musicItemData)
       } catch (error) {
         console.error(error)
         setShowErrorModal(true)
@@ -26,6 +26,7 @@ export default function SavedMusicItems({ currentUser, setCurrentUser }) {
     getSavedMusicItems()
   }, [])
 
+  // Function to delete items from the saved music page
   async function deleteMusicItem(musicId) {
     try {
       await axiosAuth.delete(`/api/saved/${musicId}/`)
@@ -77,13 +78,13 @@ export default function SavedMusicItems({ currentUser, setCurrentUser }) {
                       </ListGroup>
                     </>
                   )}
-                  {item.music_item.performances && item.music_item.performances.length > 0 && (
+                  {item.past_performances && item.past_performances.length > 0 && (
                     <>
                       <h6 className="mt-3">Performances</h6>
                       <ListGroup variant="flush">
-                        {item.music_item.performances.map((performance, index) => (
+                        {item.past_performances.map((performance, index) => (
                           <ListGroup.Item key={index}>
-                            {performance.date_of_service} - {performance.church.church}
+                            {performance.date_of_service} - {performance.type_of_service} - {performance.church}
                           </ListGroup.Item>
                         ))}
                       </ListGroup>

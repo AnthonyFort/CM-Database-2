@@ -6,6 +6,10 @@ import ErrorModal from './ErrorModal'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 
 export default function Register() {
+
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -13,18 +17,16 @@ export default function Register() {
     church: '',
   })
 
-  const [errorMessage, setErrorMessage] = useState('')
-  const [showErrorModal, setShowErrorModal] = useState(false)
-
-  const navigate = useNavigate()
-
+  // Sets the state of the given form field
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  // Handles form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    // Checks that all form fields have been filled
     if (!formData.username || !formData.password || !formData.password_confirmation || !formData.church) {
       setErrorMessage('Please fill out all fields.')
       setShowErrorModal(true)
@@ -53,7 +55,7 @@ export default function Register() {
                 <Form.Group controlId="formUsername" className='form-group'>
                   <Form.Control type="text" name="username" placeholder="Enter username" value={formData.username} onChange={handleChange} />
                 </Form.Group>
-                
+
                 <Form.Group controlId="formChurch" className='form-group'>
                   <Form.Control type="text" name="church" placeholder="Enter affiliated church" value={formData.church} onChange={handleChange} />
                 </Form.Group>

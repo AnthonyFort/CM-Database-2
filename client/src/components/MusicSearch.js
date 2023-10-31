@@ -12,12 +12,15 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
   const [keywordFields, setKeywordFields] = useState([{ keyword: '' }])
   const [readingFields, setReadingFields] = useState([{ book: '', chapter: '' }])
 
+  // This function allows for separate keyword fields to be entered without interfering with each other
+  // By passing it the index of the field in the keywords array, the function knows which field is being typed into
   const handleKeywordChange = (e, index) => {
     const updatedKeywordFields = [...keywordFields]
     updatedKeywordFields[index].keyword = e.target.value
     setKeywordFields(updatedKeywordFields)
   }
 
+  // Same as above, but, in addition, also checks whether the field being typed into is the book or the chapter field
   const handleReadingChange = (e, index, field) => {
     const updatedReadings = [...readingFields]
     updatedReadings[index][field] = e.target.value
@@ -28,6 +31,7 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
     setCurrentUser(currentUser)
   }, [])
 
+  // Fetches all the music from the database
   useEffect(() => {
     async function getMusicData() {
       try {
@@ -40,6 +44,19 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
     getMusicData()
   }, [])
 
+  // This function handles the information from the search request
+  // It then sends it to the rankedResults function to sort and return the search results
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const keywordsArray = keywordFields.map(k => k.keyword).filter(keyword => keyword.trim())
+    const readingsArray = readingFields.filter(reading => reading.book.trim())
+    const rankedMusic = rankResults(keywordsArray, readingsArray)
+    setSearchedMusic(rankedMusic)
+    setSubmitButtonClicked(true)
+  }
+
+  // This function uses RegExp to look for matches between searches and items in the database
+  // Items are assigned a score based on the number of matches they have and returned in descending order of score
   function rankResults(keywords, readings) {
     const results = [...allMusic].map(item => {
       let score = 0
@@ -65,7 +82,6 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
           score += readingScore
         }
       })
-
       return {
         ...item,
         score,
@@ -76,16 +92,8 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
     return results
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const keywordsArray = keywordFields.map(k => k.keyword).filter(keyword => keyword.trim())
-    const readingsArray = readingFields.filter(reading => reading.book.trim())
-    const rankedMusic = rankResults(keywordsArray, readingsArray)
-
-    setSearchedMusic(rankedMusic)
-    setSubmitButtonClicked(true)
-  }
-
+  // The following functions allow users to add an remove form fields to/from the search (eg, if they want to search using more than one keyword)
+  // It does this by adding (or deleting) keyword /reading objects to the keywords /readings array 
   const handleAddKeyword = () => {
     setKeywordFields([...keywordFields, { keyword: '' }])
   }
@@ -111,13 +119,9 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
   return (
     <Container>
       <h3 className="text-center mb-4">Search Music by Keyword and/or Bible Reading</h3>
-
-
-
       <Form onSubmit={handleSubmit} className="form-groups">
         <div>
           <Row style={{ border: '1px solid grey', padding: '10px', margin: '10px' }}>
-
             {keywordFields && keywordFields.map((keyword, index) => (
               <Col xs={12} md={6} lg={6} key={index}>
                 <InputGroup className="mb-2" controlId={keyword} >
@@ -180,7 +184,6 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
           </Button>
         </div>
       </Form>
-
       {submitButtonClicked ? (
         searchedMusic.length > 0 ? (
           <Container className="mt-3">
@@ -197,7 +200,6 @@ export default function MusicSearch({ currentUser, setCurrentUser }) {
           <p className="mt-4 text-center">No music items found</p>
         )
       ) : null}
-
     </Container>
   )
 }

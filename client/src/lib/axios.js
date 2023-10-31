@@ -1,16 +1,13 @@
 import axios from 'axios'
 import { getToken, setToken, tokenIsValid } from './auth'
-import jwtDecode from 'jwt-decode'
 
-
+// axiosAuth is used with axios requests to check that each request is made by an authenticated user
 const axiosAuth = axios.create()
 
 axiosAuth.interceptors.request.use(async (config) => {
 
   if (!tokenIsValid('access-token')){
- 
     if (tokenIsValid('refresh-token')){
-
       const { data } = await axios.post('/api/auth/refresh/', {
         refresh: getToken('refresh-token'),
       })
