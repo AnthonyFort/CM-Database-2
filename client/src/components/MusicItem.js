@@ -32,6 +32,7 @@ export default function MusicItem() {
     getMusicItemData()
   }, [id])
 
+  // Takes the id of the music item from the url and posts it to API to be saved
   const saveMusicItem = async (e) => {
     e.preventDefault()
     try {

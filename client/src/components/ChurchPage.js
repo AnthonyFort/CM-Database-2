@@ -179,6 +179,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setServiceToUpdate(service)
     setShowFormFields(true)
     setFormType('update')
+    window.scrollTo(0, 0)
   }
 
   const handleValidation = () => {
