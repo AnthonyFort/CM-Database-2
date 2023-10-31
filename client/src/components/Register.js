@@ -8,7 +8,6 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 export default function Register() {
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
     password: '',
     password_confirmation: '',
     church: '',
@@ -26,7 +25,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.username || !formData.email || !formData.password || !formData.password_confirmation || !formData.church) {
+    if (!formData.username || !formData.password || !formData.password_confirmation || !formData.church) {
       setErrorMessage('Please fill out all fields.')
       setShowErrorModal(true)
       return
@@ -54,11 +53,7 @@ export default function Register() {
                 <Form.Group controlId="formUsername" className='form-group'>
                   <Form.Control type="text" name="username" placeholder="Enter username" value={formData.username} onChange={handleChange} />
                 </Form.Group>
-
-                <Form.Group controlId="formEmail" className='form-group'>
-                  <Form.Control type="email" name="email" placeholder="Enter email" value={formData.email} onChange={handleChange} />
-                </Form.Group>
-
+                
                 <Form.Group controlId="formChurch" className='form-group'>
                   <Form.Control type="text" name="church" placeholder="Enter affiliated church" value={formData.church} onChange={handleChange} />
                 </Form.Group>
