@@ -15,6 +15,9 @@ import MusicItem from './components/MusicItem'
 
 export default function App() {
 
+  // Here, a function for collected information about the current user is defined
+  // Information about the current user can be sent to other components as needed
+
   const [currentUser, setCurrentUser] = useState()
   async function getCurrentUser() {
     try {
@@ -40,7 +43,7 @@ export default function App() {
           <Route path='/church-search' element={<ChurchSearch />} />
           <Route path='/music-search' element={<MusicSearch />} />
           <Route path='/music-page/:id' element={<MusicItem />} />
-          <Route path='/saved-music' element={<SavedMusicItems />} />
+          <Route path='/saved-music' element={<SavedMusicItems currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </main>

@@ -3,22 +3,14 @@ import { useEffect, useState } from 'react'
 import ErrorModal from './ErrorModal'
 import { Button, Container, Row, Col, Card, ListGroup } from 'react-bootstrap'
 
-export default function SavedMusicItems() {
+export default function SavedMusicItems({ currentUser, setCurrentUser }) {
   const [musicItemData, setMusicItemData] = useState([])
   const [showErrorModal, setShowErrorModal] = useState(false)
 
-  const [currentUser, setCurrentUser] = useState()
+  //const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const { data } = await axiosAuth.get('/api/auth/current/')
-        setCurrentUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getCurrentUser()
+    setCurrentUser(currentUser)
   }, [])
 
 
