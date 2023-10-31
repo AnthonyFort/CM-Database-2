@@ -3,22 +3,13 @@ import { Link } from 'react-router-dom'
 import axiosAuth from '../lib/axios'
 import { Container, Row, Col, Form, ListGroup } from 'react-bootstrap'
 
-export default function ChurchSearch() {
+export default function ChurchSearch({ currentUser, setCurrentUser }) {
 
   const [allChurches, setAllChurches] = useState([])
   const [searchedChurches, setSearchedChurches] = useState()
-  const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const { data } = await axiosAuth.get('/api/auth/current/')
-        setCurrentUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getCurrentUser()
+    setCurrentUser(currentUser)
   }, [])
 
   useEffect(() => {

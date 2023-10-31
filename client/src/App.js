@@ -40,7 +40,7 @@ export default function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login getCurrentUser={getCurrentUser} />} />
           <Route path='/church-page/:id' element={<ChurchPage currentUser={currentUser} getCurrentUser={getCurrentUser} />} />
-          <Route path='/church-search' element={<ChurchSearch />} />
+          <Route path='/church-search' element={<ChurchSearch currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
           <Route path='/music-search' element={<MusicSearch currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
           <Route path='/music-page/:id' element={<MusicItem />} />
           <Route path='/saved-music' element={<SavedMusicItems currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
