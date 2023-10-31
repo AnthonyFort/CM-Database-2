@@ -34,15 +34,6 @@ class MusicItemSerializer(serializers.ModelSerializer):
         model = MusicItem
         fields = ('id', 'title', 'composer', 'keywords', 'related_readings')
 
-    def fetch_reading_text(self, reading):
-        book = reading.get('book')
-        chapter = reading.get('chapter')
-        start_verse = reading.get('start_verse')
-        end_verse = reading.get('end_verse')
-        api_text = requests.get(f"http://bible-api.com/{book} {chapter}:{start_verse}-{end_verse}")
-        text = api_text.json().get('text')
-        return text
-
     def create(self, validated_data):
         keywords_data = validated_data.pop('keywords', [])
         related_readings_data = validated_data.pop('related_readings', [])
