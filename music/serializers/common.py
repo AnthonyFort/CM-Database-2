@@ -35,7 +35,7 @@ class MusicItemSerializer(serializers.ModelSerializer):
         model = MusicItem
         fields = ('id', 'title', 'composer', 'keywords', 'related_readings')
 
-    # Shared functionality between create and update methods
+    # Shared functionality between create and update
     def handle_music_item(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.composer = validated_data.get('composer', instance.composer)

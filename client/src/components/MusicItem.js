@@ -32,10 +32,6 @@ export default function MusicItem() {
     getMusicItemData()
   }, [id])
 
-  useEffect(() => {
-    console.log(musicItemData)
-  })
-
   const saveMusicItem = async (e) => {
     e.preventDefault()
     try {
@@ -91,13 +87,13 @@ export default function MusicItem() {
               </>
             )}
 
-            {musicItemData.performances && musicItemData.performances.length > 0 && (
+            {musicItemData.past_performances && musicItemData.past_performances.length > 0 && (
               <>
                 <h6 className="mt-3">Performances</h6>
                 <ListGroup variant="flush">
                   {musicItemData.past_performances.map((performance, index) => (
                     <ListGroup.Item key={index}>
-                      {performance.date_of_service} - {performance.church.church}
+                      {performance.date_of_service} - {performance.type_of_service} - {performance.church}
                     </ListGroup.Item>
                   ))}
                 </ListGroup>

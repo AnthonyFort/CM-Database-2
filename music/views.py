@@ -6,6 +6,7 @@ from lib.views import UserListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import MusicItem
 from .serializers.common import MusicItemSerializer
+from .serializers.populated import PopulatedMusicItemSerializer
 from rest_framework.response import Response
 from keywords.models import Keyword
 from readings.models import RelatedReading
@@ -24,5 +25,7 @@ class MusicItemListView(MusicItemView, UserListCreateAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
-class MusicItemDetailView(MusicItemView, RetrieveUpdateDestroyAPIView):
+class MusicItemDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = MusicItem.objects.all()
+    serializer_class = PopulatedMusicItemSerializer
     permission_classes = [IsAuthenticated]

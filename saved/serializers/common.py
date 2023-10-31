@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from ..models import SavedMusic
-from services.models import Service
-from services.serializers.common import MusicItemSerializer
+from music.serializers.common import MusicItemSerializer
 
 class SavedMusicItemSerializer(serializers.ModelSerializer):
 
