@@ -42,14 +42,4 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'church', 'past_services')
 
-    # def create(self, validated_data):  
-    #   past_services_data = validated_data.pop('past_services')
-    #   user = User.objects.create(**validated_data)
-
-    #   for past_service_data in past_services_data:
-    #     past_service, created = Service.objects.get_or_create(**past_service_data)
-    #     user.past_services.add(past_service)
-
-    #   return user    
-
 

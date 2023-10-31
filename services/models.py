@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import date
 
-# Create your models here.
 class Service(models.Model):
     
     date_of_service = models.DateField(default=date.today)
@@ -16,6 +15,7 @@ class Service(models.Model):
         related_name='performances',
     )
 
+    # Ensures that the same user cannot have have the same type of service on the same day
     class Meta:
         unique_together = [['date_of_service', 'type_of_service', 'user']]
 

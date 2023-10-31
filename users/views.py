@@ -23,6 +23,8 @@ class UserDetailView(UserView, RetrieveAPIView):
    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
    lookup_field = 'id'
 
+# This View allows the front end to retrieve the id of the current user
+# This is used for authentication and for personalising the nav bar
 class UserPersonalView(UserView, RetrieveAPIView):
   def get(self, request, *args, **kwargs):
      current_user = request.user   
