@@ -2,6 +2,8 @@ from rest_framework import serializers
 from ..models import MusicItem
 from .common import MusicItemSerializer
 
+# This serializer is for when users view information about a single music item
+# In these instances, information about past performances can be accessed
 class PopulatedMusicItemSerializer(MusicItemSerializer):
   past_performances = serializers.SerializerMethodField('get_past_performances')
 
