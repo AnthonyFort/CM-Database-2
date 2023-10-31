@@ -63,7 +63,6 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
 
 
   // This is where form fields are updated
-
   const handleMusicItemChange = (index, updates, keywordIndex, readingIndex) => {
     const updatedMusicItems = [...newService.music_items]
     let itemToUpdate = updatedMusicItems[index]
@@ -84,8 +83,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
-  // This is where new form fields are created or deleted
-
+  // This adds fields for new music items
   const addMusicItem = () => {
     const updatedMusicItems = [...newService.music_items]
     updatedMusicItems.push({
@@ -104,6 +102,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  // This adds fields for more keywords
   const addKeyword = (index) => {
     const updatedMusicItems = [...newService.music_items]
     if (!updatedMusicItems[index].keywords) {
@@ -113,6 +112,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  // This adds fields for more readings
   const addReading = (index) => {
     const updatedMusicItems = [...newService.music_items]
     if (!updatedMusicItems[index].related_readings) {
@@ -127,6 +127,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     setNewService({ ...newService, music_items: updatedMusicItems })
   }
 
+  // The following 3 functions are for deleting unwanted fields
   const removeMusicItem = (index) => {
     const updatedMusicItems = [...newService.music_items]
     updatedMusicItems.splice(index, 1)
@@ -158,6 +159,8 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   }
 
+  // This function handles the logic for when a user clicks the update service button
+  // It reopens the form fields, prepopulates it with the current information, and scrolls the user to that part of the page
   const handleShowUpdate = (service) => {
     setNewService({
       date_of_service: service.date_of_service,
@@ -182,6 +185,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     window.scrollTo(0, 0)
   }
 
+  // Checks that all fields have been entered
   const handleValidation = () => {
     if (!newService.date_of_service || !newService.type_of_service || !newService.music_items.length) {
       setErrorMessage('Please fill out all fields.')
@@ -191,13 +195,13 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     return true
   }
 
+  // Posts new service information to the API
   const handleCreateSubmit = async (event) => {
     event.preventDefault()
 
     if (!handleValidation()) {
       return
     }
-
     try {
       const { data } = await axiosAuth.post('/api/services/', newService)
       getChurchData()
@@ -210,6 +214,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
     }
   }
 
+  // Posts updated service information to the API
   const handleUpdateSubmit = async (event) => {
     event.preventDefault()
 
