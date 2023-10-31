@@ -7,8 +7,6 @@ export default function SavedMusicItems({ currentUser, setCurrentUser }) {
   const [musicItemData, setMusicItemData] = useState([])
   const [showErrorModal, setShowErrorModal] = useState(false)
 
-  //const [currentUser, setCurrentUser] = useState()
-
   useEffect(() => {
     setCurrentUser(currentUser)
   }, [])
