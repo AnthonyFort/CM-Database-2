@@ -39,6 +39,7 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
       }
     ],
   })
+
   async function getChurchData() {
     try {
       const { data } = await axiosAuth.get(`/api/auth/${id}/`)
@@ -158,6 +159,23 @@ export default function ChurchPage({ currentUser, getCurrentUser }) {
   }
 
   const handleShowUpdate = (service) => {
+    setNewService({
+      date_of_service: service.date_of_service,
+      type_of_service: service.type_of_service,
+      music_items: service.music_items.map(musicItem => ({
+        title: musicItem.title,
+        composer: musicItem.composer,
+        keywords: musicItem.keywords.map(keyword => ({
+          keyword: keyword.keyword,
+        })),
+        related_readings: musicItem.related_readings.map(reading => ({
+          book: reading.book,
+          chapter: reading.chapter,
+          start_verse: reading.start_verse,
+          end_verse: reading.end_verse,
+        })),
+      })),
+    })
     setServiceToUpdate(service)
     setShowFormFields(true)
     setFormType('update')

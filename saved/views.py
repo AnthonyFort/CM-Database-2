@@ -10,6 +10,9 @@ from music.models import MusicItem
 from .models import SavedMusic
 from .serializers.common import SavedMusicItemSerializer
   
+
+# Allows users to post, get, and delete music items to their saved music list
+# These music items already exist on the database (presumably having been added by other users)  
 class SavedMusicItemsView(UserListCreateAPIView, RetrieveUpdateDestroyAPIView):
   permission_classes = [IsAuthenticated, IsOwner]
 
