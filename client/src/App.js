@@ -41,7 +41,7 @@ export default function App() {
           <Route path='/login' element={<Login getCurrentUser={getCurrentUser} />} />
           <Route path='/church-page/:id' element={<ChurchPage currentUser={currentUser} getCurrentUser={getCurrentUser} />} />
           <Route path='/church-search' element={<ChurchSearch />} />
-          <Route path='/music-search' element={<MusicSearch />} />
+          <Route path='/music-search' element={<MusicSearch currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
           <Route path='/music-page/:id' element={<MusicItem />} />
           <Route path='/saved-music' element={<SavedMusicItems currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
           <Route path='*' element={<NotFound />} />

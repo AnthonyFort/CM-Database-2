@@ -4,9 +4,8 @@ import axiosAuth from '../lib/axios'
 import { Button, Container, Form, ListGroup, Row, Col, InputGroup } from 'react-bootstrap'
 
 
-export default function MusicSearch() {
+export default function MusicSearch({ currentUser, setCurrentUser }) {
 
-  const [currentUser, setCurrentUser] = useState()
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false)
   const [allMusic, setAllMusic] = useState([])
   const [searchedMusic, setSearchedMusic] = useState([])
@@ -26,15 +25,7 @@ export default function MusicSearch() {
   }
 
   useEffect(() => {
-    async function getCurrentUser() {
-      try {
-        const { data } = await axiosAuth.get('/api/auth/current/')
-        setCurrentUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getCurrentUser()
+    setCurrentUser(currentUser)
   }, [])
 
   useEffect(() => {
