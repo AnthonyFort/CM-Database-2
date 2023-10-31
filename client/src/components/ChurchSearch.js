@@ -22,7 +22,7 @@ export default function ChurchSearch() {
   }, [])
 
   useEffect(() => {
-    async function getUserData() {
+    async function getChurchData() {
       try {
         const { data } = await axiosAuth.get('/api/auth/')
         setAllChurches(data)
@@ -31,7 +31,7 @@ export default function ChurchSearch() {
         console.log(error)
       }
     }
-    getUserData()
+    getChurchData()
   }, [])
 
   function handleKeyup(event) {
