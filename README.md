@@ -55,7 +55,9 @@ Now, when a user saves a music item, they are notified and redirected to their s
 
 ### Seeding Data
 
-As mentioned before, the kind of information that CM Database is designed to provide is quite specialist, and so, until other users have used the app for a while as a way to keep a record of the music they have performed, the database does not contain rich data. As such, in its early days, it is still only useful as a performance log, and not as a search engine.
+As mentioned before, the kind of information that CM Database is designed to provide is quite specialist, and so, until other users have used the app for a while as a way to keep a record of the music they have performed, the database does not contain rich data. 
+
+To address this, I have begun a new project - [Service Scraper](https://github.com/AnthonyFort/Service-Scraper/blob/main/README.md) - which is intended to fetch useful musical information that other churches have published online, and use that data to seed CM Database.
 
 ### Filling Out Service Information
 
